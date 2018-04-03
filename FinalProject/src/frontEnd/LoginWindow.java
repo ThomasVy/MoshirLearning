@@ -21,12 +21,12 @@ public class LoginWindow extends JFrame{
 	public LoginWindow(String s)
 	{
 		super(s);
-		JLabel loginLabel = new JLabel("Login Window", JLabel.CENTER);
+		JLabel loginLabel = new JLabel("Welcome to MoshirLearning", JLabel.CENTER);
 		this.setSize(600, 300);
-		setLayout(new GridLayout(0,1,0,0));
+		setLayout(new BorderLayout());
 		loginLabel.setFont(loginLabel.getFont().deriveFont(18.0f));
-		this.add(loginLabel);
-		this.add(createSouthPanel());
+		this.add(loginLabel, BorderLayout.CENTER);
+		this.add(createSouthPanel(), BorderLayout.SOUTH);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -87,9 +87,17 @@ public class LoginWindow extends JFrame{
 	{
 		exitButton.addActionListener(exitListener);
 	}
+	public String getUsername ()
+	{
+		return usernameText.getText();
+	}
+	public String getPassword ()
+	{
+		return passwordText.getText();
+	}
 	public static void main(String [] args)
 	{
-		LoginWindow l = new LoginWindow("MoshirLearning");
+		LoginWindow l = new LoginWindow("Login Window");
 		LoginWindowController c = new LoginWindowController(l);
 	}
 }
