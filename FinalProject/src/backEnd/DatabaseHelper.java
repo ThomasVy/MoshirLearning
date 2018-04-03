@@ -59,7 +59,7 @@ public class DatabaseHelper implements ConnectionConstant {
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate(sql);
-			System.out.println("Create table " + "CourseTable");
+			System.out.println("Created table " + "CourseTable");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -73,7 +73,7 @@ public class DatabaseHelper implements ConnectionConstant {
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate(sql);
-			System.out.println("Create table " + "EnrollmentTable");
+			System.out.println("Created table " + "EnrollmentTable");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -90,7 +90,7 @@ public class DatabaseHelper implements ConnectionConstant {
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate(sql);
-			System.out.println("Create table " + "AssignmentTable");
+			System.out.println("Created table " + "AssignmentTable");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -109,7 +109,7 @@ public class DatabaseHelper implements ConnectionConstant {
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate(sql);
-			System.out.println("Create table " + "SubmissionTable");
+			System.out.println("Created table " + "SubmissionTable");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -125,7 +125,18 @@ public class DatabaseHelper implements ConnectionConstant {
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate(sql);
-			System.out.println("Create table " + "GradeTable");
+			System.out.println("Created table " + "GradeTable");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void removeTable(String tableName) {
+		String sql = "DROP TABLE " + tableName;
+		try {
+			statement = connection.createStatement();
+			statement.executeUpdate(sql);
+			System.out.println("Removed table " + tableName);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -140,10 +151,18 @@ public class DatabaseHelper implements ConnectionConstant {
 		createGradeTable();
 	}
 
+	public void removeAllTables() {
+		String[] tables = {"UserTable", "CourseTable", "EnrollmentTable", "AssignmentTable", "SubmissionTable", "GradeTable"};
+		for (int i = 0; i < tables.length; i++) {
+			removeTable(tables[i]);
+		}
+	}
+
 	public static void main(String[] args) {
 		DatabaseHelper dbh = new DatabaseHelper();
 		// dbh.createDB();
 		// dbh.createAllTables();
+		// dbh.removeAllTables();
 	}
 
 }
