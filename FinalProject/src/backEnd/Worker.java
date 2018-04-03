@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import sharedElements.LoginInfo;
+
 public class Worker implements Runnable {
 
 	Socket socketClient;
@@ -29,7 +31,15 @@ public class Worker implements Runnable {
 
 	@Override
 	public void run() {
-
+		try {
+			LoginInfo fromClient = (LoginInfo) in.readObject();
+			if (dbHelper.verifyUser(fromClient.getUsername(), fromClient.getPassword())) {
+				out.writeObject("Verified");
+			}
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

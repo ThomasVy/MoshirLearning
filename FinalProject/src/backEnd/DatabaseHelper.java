@@ -1,6 +1,10 @@
 package backEnd;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DatabaseHelper implements ConnectionConstants {
 
@@ -158,11 +162,25 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 	}
 
-	public static void main(String[] args) {
-		DatabaseHelper dbh = new DatabaseHelper();
-		// dbh.createDB();
-		// dbh.createAllTables();
-		// dbh.removeAllTables();
+	public boolean verifyUser(String username, String password) {
+		try {
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM " + "UserTable" + " WHERE username = " + username;
+			resultSet = statement.executeQuery(sql);
+			if (!resultSet.next() || !resultSet.getString("password").equals(password)) {
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
 	}
+
+//	public static void main(String[] args) {
+//		DatabaseHelper dbh = new DatabaseHelper();
+//		// dbh.createDB();
+//		// dbh.createAllTables();
+//		// dbh.removeAllTables();
+//	}
 
 }
