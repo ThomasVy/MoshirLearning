@@ -14,6 +14,9 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FlowLayout;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.SystemColor;
 
 public class CoursePage extends JFrame {
 
@@ -60,11 +63,12 @@ public class CoursePage extends JFrame {
 		btnHome.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_3.add(btnHome);
 		
-		JButton btnSelectACourse = new JButton("Select a course...");
-		btnSelectACourse.setForeground(Color.WHITE);
-		btnSelectACourse.setBackground(Color.DARK_GRAY);
-		btnSelectACourse.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_3.add(btnSelectACourse);
+		JComboBox comboBox = new JComboBox();
+		comboBox.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		comboBox.setForeground(Color.WHITE);
+		comboBox.setBackground(Color.DARK_GRAY);
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select a course...", "ENCM 369", "CPSC 319", "ENEL 327", "ENSF 409"}));
+		panel_3.add(comboBox);
 		
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);
@@ -89,31 +93,31 @@ public class CoursePage extends JFrame {
 		panel_5.add(lblMoshirlearning);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.RED);
+		panel_1.setBackground(SystemColor.desktop);
 		panel.add(panel_1);
 		
 		JButton btnContent = new JButton("Assignments");
 		btnContent.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnContent.setForeground(Color.WHITE);
-		btnContent.setBackground(Color.RED);
+		btnContent.setBackground(SystemColor.desktop);
 		panel_1.add(btnContent);
 		
 		JButton btnNewButton = new JButton("Grades");
 		btnNewButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton.setForeground(Color.WHITE);
-		btnNewButton.setBackground(Color.RED);
+		btnNewButton.setBackground(SystemColor.desktop);
 		panel_1.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Submissions");
 		btnNewButton_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_1.setForeground(Color.WHITE);
-		btnNewButton_1.setBackground(Color.RED);
+		btnNewButton_1.setBackground(SystemColor.desktop);
 		panel_1.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Enrollment");
 		btnNewButton_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_2.setForeground(Color.WHITE);
-		btnNewButton_2.setBackground(Color.RED);
+		btnNewButton_2.setBackground(SystemColor.desktop);
 		panel_1.add(btnNewButton_2);
 		
 		JScrollPane scrollPane = new JScrollPane();

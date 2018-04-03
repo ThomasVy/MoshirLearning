@@ -91,7 +91,7 @@ public class HomePage extends JFrame {
 		panel_5.add(lblNewLabel);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.RED);
+		panel_1.setBackground(SystemColor.desktop);
 		panel.add(panel_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
