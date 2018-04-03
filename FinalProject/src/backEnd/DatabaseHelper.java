@@ -2,7 +2,7 @@ package backEnd;
 
 import java.sql.*;
 
-public class DatabaseHelper implements ConnectionConstant {
+public class DatabaseHelper implements ConnectionConstants {
 
 	private Connection connection;
 	private Statement statement;
@@ -152,7 +152,7 @@ public class DatabaseHelper implements ConnectionConstant {
 	}
 
 	public void removeAllTables() {
-		String[] tables = {"UserTable", "CourseTable", "EnrollmentTable", "AssignmentTable", "SubmissionTable", "GradeTable"};
+		String[] tables = { "UserTable", "CourseTable", "EnrollmentTable", "AssignmentTable", "SubmissionTable", "GradeTable" };
 		for (int i = 0; i < tables.length; i++) {
 			removeTable(tables[i]);
 		}

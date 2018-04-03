@@ -7,35 +7,39 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-	ExecutorService threadpool;
-	FileHelper fileManager;
-	DatabaseHelper dataBaseHelper;
-	EmailHelper emailService;
-	ServerSocket server;
-	Socket socket;
-	
-	public Server (int portNumber)
-	{
+	private ExecutorService threadpool;
+	private FileHelper fileManager;
+	private DatabaseHelper dataBaseHelper;
+	private EmailHelper emailService;
+	private ServerSocket server;
+	private Socket socket;
+
+	public Server(int portNumber) {
 		try {
 			threadpool = Executors.newCachedThreadPool();
 			server = new ServerSocket(portNumber);
-			fileManager = new FileHelper ();
+			fileManager = new FileHelper(System.getProperty("user.dir"));
 			emailService = new EmailHelper();
-		}
-		catch (IOException e) {
+			dataBaseHelper = new DatabaseHelper();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
-	public void communicate()
-	{
-		while(true)
-		{
-			
+
+	public void communicate() {
+		try {
+			while (true) {
+				Worker worker = new Worker(server.accept(), dataBaseHelper, emailService, fileManager);
+				threadpool.execute(worker);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
-	public static void main(String [] args)
-	{
+
+	public static void main(String[] args) {
 		Server server = new Server(9890);
 		server.communicate();
 	}
