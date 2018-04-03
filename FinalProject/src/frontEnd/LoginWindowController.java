@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-import sharedElements.LoginInfo;
+import sharedElements.*;
 
 public class LoginWindowController {
 	private LoginWindow view;
