@@ -13,10 +13,15 @@ public class Submission implements Serializable{
 	private String comment;
 	private String title;
 	private String timestamp;
+	private String fileExtension;
 	
 	public Submission()
 	{
-		
+		path = "//ServerSide//Submissions";
+	}
+	public String getFileExtension ()
+	{
+		return fileExtension;
 	}
 	public void setPath (String path)
 	{

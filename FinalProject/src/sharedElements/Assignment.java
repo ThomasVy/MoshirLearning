@@ -8,13 +8,18 @@ public class Assignment implements Serializable {
 	private int id;
 	private int course_id; 
 	private String title;
-	private String path;
+	private String fileExtension;
+	private String path = "//ServerSide//Assignments";
 	private boolean active;
 	private String due_date;
 	
-	public Assignment ()
+	public Assignment (String fileExtension)
 	{
 		
+	}
+	public String getFileExtension ()
+	{
+		return fileExtension;
 	}
 	public String getPath ()
 	{

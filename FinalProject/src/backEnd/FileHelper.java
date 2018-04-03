@@ -1,9 +1,11 @@
 package backEnd;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
@@ -17,7 +19,7 @@ public class FileHelper {
 	{
 		this.absPath = path;
 	}
-	public byte[] getFileContent (String relativePath)
+	public byte[] getFileContent (String relativePath) //Remember to put the file extension
 	{
 		String path = absPath +relativePath; //do error checking of the path
 		File selectedFile = new File(path);
@@ -30,14 +32,8 @@ public class FileHelper {
 			FileInputStream fis = new FileInputStream(selectedFile);
 			BufferedInputStream bos = new BufferedInputStream(fis);
 			bos.read(content, 0, (int)length);
-			try {
-				bos.close();
-				fis.close();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+			bos.close();
+			fis.close();
 		}
 		catch (FileNotFoundException e) 
 		{
@@ -52,42 +48,37 @@ public class FileHelper {
 	}
 	public void writeFileContent(Assignment a, byte [] content)
 	{
-		File newFile = new File(absPath + a.getPath() + FILE_EXTENSION);
+		File newFile = new File(absPath + a.getPath() + a.getFileExtension());
 		try{
 		if(! newFile.exists())
-		newFile.createNewFile();
-		FileOutputStream writer = new FileOutputStream(newFile);
-		BufferedOutputStream bos = new BufferedOutputStream(writer);
-		bos.write(content);
-		bos.close();
-		} catch(IOException e){
-		e.printStackTrace();
+			newFile.createNewFile();
+			FileOutputStream writer = new FileOutputStream(newFile);
+			BufferedOutputStream bos = new BufferedOutputStream(writer);
+			bos.write(content);
+			bos.close();
+		} 
+		catch(IOException e){
+			e.printStackTrace();
 		}
 		//writing to assignments 
 		//then call set path
 	}
 	public void writeFileContent(Submission s, byte [] content)
 	{
-		File newFile = new File(STORAGE_PATH + FILE_NAME + FILE_EXTENSION);
+		File newFile = new File(absPath + s.getPath() + s.getFileExtension());
 		try{
 		if(! newFile.exists())
-		newFile.createNewFile();
-		FileOutputStream writer = new FileOutputStream(newFile);
-		BufferedOutputStream bos = new BufferedOutputStream(writer);
-		bos.write(content);
-		bos.close();
-		} catch(IOException e){
-		e.printStackTrace();
+			newFile.createNewFile();
+			FileOutputStream writer = new FileOutputStream(newFile);
+			BufferedOutputStream bos = new BufferedOutputStream(writer);
+			bos.write(content);
+			bos.close();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
 		}
 		//writing to submissions
 		//then call set path
-	}
-	public void setFilePath(Assignment a)
-	{
-		//sets the path for the assignment 
-	}
-	public void setFilePath(Submission s)
-	{
-		//sets the path for the assignment
 	}
 }
