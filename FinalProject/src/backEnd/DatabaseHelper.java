@@ -2,7 +2,7 @@ package backEnd;
 
 import java.sql.*;
 
-import sharedElements.LoginInfo;
+import sharedElements.*;
 
 public class DatabaseHelper implements ConnectionConstant {
 	private Connection connection;
@@ -45,7 +45,7 @@ public class DatabaseHelper implements ConnectionConstant {
 		String sql = "CREATE TABLE " + tableName + "(" +
 			     "ID INT(4) NOT NULL, " +
 			     "TOOLNAME VARCHAR(20) NOT NULL, " + 
-			     "QUANTITY INT(4) NOT NULL, " + 
+			     "QUANTITY INT(4) NOT NULL, " + s
 			     "PRICE DOUBLE(5,2) NOT NULL, " + 
 			     "SUPPLIERID INT(4) NOT NULL, " + 
 			     "PRIMARY KEY ( id ))";
