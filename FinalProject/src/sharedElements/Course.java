@@ -1,4 +1,4 @@
-package shared;
+package sharedElements;
 
 /**
  * Provides the fields and methods required to create a Course object.

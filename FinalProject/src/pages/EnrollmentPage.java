@@ -13,8 +13,9 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import shared.Course;
-import shared.Student;
+import sharedElements.Course;
+import sharedElements.Student;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
