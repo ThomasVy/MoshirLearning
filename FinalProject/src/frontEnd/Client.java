@@ -20,7 +20,27 @@ public class Client {
 		}
 	}
 
-	public void communicateWithServer() {
-		// I have no idea
+	public Object communicateWithServer(Object toSend) {
+		Object readFromServer = -1;
+		try {
+			out.writeObject(toSend);
+			readFromServer = in.readObject();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		} 
+		catch (ClassNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+		return readFromServer;
+	}
+	public static void main(String [] args)
+	{
+		Client client = new Client(9890, "localhost");
+		LoginWindow login = new LoginWindow("Login Window");
+		LoginWindowController loginWindowController = new LoginWindowController(login, client);
+		
 	}
 }

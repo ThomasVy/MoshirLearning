@@ -9,9 +9,10 @@ import sharedElements.*;
 
 public class LoginWindowController {
 	private LoginWindow view;
-	
-	public LoginWindowController(LoginWindow view)
+	private Client client;
+	public LoginWindowController(LoginWindow view, Client cl)
 	{
+		client = cl;
 		this.view = view;
 		addButtonListeners();
 	}
@@ -49,5 +50,15 @@ public class LoginWindowController {
 			String username = view.getUsername();
 			String password = view.getPassword();
 			LoginInfo userLoginInfo = new LoginInfo(username, password);
+			String readFromServer = (String)client.communicateWithServer(userLoginInfo);
+			if(readFromServer.equals("Verified"))
+			{
+				System.out.println("It is correct!");
+				view.dispose();
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Invalid username/password", "Failed submission", JOptionPane.ERROR_MESSAGE);
+			}
 	}
 }

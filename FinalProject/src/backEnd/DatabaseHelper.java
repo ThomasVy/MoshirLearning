@@ -11,7 +11,7 @@ public class DatabaseHelper implements ConnectionConstants {
 	public DatabaseHelper() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(connectionInfo, "root", "30017106mysql");
+			connection = DriverManager.getConnection(connectionInfo, "root", "1234");
 			System.out.println("Connected to: " + connectionInfo + "\n");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -160,9 +160,9 @@ public class DatabaseHelper implements ConnectionConstants {
 
 	public static void main(String[] args) {
 		DatabaseHelper dbh = new DatabaseHelper();
-		// dbh.createDB();
-		// dbh.createAllTables();
-		// dbh.removeAllTables();
+		//dbh.createDB();
+		//dbh.createAllTables();
+		//dbh.removeAllTables();
 	}
 
 }

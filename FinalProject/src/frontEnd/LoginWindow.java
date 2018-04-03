@@ -95,9 +95,9 @@ public class LoginWindow extends JFrame{
 	{
 		return passwordText.getText();
 	}
-	public static void main(String [] args)
-	{
-		LoginWindow l = new LoginWindow("Login Window");
-		LoginWindowController c = new LoginWindowController(l);
-	}
+//	public static void main(String [] args)
+//	{
+//		LoginWindow l = new LoginWindow("Login Window");
+//		LoginWindowController c = new LoginWindowController(l);
+//	}
 }

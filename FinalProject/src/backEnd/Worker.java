@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import sharedElements.*;
+
 public class Worker implements Runnable {
 
 	Socket socketClient;
@@ -29,7 +31,17 @@ public class Worker implements Runnable {
 
 	@Override
 	public void run() {
-
+		try {
+			LoginInfo login = (LoginInfo)in.readObject();
+			
+		}
+		catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

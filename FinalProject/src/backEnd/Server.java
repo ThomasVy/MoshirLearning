@@ -43,3 +43,4 @@ public class Server {
 		Server server = new Server(9890);
 		server.communicate();
 	}
+}
