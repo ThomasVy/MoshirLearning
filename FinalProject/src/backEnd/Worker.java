@@ -32,13 +32,12 @@ public class Worker implements Runnable {
 	@Override
 	public void run() {
 		try {
-			LoginInfo login = (LoginInfo)in.readObject();
-			
-		}
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} 
-		catch (IOException e) {
+
+			LoginInfo fromClient = (LoginInfo) in.readObject();
+			if (dbHelper.verifyUser(fromClient.getUsername(), fromClient.getPassword())) {
+				out.writeObject("Verified");
+			}
+		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
 		
