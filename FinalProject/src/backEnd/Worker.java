@@ -41,7 +41,7 @@ public class Worker implements Runnable {
 				
 			}
 		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
+			System.out.println("User disconnected");
 		}
 	}
 	public void processRequest(Object fromClient)

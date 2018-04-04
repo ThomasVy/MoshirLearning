@@ -30,7 +30,8 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 
-	// Getters
+
+	// Getters:
 	public int getId() {
 		return id;
 	}

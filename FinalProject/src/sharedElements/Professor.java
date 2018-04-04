@@ -7,7 +7,7 @@ package sharedElements;
  * @since April 3, 2018
  *
  */
-public class Professor extends User{
+public class Professor extends User {
 
 	/**
 	 * Constructs a Professor object.

@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import javax.swing.JOptionPane;
 
+import pages.HomePage;
 import sharedElements.*;
 
 public class LoginWindowController {
@@ -53,6 +54,7 @@ public class LoginWindowController {
 			String password = view.getPassword();
 			LoginInfo userLoginInfo = new LoginInfo(username, password);
 			User readFromServer = (User)client.communicateWithServer(userLoginInfo);
+
 			if(readFromServer== null)
 			{
 				JOptionPane.showMessageDialog(null, "Invalid username/password", "Failed submission", JOptionPane.ERROR_MESSAGE);
@@ -67,7 +69,7 @@ public class LoginWindowController {
 					System.out.println(it.next().getName());
 				}
 				view.dispose();
-				
+				ProfessorGUI pgui = new ProfessorGUI();
 			}
 	}
 }
