@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import sharedElements.LoginInfo;
+
 public class Client {
 	Socket socket;
 	ObjectInputStream in;

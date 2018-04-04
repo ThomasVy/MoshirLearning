@@ -15,7 +15,7 @@ public class DatabaseHelper implements ConnectionConstants {
 	public DatabaseHelper() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(connectionInfo, "root", "1234");
+			connection = DriverManager.getConnection(connectionInfo, "root", "30017106mysql");
 			System.out.println("Connected to: " + connectionInfo + "\n");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -165,15 +165,15 @@ public class DatabaseHelper implements ConnectionConstants {
 	public boolean verifyUser(String username, String password) {
 		try {
 			statement = connection.createStatement();
-			String sql = "SELECT * FROM " + "UserTable" + " WHERE username = " + username;
+			String sql = "SELECT * FROM " + "UserTable" + " WHERE username = " + "'" + username + "'" + " and password = " + "'" + password + "'";
 			resultSet = statement.executeQuery(sql);
-			if (!resultSet.next() || !resultSet.getString("password").equals(password)) {
-				return false;
+			if (resultSet.next()) {
+				return true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return true;
+		return false;
 	}
 
 //	public static void main(String[] args) {

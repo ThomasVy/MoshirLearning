@@ -24,6 +24,7 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("System is le working.");
 	}
 
 	public void communicate() {

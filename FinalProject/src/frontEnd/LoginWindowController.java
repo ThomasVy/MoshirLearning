@@ -50,7 +50,8 @@ public class LoginWindowController {
 			String username = view.getUsername();
 			String password = view.getPassword();
 			LoginInfo userLoginInfo = new LoginInfo(username, password);
-			String readFromServer = (String)client.communicateWithServer(userLoginInfo);
+			String readFromServer = (String) client.communicateWithServer(userLoginInfo);
+			System.out.println("'" + readFromServer + "'");
 			if(readFromServer.equals("Verified"))
 			{
 				System.out.println("It is correct!");
