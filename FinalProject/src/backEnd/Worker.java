@@ -33,11 +33,7 @@ public class Worker implements Runnable {
 	public void run() {
 		try {
 			LoginInfo fromClient = (LoginInfo) in.readObject();
-			if (dbHelper.verifyUser(fromClient.getUsername(), fromClient.getPassword())) {
-				out.writeObject("Verified");
-			} else {
-				out.writeObject("Not Verified");
-			}
+			out.writeObject(dbHelper.verifyUser(fromClient.getUsername(), fromClient.getPassword()));
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}

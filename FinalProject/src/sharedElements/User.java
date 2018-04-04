@@ -12,24 +12,29 @@ public class User {
 	private int id; // The user's id
 	private String firstName; // The user's first name
 	private String lastName; // The user's last name
-
+	private char type;
 	/**
 	 * Constructs a User object.
 	 * @param id - the user's id
 	 * @param firstName - the user's first name
 	 * @param lastName - the user's last name
 	 */
-	public User(int id, String firstName, String lastName) {
+	public User(int id, String firstName, String lastName, char type) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.type =type;
 	}
 
 	// Getters:
+	public char getType()
+	{
+		return type;
+	}
 	public int getId() {
 		return id;
 	}
-
+	
 	public String getFirstName() {
 		return firstName;
 	}

@@ -15,8 +15,8 @@ public class Student extends User {
 	 * @param firstName - the student's first name
 	 * @param lastName - the student's last name
 	 */
-	public Student(int id, String firstName, String lastName) {
-		super(id, firstName, lastName);
+	public Student(int id, String firstName, String lastName, char type) {
+		super(id, firstName, lastName, type);
 	}
 
 }

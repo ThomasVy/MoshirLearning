@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import sharedElements.User;
+
 public class DatabaseHelper implements ConnectionConstants {
 
 	private Connection connection;
@@ -15,7 +17,7 @@ public class DatabaseHelper implements ConnectionConstants {
 	public DatabaseHelper() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(connectionInfo, "root", "30017106mysql");
+			connection = DriverManager.getConnection(connectionInfo, "root", "1234");
 			System.out.println("Connected to: " + connectionInfo + "\n");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -162,18 +164,23 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 	}
 	
-	public boolean verifyUser(String username, String password) {
+	public User verifyUser(String username, String password) {
 		try {
 			statement = connection.createStatement();
 			String sql = "SELECT * FROM " + "UserTable" + " WHERE username = " + "'" + username + "'" + " and password = " + "'" + password + "'";
 			resultSet = statement.executeQuery(sql);
 			if (resultSet.next()) {
-				return true;
+				User user = new User(resultSet.getInt("id"),
+									 resultSet.getString("firstname"),
+									 resultSet.getString("lastname"),
+									 resultSet.getString("type").charAt(0));
+				return user;
+									
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 
 //	public static void main(String[] args) {

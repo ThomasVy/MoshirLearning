@@ -50,16 +50,17 @@ public class LoginWindowController {
 			String username = view.getUsername();
 			String password = view.getPassword();
 			LoginInfo userLoginInfo = new LoginInfo(username, password);
-			String readFromServer = (String) client.communicateWithServer(userLoginInfo);
+			User readFromServer = (User)client.communicateWithServer(userLoginInfo);
 			System.out.println("'" + readFromServer + "'");
-			if(readFromServer.equals("Verified"))
+			if(readFromServer== null)
 			{
-				System.out.println("It is correct!");
-				view.dispose();
+				JOptionPane.showMessageDialog(null, "Invalid username/password", "Failed submission", JOptionPane.ERROR_MESSAGE);
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(null, "Invalid username/password", "Failed submission", JOptionPane.ERROR_MESSAGE);
+				System.out.println("It is correct!");
+				view.dispose();
+				
 			}
 	}
 }
