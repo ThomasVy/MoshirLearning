@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+
 import sharedElements.*;
 
 public class Client {
@@ -18,7 +20,7 @@ public class Client {
 			out = new ObjectOutputStream(socket.getOutputStream());
 			in = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Could not connect to Server", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
