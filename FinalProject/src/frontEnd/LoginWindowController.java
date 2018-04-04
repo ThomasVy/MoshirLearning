@@ -2,6 +2,8 @@ package frontEnd;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JOptionPane;
 
@@ -51,7 +53,6 @@ public class LoginWindowController {
 			String password = view.getPassword();
 			LoginInfo userLoginInfo = new LoginInfo(username, password);
 			User readFromServer = (User)client.communicateWithServer(userLoginInfo);
-			System.out.println("'" + readFromServer + "'");
 			if(readFromServer== null)
 			{
 				JOptionPane.showMessageDialog(null, "Invalid username/password", "Failed submission", JOptionPane.ERROR_MESSAGE);
@@ -59,6 +60,12 @@ public class LoginWindowController {
 			else
 			{
 				System.out.println("It is correct!");
+				ArrayList<Course> courses = (ArrayList<Course>) client.communicateWithServer("GetCourses");
+				Iterator<Course> it = courses.iterator();
+				while(it.hasNext())
+				{
+					System.out.println(it.next().getName());
+				}
 				view.dispose();
 				
 			}

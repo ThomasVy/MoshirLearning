@@ -15,8 +15,8 @@ public class Professor extends User{
 	 * @param firstName - the professor's first name
 	 * @param lastName - the professor's last name
 	 */
-	public Professor(int id, String firstName, String lastName, char type) {
-		super(id, firstName, lastName, type);
+	public Professor(int id, String firstName, String lastName) {
+		super(id, firstName, lastName);
 	}
 
 }

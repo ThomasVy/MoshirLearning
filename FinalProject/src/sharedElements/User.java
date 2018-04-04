@@ -1,5 +1,7 @@
 package sharedElements;
 
+import java.io.Serializable;
+
 /**
  * Provides the fields and methods required to create a User object.
  * @author R. Lim
@@ -7,30 +9,28 @@ package sharedElements;
  * @since April 3, 2018
  *
  */
-public class User {
+public class User implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7607601790172142731L;
 	private int id; // The user's id
 	private String firstName; // The user's first name
 	private String lastName; // The user's last name
-	private char type;
 	/**
 	 * Constructs a User object.
 	 * @param id - the user's id
 	 * @param firstName - the user's first name
 	 * @param lastName - the user's last name
 	 */
-	public User(int id, String firstName, String lastName, char type) {
+	public User(int id, String firstName, String lastName) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.type =type;
 	}
 
-	// Getters:
-	public char getType()
-	{
-		return type;
-	}
+	// Getters
 	public int getId() {
 		return id;
 	}

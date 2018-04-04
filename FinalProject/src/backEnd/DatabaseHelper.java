@@ -5,8 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
-import sharedElements.User;
+import sharedElements.*;
 
 public class DatabaseHelper implements ConnectionConstants {
 
@@ -170,10 +171,9 @@ public class DatabaseHelper implements ConnectionConstants {
 			String sql = "SELECT * FROM " + "UserTable" + " WHERE username = " + "'" + username + "'" + " and password = " + "'" + password + "'";
 			resultSet = statement.executeQuery(sql);
 			if (resultSet.next()) {
-				User user = new User(resultSet.getInt("id"),
+				User user = new Professor(resultSet.getInt("id"),
 									 resultSet.getString("firstname"),
-									 resultSet.getString("lastname"),
-									 resultSet.getString("type").charAt(0));
+									 resultSet.getString("lastname"));
 				return user;
 									
 			}
@@ -182,7 +182,38 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 		return null;
 	}
-
+	public ArrayList<Course> getCourses(User user)
+	{
+		int id = user.getId();
+		String typeOfUser = user.getClass().getSimpleName();
+		ArrayList<Course> courses = new ArrayList<Course>();
+		if(typeOfUser.equals("Professor"))
+		{
+			courses = selectCoursesFromDB(id, "CourseTable" );
+		}
+		else {
+		}
+		return courses;
+	}
+	private ArrayList<Course> selectCoursesFromDB(int id, String table)
+	{
+		ArrayList<Course> courses = new ArrayList<Course>();
+		try {
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM " + table + " WHERE prof_id = " + "'" + id + "'";
+			resultSet = statement.executeQuery(sql);
+			while(resultSet.next())
+			{
+				courses.add(new Course(resultSet.getInt("id"),
+									   resultSet.getInt("prof_id"),
+									   resultSet.getString("name"),
+									   resultSet.getInt("active")==1));
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return courses;
+	}
 //	public static void main(String[] args) {
 //		DatabaseHelper dbh = new DatabaseHelper();
 //		// dbh.createDB();

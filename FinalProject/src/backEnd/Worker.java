@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+
 import sharedElements.*;
 
 public class Worker implements Runnable {
@@ -11,6 +13,7 @@ public class Worker implements Runnable {
 	Socket socketClient;
 	ObjectInputStream in;
 	ObjectOutputStream out;
+	User userLoggedIn;
 	DatabaseHelper dbHelper;
 	EmailHelper emailService;
 	FileHelper fileHelper;
@@ -34,33 +37,34 @@ public class Worker implements Runnable {
 			while(true)
 			{
 				Object fromClient = in.readObject();
-				String classFromClient = fromClient.getClass().getSimpleName();
-				processRequest(classFromClient, fromClient);
+				processRequest(fromClient);
 				
-				out.writeObject(null);
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
-		//long SerializedID = ObjectStreamClass.lookup(fromClient.getClass()).getSerialVersionUID();
 	}
-	public void processRequest(String classFromClient, Object fromClient)
+	public void processRequest(Object fromClient)
 	{ 
-		if(classFromClient.equals("LoginInfo"))
+		String classFromClient = fromClient.getClass().getSimpleName();
+		if(classFromClient.equals("LoginInfo")) //Client sent in login info
 		{
-			System.out.println("Login");
 			LoginInfo translatedLoginInfo = (LoginInfo)fromClient;
-			sendObject(dbHelper.verifyUser(translatedLoginInfo.getUsername(), translatedLoginInfo.getPassword()));
+			userLoggedIn = dbHelper.verifyUser(translatedLoginInfo.getUsername(), translatedLoginInfo.getPassword());
+			sendObject(userLoggedIn);
+			
 		}
-		else if(classFromClient.equals("StudentEnrollment"))
+		else if(fromClient.equals("GetCourses")) 
+		{
+			ArrayList<Course> courses= dbHelper.getCourses(userLoggedIn);
+			System.out.println(courses);
+			sendObject(courses);
+		}
+		else if (classFromClient.equals("Course")) 
 		{
 			sendObject(null);
 		}
-		else if(classFromClient.equals("Assignment"))
-		{
-			sendObject(null);
-		}
-		else if (classFromClient.equals("Course"))
+		else if(classFromClient.equals("Assignment")) 
 		{
 			sendObject(null);
 		}
@@ -72,6 +76,7 @@ public class Worker implements Runnable {
 	{
 		try {
 			out.writeObject(toSend);
+			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

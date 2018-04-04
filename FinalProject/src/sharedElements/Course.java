@@ -1,5 +1,7 @@
 package sharedElements;
 
+import java.io.Serializable;
+
 /**
  * Provides the fields and methods required to create a Course object.
  * @author R. Lim
@@ -7,8 +9,12 @@ package sharedElements;
  * @since April 3, 2018
  *
  */
-public class Course {
+public class Course implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2340214155332801691L;
 	private int id; // The course id
 	private int profId; // The course prof's id
 	private String name; // The course name
