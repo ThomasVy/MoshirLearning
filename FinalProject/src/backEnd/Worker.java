@@ -40,7 +40,7 @@ public class Worker implements Runnable {
 				out.writeObject(null);
 			}
 		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
+			System.out.println("User disconnected");
 		}
 		//long SerializedID = ObjectStreamClass.lookup(fromClient.getClass()).getSerialVersionUID();
 	}

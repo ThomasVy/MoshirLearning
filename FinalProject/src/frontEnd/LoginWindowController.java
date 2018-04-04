@@ -5,7 +5,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-import sharedElements.*;
+import pages.HomePage;
+import sharedElements.LoginInfo;
+import sharedElements.User;
 
 public class LoginWindowController {
 	private LoginWindow view;
@@ -50,7 +52,7 @@ public class LoginWindowController {
 			String username = view.getUsername();
 			String password = view.getPassword();
 			LoginInfo userLoginInfo = new LoginInfo(username, password);
-			User readFromServer = (User)client.communicateWithServer(userLoginInfo);
+			User readFromServer = (User) client.communicateWithServer(userLoginInfo);
 			System.out.println("'" + readFromServer + "'");
 			if(readFromServer== null)
 			{
@@ -60,7 +62,7 @@ public class LoginWindowController {
 			{
 				System.out.println("It is correct!");
 				view.dispose();
-				
+				ProfessorGUI pgui = new ProfessorGUI();
 			}
 	}
 }

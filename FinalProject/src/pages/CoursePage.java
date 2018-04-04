@@ -1,47 +1,53 @@
 package pages;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.FlowLayout;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
+import java.awt.Font;
 import java.awt.SystemColor;
+
+import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import components.PageNavigator;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CoursePage extends JFrame {
 
 	private JPanel contentPane;
+	private PageNavigator pageNavigator;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CoursePage frame = new CoursePage();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					CoursePage frame = new CoursePage();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public CoursePage() {
+	public CoursePage(PageNavigator pageNavigator) {
+		this.pageNavigator = pageNavigator;
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
@@ -58,6 +64,13 @@ public class CoursePage extends JFrame {
 		panel.add(panel_3);
 		
 		JButton btnHome = new JButton("Home");
+		btnHome.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btnHome) {
+					pageNavigator.showPage("Home Page");
+				}
+			}
+		});
 		btnHome.setForeground(Color.WHITE);
 		btnHome.setBackground(Color.DARK_GRAY);
 		btnHome.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
@@ -127,6 +140,7 @@ public class CoursePage extends JFrame {
 		lblCoursePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		lblCoursePage.setHorizontalAlignment(SwingConstants.CENTER);
 		scrollPane.setColumnHeaderView(lblCoursePage);
+		setLocationRelativeTo(null);
 	}
 
 }
