@@ -34,48 +34,66 @@ public class Worker implements Runnable {
 	@Override
 	public void run() {
 		try {
-			while(true) {
-				Object fromClient = in.readObject();
-				processRequest(fromClient);
+			while (true) {
+				processRequest(readRequest());
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			System.out.println("User disconnected");
 		}
 	}
 
-	public void processRequest(Object fromClient) { 
-		String classFromClient = fromClient.getClass().getSimpleName();
-		if(classFromClient.equals("LoginInfo")) { // Client sent in login info
-			LoginInfo translatedLoginInfo = (LoginInfo) fromClient;
-			userLoggedIn = dbHelper.verifyUser(translatedLoginInfo.getUsername(), translatedLoginInfo.getPassword());
-			sendObject(userLoggedIn);
-		}
-		else if (fromClient.equals("GetCourses")) {
-			ArrayList<Course> courses = dbHelper.getCourses(userLoggedIn);
-			sendObject(courses);
-		}
-//		else if (classFromClient.equals("GetStudents")) {
-//			ArrayList<Student> students = dbHelper.getStudents();
-//		}
-		else if (classFromClient.equals("Course"))  {
-			Course newCourse = (Course) fromClient;
-			boolean approved = dbHelper.addCourse(newCourse.getId(), newCourse.getProfId(), newCourse.getName(), newCourse.getActive());
-			sendObject(approved);
-		}
-		else if(classFromClient.equals("Assignment"))  {
-			sendObject(null);
-		}
-		else {
-			System.out.println("I have no idea what you asked.");
-		}
+	private Object readRequest() throws ClassNotFoundException, IOException {
+		return in.readObject();
 	}
 
-	private void sendObject (Object toSend) {
+	private void processRequest(Object fromClient) throws ClassNotFoundException, IOException {
+		String classFromClient = fromClient.getClass().getSimpleName();
+		Object objectToSend = null;
+		if (classFromClient.equals("LoginInfo")) { // Client sent in login info
+			LoginInfo translatedLoginInfo = (LoginInfo) fromClient;
+			userLoggedIn = dbHelper.verifyUser(translatedLoginInfo.getUsername(), translatedLoginInfo.getPassword());
+			objectToSend = userLoggedIn;
+		} else if (fromClient.equals("GetCourses")) // Getting list of courses that the user is taking
+		{
+			objectToSend = dbHelper.getCourses(userLoggedIn);
+		} else if (classFromClient.equals("Course")) // Creating a course
+		{
+			Course courseFromClient = (Course) fromClient;
+			objectToSend = processCourseRequest(courseFromClient);
+		} else if (classFromClient.equals("StudentEnrollment")) // Enrolling or disenrolling a student
+		{
+			StudentEnrollment enrollment = (StudentEnrollment) fromClient;
+			objectToSend = dbHelper.changeEnrollment(enrollment);
+		} else if (classFromClient.equals("Assignment")) {
+		}
+		sendObject(objectToSend);
+	}
+
+	private Object processCourseRequest(Course courseFromClient) throws ClassNotFoundException, IOException {
+		String typeOfRequest = (String) readRequest(); // Waits for client to be more specific.
+		Object toSend = null;
+		if (typeOfRequest.equalsIgnoreCase("CreateNewCourse")) {
+			toSend = dbHelper.addCourse(courseFromClient.getId(), courseFromClient.getProfId(),
+					courseFromClient.getName(), courseFromClient.getActive());
+		} else if (typeOfRequest.equalsIgnoreCase("ChangeActiveState")) {
+			dbHelper.changeStateOfCourse(courseFromClient);
+		} else if (typeOfRequest.equalsIgnoreCase("GetEnrollmentList")) {
+			toSend = dbHelper.getEnrollmentList(courseFromClient);
+		} else if (typeOfRequest.equalsIgnoreCase("GetAssignments")) {
+
+		} else if (typeOfRequest.equalsIgnoreCase("GetGrades")) {
+
+		}
+		return toSend;
+	}
+
+	private void sendObject(Object toSend) {
 		try {
+			out.reset();
 			out.writeObject(toSend);
 			out.flush();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Could not send to Client");
 		}
 	}
 

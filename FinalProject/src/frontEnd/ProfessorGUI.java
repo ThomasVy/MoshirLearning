@@ -19,9 +19,6 @@ public class ProfessorGUI extends PageNavigator {
 		this.professor = professor;
 		this.isProfessor = isProfessor;
 		this.courses = courses;
-
-		homePage = new HomePage(this, courses);
-		homePage.setVisible(true);
 		
 		coursePages = new ArrayList<Page>();
 		assignmentPages = new ArrayList<Page>();
@@ -32,6 +29,8 @@ public class ProfessorGUI extends PageNavigator {
 		createAllPages();
 
 		refreshPages();
+		
+		homePage.setVisible(true);
 	}
 
 	// Getters
@@ -62,10 +61,12 @@ public class ProfessorGUI extends PageNavigator {
 		gradePages.clear();
 		submissionPages.clear();
 		enrollmentPages.clear();
+		
+		homePage = new HomePage(this, courses);
 
 		// Course Pages
 		for (int i = 0; i < courses.size(); i++) {
-			coursePages.add(new CoursePage(this, courses, courses.get(i).getName()));
+			coursePages.add(new CoursePage(this, courses, courses.get(i)));
 		}
 		
 		// Assignment Pages
@@ -85,7 +86,7 @@ public class ProfessorGUI extends PageNavigator {
 		
 		// Enrollment Pages
 		for (int i = 0; i < courses.size(); i++) {
-			enrollmentPages.add(new EnrollmentPage(this, courses, courses.get(i).getName()));
+			enrollmentPages.add(new EnrollmentPage(this, courses, courses.get(i)));
 		}
 	}
 
