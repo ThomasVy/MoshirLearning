@@ -1,4 +1,4 @@
-package backEnd;
+	package backEnd;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -14,14 +14,13 @@ import sharedElements.*;
 
 public class FileHelper {
 	private String absPath;
-	
-	public FileHelper(String path)
+	public void setPath (String path)
 	{
-		this.absPath = path;
+		absPath = path;
 	}
-	public byte[] getFileContent (String relativePath) //Remember to put the file extension
+	public byte[] getFileContent (String relativePath, String extension) //Remember to put the file extension
 	{
-		String path = absPath +relativePath; //do error checking of the path
+		String path = absPath +relativePath + extension; //do error checking of the path
 		File selectedFile = new File(path);
 		JFileChooser fileBrowser = new JFileChooser();
 		if(fileBrowser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)

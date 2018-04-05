@@ -10,13 +10,13 @@ import sharedElements.*;
 
 public class Worker implements Runnable {
 
-	Socket socketClient;
-	ObjectOutputStream out;
-	ObjectInputStream in;
-	DatabaseHelper dbHelper;
-	EmailHelper emailService;
-	FileHelper fileHelper;
-	User userLoggedIn;
+	private Socket socketClient;
+	private ObjectOutputStream out;
+	private ObjectInputStream in;
+	private DatabaseHelper dbHelper;
+	private EmailHelper emailService;
+	private FileHelper fileHelper;
+	private User userLoggedIn;
 
 	public Worker(Socket socketClient, DatabaseHelper dbHelper, EmailHelper emailService, FileHelper fileHelper) {
 		this.socketClient = socketClient;
@@ -51,11 +51,8 @@ public class Worker implements Runnable {
 		Object objectToSend = null;
 		if(classFromClient.equals("LoginInfo")) { // Client sent in login info
 			LoginInfo translatedLoginInfo = (LoginInfo) fromClient;
-			objectToSend = dbHelper.verifyUser(translatedLoginInfo.getUsername(), translatedLoginInfo.getPassword());
-		}
-		else if(fromClient.equals("GetCourses"))  //Getting list of courses that the user is taking
-		{
-			objectToSend = dbHelper.getCourses(userLoggedIn);
+			userLoggedIn = dbHelper.verifyUser(translatedLoginInfo.getUsername(), translatedLoginInfo.getPassword());
+			objectToSend = userLoggedIn;
 		}
 		else if (classFromClient.equals("Course"))  //Creating a course
 		{
@@ -69,6 +66,10 @@ public class Worker implements Runnable {
 		}
 		else if(classFromClient.equals("Assignment"))  
 		{
+		}
+		else if(fromClient.equals("GetCourses"))  //Getting list of courses that the user is taking
+		{
+			objectToSend = dbHelper.getCourses(userLoggedIn);
 		}
 		sendObject(objectToSend);
 	}

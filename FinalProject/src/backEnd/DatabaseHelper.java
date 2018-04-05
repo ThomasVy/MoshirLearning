@@ -275,24 +275,37 @@ public class DatabaseHelper implements ConnectionConstants {
 			e.printStackTrace();
 		}
 	}
-	public ArrayList<StudentEnrollment> getEnrollmentList (Course courseFromClient)
+	public ArrayList<Student> getEnrollmentList (Course courseFromClient)
 	{
-		ArrayList<StudentEnrollment> listOfStudent = new ArrayList<StudentEnrollment>();
+		ArrayList<Student> listOfStudent = new ArrayList<Student>();
 		try {
 			statement = connection.createStatement();
 			String sql = "SELECT * FROM EnrollmentTable WHERE course_id = " + "'" + courseFromClient.getId() + "'";
 			resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
-				listOfStudent.add(new StudentEnrollment(resultSet.getInt("id"),
-									   resultSet.getInt("student_id"),
-									   resultSet.getInt("course_id"),
-									   true));
+				listOfStudent.add(getStudent(resultSet.getInt("student_id")));							
 			}
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return listOfStudent;
+	}
+	private Student getStudent(int id)
+	{
+		Student student = null;
+		try 
+		{
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM UserTable WHERE id = " + "'" + id + "'";
+			resultSet = statement.executeQuery(sql);
+			resultSet.next();
+			student = new Student(id, resultSet.getString("firstname"), resultSet.getString("lastname"));
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return student;
 	}
 	public boolean changeEnrollment (StudentEnrollment enrollment)
 	{
