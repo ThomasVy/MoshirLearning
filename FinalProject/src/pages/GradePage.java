@@ -1,27 +1,19 @@
 package pages;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import components.PageNavigator;
-import sharedElements.Course;
-
-import javax.swing.JScrollPane;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.FlowLayout;
 import java.awt.SystemColor;
 import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+
+import frontEnd.ProfessorGUI;
+import sharedElements.Course;
 
 public class GradePage extends Page {
 
@@ -46,8 +38,8 @@ public class GradePage extends Page {
 	/**
 	 * Create the frame.
 	 */
-	public GradePage(PageNavigator pageNavigator,  ArrayList<Course> courses, String selectedCourse) {
-		super(pageNavigator, courses);
+	public GradePage(ProfessorGUI professorGUI,  ArrayList<Course> courses, String selectedCourse) {
+		super(professorGUI, courses);
 
 		btnNewButton_2 = new JButton("Assignments");
 		btnNewButton_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
@@ -81,7 +73,7 @@ public class GradePage extends Page {
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 
 		JLabel lblCoursePage = new JLabel("Grade Page");
-		lblCoursePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		lblCoursePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		lblCoursePage.setHorizontalAlignment(SwingConstants.CENTER);
 		scrollPane.setColumnHeaderView(lblCoursePage);
 	}

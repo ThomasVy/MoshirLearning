@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
-import components.PageNavigator;
+import frontEnd.ProfessorGUI;
 import sharedElements.Course;
 
 public class AssignmentPage extends Page {
@@ -35,8 +35,8 @@ public class AssignmentPage extends Page {
 		});
 	}
 
-	public AssignmentPage(PageNavigator pageNavigator, ArrayList<Course> courses, String selectedCourse) {
-		super(pageNavigator, courses);
+	public AssignmentPage(ProfessorGUI professorGUI, ArrayList<Course> courses, String selectedCourse) {
+		super(professorGUI, courses);
 
 		btnNewButton_2 = new JButton("Assignments");
 		btnNewButton_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
@@ -69,8 +69,8 @@ public class AssignmentPage extends Page {
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 
-		JLabel lblCoursePage = new JLabel("Assignment Page");
-		lblCoursePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		JLabel lblCoursePage = new JLabel("Assignments Page");
+		lblCoursePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		lblCoursePage.setHorizontalAlignment(SwingConstants.CENTER);
 		scrollPane.setColumnHeaderView(lblCoursePage);
 	}

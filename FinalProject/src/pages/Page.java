@@ -7,10 +7,13 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -19,16 +22,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import components.PageNavigator;
+import frontEnd.ProfessorGUI;
 import sharedElements.Course;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 
 public abstract class Page extends JFrame {
 
 	private static final long serialVersionUID = 1L; // The serial version UID
-	protected PageNavigator pageNavigator;
+	protected ProfessorGUI professorGUI;
 	protected ArrayList<Course> courses;
 	protected JPanel contentPane;
 	protected JPanel panel;
@@ -50,10 +50,14 @@ public abstract class Page extends JFrame {
 	protected JButton btnNewButton_3;
 	protected JButton btnNewButton_4;
 	protected JButton btnNewButton_5;
+	protected JButton btnNewButton_6;
 	protected JLabel lbl;
+	
+	protected JPanel panel_8;
+	protected JPanel panel_10;
 
-	public Page (PageNavigator pageNavigator,  ArrayList<Course> courses) {
-		this.pageNavigator = pageNavigator;
+	public Page (ProfessorGUI professorGUI,  ArrayList<Course> courses) {
+		this.professorGUI = professorGUI;
 		this.courses = courses;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
@@ -110,6 +114,13 @@ public abstract class Page extends JFrame {
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		JPanel panel_9 = new JPanel();
 		scrollPane.setViewportView(panel_9);
+		panel_9.setLayout(new BoxLayout(panel_9, BoxLayout.Y_AXIS));
+		
+		panel_8 = new JPanel();
+		panel_9.add(panel_8);
+		
+		panel_10 = new JPanel();
+		panel_9.add(panel_10);
 
 		panel_2 = new JPanel();
 		panel.add(panel_2);

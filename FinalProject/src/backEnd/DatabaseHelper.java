@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -212,7 +213,7 @@ public class DatabaseHelper implements ConnectionConstants {
 		return courses;
 	}
 
-	private ArrayList<Course> selectCoursesFromDB(int id, String table) {
+	public ArrayList<Course> selectCoursesFromDB(int id, String table) {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		try {
 			statement = connection.createStatement();
@@ -228,6 +229,35 @@ public class DatabaseHelper implements ConnectionConstants {
 			e.printStackTrace();
 		}
 		return courses;
+	}
+
+	public boolean addCourse(int id, int prof_id, String name, boolean active) {
+		boolean result = false;
+		try {
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM " + "CourseTable" + " WHERE id = " + "'" + id + "'";
+			resultSet = statement.executeQuery(sql);
+			if (!resultSet.next()) {
+				String bit = "";
+				if (active == true) {
+					bit = "b'1'";
+				} else {
+					bit = "b'0'";
+				}
+				sql = "INSERT INTO " + "CourseTable" + " VALUES (" + id
+																   + ", " + prof_id
+																   + ", '" + name
+																   + "', " + bit
+																   + ");";
+				statement.executeUpdate(sql);
+				result = true;
+			}
+		} catch (SQLIntegrityConstraintViolationException e) {
+			result = false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 //	public static void main(String[] args) {

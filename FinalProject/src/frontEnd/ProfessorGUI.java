@@ -31,28 +31,38 @@ public class ProfessorGUI extends PageNavigator {
 
 		createAllPages();
 
-		homePage.setUpHomeButtonListener(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
-		addHomeButtonListenerToPage(coursePages);
-		addHomeButtonListenerToPage(assignmentPages);
-		addHomeButtonListenerToPage(gradePages);
-		addHomeButtonListenerToPage(submissionPages);
-		addHomeButtonListenerToPage(enrollmentPages);
+		refreshPages();
+	}
 
-		homePage.setUpComboBoxListeners(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
-		addComboBoxListenerToPage(coursePages);
-		addComboBoxListenerToPage(assignmentPages);
-		addComboBoxListenerToPage(gradePages);
-		addComboBoxListenerToPage(submissionPages);
-		addComboBoxListenerToPage(enrollmentPages);
+	// Getters
+	public Professor getProfessor() {
+		return professor;
+	}
 
-		addPageListeners(coursePages);
-		addPageListeners(assignmentPages);
-		addPageListeners(gradePages);
-		addPageListeners(submissionPages);
-		addPageListeners(enrollmentPages);
+	public boolean getIsProfessor() {
+		return isProfessor;
+	}
+
+	public ArrayList<Course> getCourses() {
+		return courses;
+	}
+
+	// Setters
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
+	}
+
+	public void setIsProfessor(boolean isProfessor) {
+		this.isProfessor = isProfessor;
 	}
 
 	public void createAllPages() {
+		coursePages.clear();
+		assignmentPages.clear();
+		gradePages.clear();
+		submissionPages.clear();
+		enrollmentPages.clear();
+
 		// Course Pages
 		for (int i = 0; i < courses.size(); i++) {
 			coursePages.add(new CoursePage(this, courses, courses.get(i).getName()));
@@ -77,6 +87,28 @@ public class ProfessorGUI extends PageNavigator {
 		for (int i = 0; i < courses.size(); i++) {
 			enrollmentPages.add(new EnrollmentPage(this, courses, courses.get(i).getName()));
 		}
+	}
+
+	public void refreshPages() {
+		homePage.setUpHomeButtonListener(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
+		addHomeButtonListenerToPage(coursePages);
+		addHomeButtonListenerToPage(assignmentPages);
+		addHomeButtonListenerToPage(gradePages);
+		addHomeButtonListenerToPage(submissionPages);
+		addHomeButtonListenerToPage(enrollmentPages);
+
+		homePage.setUpComboBoxListeners(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
+		addComboBoxListenerToPage(coursePages);
+		addComboBoxListenerToPage(assignmentPages);
+		addComboBoxListenerToPage(gradePages);
+		addComboBoxListenerToPage(submissionPages);
+		addComboBoxListenerToPage(enrollmentPages);
+
+		addPageListeners(coursePages);
+		addPageListeners(assignmentPages);
+		addPageListeners(gradePages);
+		addPageListeners(submissionPages);
+		addPageListeners(enrollmentPages);
 	}
 
 	public void addHomeButtonListenerToPage(ArrayList<Page> pages) {

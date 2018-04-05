@@ -3,27 +3,20 @@ package pages;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 
-import components.PageNavigator;
+import frontEnd.ProfessorGUI;
 import sharedElements.Course;
-
-import java.awt.event.ItemListener;
-import java.util.ArrayList;
-import java.awt.event.ItemEvent;
 
 public class HomePage extends Page {
 
@@ -48,20 +41,30 @@ public class HomePage extends Page {
 	/**
 	 * Create the frame.
 	 */
-	public HomePage(PageNavigator pageNavigator, ArrayList<Course> courses) {
-		super(pageNavigator, courses);
+	public HomePage(ProfessorGUI professorGUI, ArrayList<Course> courses) {
+		super(professorGUI, courses);
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		JPanel panel_9 = new JPanel();
 		scrollPane.setViewportView(panel_9);
 
+		btnNewButton_6 = new JButton("Create New Course");
+		btnNewButton_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CreateCoursePage createCoursePage = new CreateCoursePage(professorGUI, courses, HomePage.this);
+				HomePage.this.setVisible(false);
+				createCoursePage.setVisible(true);
+			}
+		});
+		btnNewButton_6.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		btnNewButton_6.setForeground(Color.WHITE);
+		btnNewButton_6.setBackground(SystemColor.desktop);
+		panel_1.add(btnNewButton_6);
+
 		JLabel lblHomePage = new JLabel("Home Page");
-		lblHomePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		lblHomePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		lblHomePage.setHorizontalAlignment(SwingConstants.CENTER);
 		scrollPane.setColumnHeaderView(lblHomePage);
-
-		JLabel lblWelcomeProfessor = new JLabel("Welcome, professor!");
-		panel_9.add(lblWelcomeProfessor);
 	}
 
 }

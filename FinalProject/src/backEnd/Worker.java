@@ -55,7 +55,9 @@ public class Worker implements Runnable {
 			sendObject(courses);
 		}
 		else if (classFromClient.equals("Course"))  {
-			sendObject(null);
+			Course newCourse = (Course) fromClient;
+			boolean approved = dbHelper.addCourse(newCourse.getId(), newCourse.getProfId(), newCourse.getName(), newCourse.getActive());
+			sendObject(approved);
 		}
 		else if(classFromClient.equals("Assignment"))  {
 			sendObject(null);

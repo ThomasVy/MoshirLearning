@@ -24,20 +24,12 @@ public class PageNavigator extends JFrame {
 		this.client = client;
 	}
 
-	public void showPage(String page) {
-		
+	public Client getClient() {
+		return client;
 	}
 
-	public void addPage(String page, String name) {
-		
-	}
-
-	public void removePage(String name) {
-		
-	}
-
-	public JPanel searchPage(String name) {
-		return null;
+	public ArrayList<Page> getCoursePages() {
+		return coursePages;
 	}
 
 }

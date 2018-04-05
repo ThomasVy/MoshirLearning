@@ -8,16 +8,12 @@ import java.awt.SystemColor;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import components.PageNavigator;
-import sharedElements.Course;
-
-import javax.swing.JScrollPane;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+
+import frontEnd.ProfessorGUI;
+import sharedElements.Course;
 
 public class SubmissionPage extends Page {
 
@@ -42,8 +38,8 @@ public class SubmissionPage extends Page {
 	/**
 	 * Create the frame.
 	 */
-	public SubmissionPage(PageNavigator pageNavigator, ArrayList<Course> courses, String selectedCourse) {
-		super(pageNavigator, courses);
+	public SubmissionPage(ProfessorGUI professorGUI, ArrayList<Course> courses, String selectedCourse) {
+		super(professorGUI, courses);
 
 		btnNewButton_2 = new JButton("Assignments");
 		btnNewButton_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
@@ -76,8 +72,8 @@ public class SubmissionPage extends Page {
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 
-		JLabel lblCoursePage = new JLabel("Submission Page");
-		lblCoursePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		JLabel lblCoursePage = new JLabel("Submissions Page");
+		lblCoursePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		lblCoursePage.setHorizontalAlignment(SwingConstants.CENTER);
 		scrollPane.setColumnHeaderView(lblCoursePage);
 	}
