@@ -57,7 +57,6 @@ public class Worker implements Runnable {
 		else if(fromClient.equals("GetCourses")) 
 		{
 			ArrayList<Course> courses= dbHelper.getCourses(userLoggedIn);
-			System.out.println(courses);
 			sendObject(courses);
 		}
 		else if (classFromClient.equals("Course")) 

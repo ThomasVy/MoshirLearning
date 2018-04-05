@@ -20,13 +20,9 @@ import components.PageNavigator;
 import sharedElements.Course;
 import sharedElements.Student;
 
-public class EnrollmentPage extends JFrame {
-
-	private JPanel contentPane;
+public class EnrollmentPage extends Page {
 	private ArrayList<Student> enrolledStudentList;
 	private Course course;
-	private PageNavigator pageNavigator;
-
 	/**
 	 * Launch the application.
 	 */
@@ -46,8 +42,8 @@ public class EnrollmentPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public EnrollmentPage(PageNavigator pageNavigator) {
-		this.pageNavigator = pageNavigator;
+	public EnrollmentPage(PageNavigator pageNavigator, ArrayList<Course> courses) {
+		super(pageNavigator, courses);
 
 		// Test
 		enrolledStudentList = new ArrayList<Student>();

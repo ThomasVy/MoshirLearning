@@ -53,9 +53,9 @@ public class LoginWindowController {
 			String username = view.getUsername();
 			String password = view.getPassword();
 			LoginInfo userLoginInfo = new LoginInfo(username, password);
-			User readFromServer = (User)client.communicateWithServer(userLoginInfo);
+			User userLoggedIn = (User)client.communicateWithServer(userLoginInfo);
 
-			if(readFromServer== null)
+			if(userLoggedIn== null)
 			{
 				JOptionPane.showMessageDialog(null, "Invalid username/password", "Failed submission", JOptionPane.ERROR_MESSAGE);
 			}
@@ -63,13 +63,9 @@ public class LoginWindowController {
 			{
 				System.out.println("It is correct!");
 				ArrayList<Course> courses = (ArrayList<Course>) client.communicateWithServer("GetCourses");
-				Iterator<Course> it = courses.iterator();
-				while(it.hasNext())
-				{
-					System.out.println(it.next().getName());
-				}
 				view.dispose();
-				ProfessorGUI pgui = new ProfessorGUI();
+				
+				ProfessorGUI pgui = new ProfessorGUI(client, (Professor)userLoggedIn, true, courses);
 			}
 	}
 }

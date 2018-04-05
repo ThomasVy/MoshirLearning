@@ -1,12 +1,14 @@
 package frontEnd;
 
+import java.util.ArrayList;
+
 import components.PageNavigator;
 import pages.CoursePage;
 import pages.EnrollmentPage;
 import pages.GradePage;
 import pages.HomePage;
 import pages.SubmissionPage;
-import sharedElements.Professor;
+import sharedElements.*;
 
 public class ProfessorGUI extends PageNavigator {
 
@@ -18,17 +20,19 @@ public class ProfessorGUI extends PageNavigator {
 	private GradePage gradepage;
 	private SubmissionPage submissionpage;
 	private EnrollmentPage enrollmentpage;
-
-	public ProfessorGUI(/*Client client, Professor professor, boolean isProfessor*/) {
-//		super(client);
-//		this.professor = professor;
-//		this.isProfessor = isProfessor;
-		homepage = new HomePage(this);
+	private ArrayList<Course> courses;
+	
+	public ProfessorGUI(Client client, Professor professor, boolean isProfessor, ArrayList<Course> courses) {
+		super(client);
+		this.professor = professor;
+		this.isProfessor = isProfessor;
+		this.courses = courses;
+		homepage = new HomePage(this, courses);
 		homepage.setVisible(true);
-		coursepage = new CoursePage(this);
-		gradepage = new GradePage(this);
-		submissionpage = new SubmissionPage(this);
-		enrollmentpage = new EnrollmentPage(this);
+		coursepage = new CoursePage(this, courses, "Temporary");
+		gradepage = new GradePage(this, courses);
+		submissionpage = new SubmissionPage(this, courses);
+		enrollmentpage = new EnrollmentPage(this, courses);
 	}
 
 	public void showPage(String page) {
@@ -39,8 +43,10 @@ public class ProfessorGUI extends PageNavigator {
 			submissionpage.setVisible(false);
 			enrollmentpage.setVisible(false);
 		}
-		else if (page.equalsIgnoreCase("ENCM 369")) {
+		else {
 			homepage.setVisible(false);
+			coursepage.dispose();
+			coursepage = new CoursePage(this, courses, page);
 			coursepage.setVisible(true);
 		}
 	}

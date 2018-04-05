@@ -2,12 +2,14 @@ package pages;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import components.PageNavigator;
+import sharedElements.Course;
 
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
@@ -37,7 +39,7 @@ public class SubmissionPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SubmissionPage(PageNavigator pageNavigator) {
+	public SubmissionPage(PageNavigator pageNavigator, ArrayList<Course> courses) {
 		this.pageNavigator = pageNavigator;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

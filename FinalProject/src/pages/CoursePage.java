@@ -18,14 +18,13 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import components.PageNavigator;
+import sharedElements.Course;
+
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
-public class CoursePage extends JFrame {
-
-	private JPanel contentPane;
-	private PageNavigator pageNavigator;
-
+public class CoursePage extends Page{
 	/**
 	 * Launch the application.
 	 */
@@ -45,69 +44,8 @@ public class CoursePage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CoursePage(PageNavigator pageNavigator) {
-		this.pageNavigator = pageNavigator;
-
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
-		
-		JPanel panel = new JPanel();
-		contentPane.add(panel, BorderLayout.NORTH);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBackground(Color.DARK_GRAY);
-		panel.add(panel_3);
-		
-		JButton btnHome = new JButton("Home");
-		btnHome.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == btnHome) {
-					pageNavigator.showPage("Home Page");
-				}
-			}
-		});
-		btnHome.setForeground(Color.WHITE);
-		btnHome.setBackground(Color.DARK_GRAY);
-		btnHome.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_3.add(btnHome);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		comboBox.setForeground(Color.WHITE);
-		comboBox.setBackground(Color.DARK_GRAY);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select a course...", "ENCM 369", "CPSC 319", "ENEL 327", "ENSF 409"}));
-		panel_3.add(comboBox);
-		
-		JPanel panel_2 = new JPanel();
-		panel.add(panel_2);
-		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.X_AXIS));
-		
-		JPanel panel_4 = new JPanel();
-		FlowLayout flowLayout_1 = (FlowLayout) panel_4.getLayout();
-		flowLayout_1.setAlignment(FlowLayout.LEFT);
-		panel_2.add(panel_4);
-		
-		JLabel lblEncm = new JLabel("ENCM 369 - Computer Organization");
-		lblEncm.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-		panel_4.add(lblEncm);
-		
-		JPanel panel_5 = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel_5.getLayout();
-		flowLayout.setAlignment(FlowLayout.RIGHT);
-		panel_2.add(panel_5);
-		
-		JLabel lblMoshirlearning = new JLabel("MoshirLearning");
-		lblMoshirlearning.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-		panel_5.add(lblMoshirlearning);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(SystemColor.desktop);
-		panel.add(panel_1);
+	public CoursePage(PageNavigator pageNavigator,  ArrayList<Course> courses, String selectedCourse){
+		super(pageNavigator, courses);
 		
 		JButton btnContent = new JButton("Assignments");
 		btnContent.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
@@ -127,6 +65,10 @@ public class CoursePage extends JFrame {
 		btnNewButton_1.setBackground(SystemColor.desktop);
 		panel_1.add(btnNewButton_1);
 		
+		JLabel lblEncm = new JLabel(selectedCourse);
+		lblEncm.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
+		panel_4.add(lblEncm);
+		
 		JButton btnNewButton_2 = new JButton("Enrollment");
 		btnNewButton_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_2.setForeground(Color.WHITE);
@@ -140,7 +82,6 @@ public class CoursePage extends JFrame {
 		lblCoursePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		lblCoursePage.setHorizontalAlignment(SwingConstants.CENTER);
 		scrollPane.setColumnHeaderView(lblCoursePage);
-		setLocationRelativeTo(null);
 	}
 
 }

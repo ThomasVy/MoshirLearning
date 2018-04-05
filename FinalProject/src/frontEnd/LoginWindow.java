@@ -16,7 +16,7 @@ public class LoginWindow extends JFrame{
 	private JButton exitButton;
 	
 	private JTextField usernameText;
-	private JTextField passwordText;
+	private JPasswordField passwordText;
 	
 	public LoginWindow(String s)
 	{
@@ -65,7 +65,7 @@ public class LoginWindow extends JFrame{
 	{
 		JPanel passwordPanel = new JPanel(new FlowLayout());
 		JLabel passwordLabel = new JLabel("Password");
-		passwordText = new JTextField(10);
+		passwordText = new JPasswordField(10);
 		passwordPanel.add(passwordLabel);
 		passwordPanel.add(passwordText);
 		return passwordPanel;
@@ -93,7 +93,7 @@ public class LoginWindow extends JFrame{
 	}
 	public String getPassword ()
 	{
-		return passwordText.getText();
+		return new String(passwordText.getPassword());
 	}
 //	public static void main(String [] args)
 //	{

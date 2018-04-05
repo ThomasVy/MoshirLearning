@@ -8,8 +8,8 @@ public class PageNavigator extends JFrame {
 
 	private Client client;
 
-	public PageNavigator(/*Client client*/) {
-//		this.client = client;
+	public PageNavigator(Client client) {
+		this.client = client;
 	}
 
 	public void showPage(String page) {
