@@ -30,6 +30,9 @@ public abstract class Page extends JFrame {
 	private static final long serialVersionUID = 1L; // The serial version UID
 	protected ProfessorGUI professorGUI;
 	protected ArrayList<Course> courses;
+	protected boolean isProfessor;
+	protected String [] dropCourses;
+	
 	protected JPanel contentPane;
 	protected JPanel panel;
 	protected JPanel panel_1;
@@ -38,8 +41,6 @@ public abstract class Page extends JFrame {
 	protected JPanel panel_4;
 	protected JPanel panel_5;
 	protected JScrollPane scrollPane;
-	protected boolean isProfessor;
-	protected String [] dropCourses;
 	protected JPanel panel_6;
 	protected JPanel panel_7;
 	protected JButton btnNewButton;
@@ -193,7 +194,7 @@ public abstract class Page extends JFrame {
 			}
 		});
 	}
-
+	//Sets up course pages
 	public void setUpPageListeners(HomePage homePage, ArrayList<Page> coursePages, ArrayList<Page> assignmentPages, ArrayList<Page> gradePages, ArrayList<Page> submissionPages, ArrayList<Page> enrollmentPages) {
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -88,7 +88,7 @@ public class Worker implements Runnable {
 		}
 		else if(typeOfRequest.equalsIgnoreCase("GetEnrollmentList"))
 		{
-			
+			//toSend = dbHelper.getEnrollmentList(courseFromClient);
 		}
 		else if(typeOfRequest.equalsIgnoreCase("GetAssignment"))
 		{

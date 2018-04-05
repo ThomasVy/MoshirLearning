@@ -9,10 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import sharedElements.Course;
-import sharedElements.Professor;
-import sharedElements.Student;
-import sharedElements.User;
+import sharedElements.*;
 
 public class DatabaseHelper implements ConnectionConstants {
 
@@ -278,6 +275,23 @@ public class DatabaseHelper implements ConnectionConstants {
 			e.printStackTrace();
 		}
 	}
+//	public ArrayList<StudentEnrollment> getEnrollmentList (Course courseFromClient)
+//	{
+//		ArrayList<StudentEnrollment> listOfStudent = new ArrayList<StudentEnrollment>();
+//		try {
+//			statement = connection.createStatement();
+//			String sql = "SELECT * FROM EnrollmentTable WHERE course_id = " + "'" + courseFromClient.getId() + "'";
+//			resultSet = statement.executeQuery(sql);
+//			while (resultSet.next()) {
+//				listOfStudent.add(new StudentEnrollment(resultSet.getInt("id"),
+//									   resultSet.getInt("prof_id"),
+//									   resultSet.getString("name"),
+//									   resultSet.getInt("active") == 1));
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
 //	public static void main(String[] args) {
 //		DatabaseHelper dbh = new DatabaseHelper();
 //		// dbh.createDB();
