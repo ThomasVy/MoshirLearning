@@ -9,11 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import sharedElements.Course;
-import sharedElements.Professor;
-import sharedElements.Student;
-import sharedElements.StudentEnrollment;
-import sharedElements.User;
+import sharedElements.*;
 
 /**
  * Provides the fields and methods required to create a DatabaseHelper object.
@@ -293,7 +289,11 @@ public class DatabaseHelper implements ConnectionConstants {
 			String sql = "SELECT * FROM EnrollmentTable WHERE course_id = " + courseFromClient.getId();
 			resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
-				listOfStudent.add(getStudent(resultSet.getInt("student_id")));		
+				Student studentRetrieved = getStudent(resultSet.getInt("student_id"));
+				if(studentRetrieved != null)
+				{
+					listOfStudent.add(studentRetrieved);
+				}		
 			}
 		}
 		catch (SQLException e) {
@@ -308,9 +308,9 @@ public class DatabaseHelper implements ConnectionConstants {
 		{
 			statement = connection.createStatement();
 			String sql = "SELECT * FROM UserTable WHERE id = " + id;
-			resultSet = statement.executeQuery(sql);
-			resultSet.next();
-			student = new Student(id, resultSet.getString("firstname"), resultSet.getString("lastname"));
+			ResultSet temp = statement.executeQuery(sql);
+			if(temp.next());
+				student = new Student(id, temp.getString("firstname"), temp.getString("lastname"));
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
