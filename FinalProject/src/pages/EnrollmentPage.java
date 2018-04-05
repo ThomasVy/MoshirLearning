@@ -19,7 +19,7 @@ import javax.swing.event.ListSelectionListener;
 
 import frontEnd.ProfessorGUI;
 import sharedElements.Course;
-import sharedElements.StudentEnrollment;
+import sharedElements.Student;
 
 public class EnrollmentPage extends Page {
 
@@ -91,10 +91,10 @@ public class EnrollmentPage extends Page {
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);
 		
-		ArrayList<Student> studentEnrollment = (ArrayList<StudentEnrollment>) professorGUI.sendToClient(courseOfThisPage, "GetEnrollmentList");
+		ArrayList<Student> studentEnrollment = (ArrayList<Student>) professorGUI.sendToClient(courseOfThisPage, "GetEnrollmentList");
 		DefaultListModel<String> model = new DefaultListModel<String>();
 		for (int i = 0; i < studentEnrollment.size(); i++) {
-			model.addElement
+			model.addElement(studentEnrollment.get(i).toString());
 		}
 		JList<String> list = new JList<String>(model);
 		JScrollPane scrollPane = new JScrollPane(list);

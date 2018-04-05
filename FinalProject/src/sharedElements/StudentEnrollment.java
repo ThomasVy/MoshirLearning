@@ -14,7 +14,7 @@ public class StudentEnrollment implements Serializable {
 	{
 		this.id =id;
 		this.student_id = student_id;
-		this.course_id =course_id;
+		this.course_id = course_id;
 		this.enrolling = enrolling;
 	}
 	public int getID ()
