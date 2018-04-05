@@ -2,82 +2,76 @@ package pages;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 
 import components.PageNavigator;
 import sharedElements.Course;
 
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.awt.event.ActionEvent;
+public class CoursePage extends Page {
 
-public class CoursePage extends Page{
+	private static final long serialVersionUID = 1L; // The serial version UID
+
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					CoursePage frame = new CoursePage();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CoursePage frame = new CoursePage(null, null, null);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Create the frame.
 	 */
 	public CoursePage(PageNavigator pageNavigator,  ArrayList<Course> courses, String selectedCourse){
 		super(pageNavigator, courses);
-		
-		JButton btnContent = new JButton("Assignments");
-		btnContent.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnContent.setForeground(Color.WHITE);
-		btnContent.setBackground(SystemColor.desktop);
-		panel_1.add(btnContent);
-		
-		JButton btnNewButton = new JButton("Grades");
-		btnNewButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton.setForeground(Color.WHITE);
-		btnNewButton.setBackground(SystemColor.desktop);
-		panel_1.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Submissions");
-		btnNewButton_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_1.setForeground(Color.WHITE);
-		btnNewButton_1.setBackground(SystemColor.desktop);
-		panel_1.add(btnNewButton_1);
-		
-		JLabel lblEncm = new JLabel(selectedCourse);
-		lblEncm.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-		panel_4.add(lblEncm);
-		
-		JButton btnNewButton_2 = new JButton("Enrollment");
+
+		btnNewButton_2 = new JButton("Assignments");
 		btnNewButton_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_2.setForeground(Color.WHITE);
 		btnNewButton_2.setBackground(SystemColor.desktop);
 		panel_1.add(btnNewButton_2);
-		
+
+		btnNewButton_3 = new JButton("Grades");
+		btnNewButton_3.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		btnNewButton_3.setForeground(Color.WHITE);
+		btnNewButton_3.setBackground(SystemColor.desktop);
+		panel_1.add(btnNewButton_3);
+
+		btnNewButton_4 = new JButton("Submissions");
+		btnNewButton_4.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		btnNewButton_4.setForeground(Color.WHITE);
+		btnNewButton_4.setBackground(SystemColor.desktop);
+		panel_1.add(btnNewButton_4);
+
+		lbl = new JLabel(selectedCourse);
+		lbl.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
+		panel_4.add(lbl);
+
+		btnNewButton_5 = new JButton("Enrollment");
+		btnNewButton_5.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		btnNewButton_5.setForeground(Color.WHITE);
+		btnNewButton_5.setBackground(SystemColor.desktop);
+		panel_1.add(btnNewButton_5);
+
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
-		
+
 		JLabel lblCoursePage = new JLabel("Course Page");
 		lblCoursePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		lblCoursePage.setHorizontalAlignment(SwingConstants.CENTER);

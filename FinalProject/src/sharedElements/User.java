@@ -11,13 +11,11 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7607601790172142731L;
+	private static final long serialVersionUID = 1L; // The serial version UID
 	private int id; // The user's id
 	private String firstName; // The user's first name
 	private String lastName; // The user's last name
+
 	/**
 	 * Constructs a User object.
 	 * @param id - the user's id

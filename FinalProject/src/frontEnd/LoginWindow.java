@@ -6,11 +6,9 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class LoginWindow extends JFrame{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class LoginWindow extends JFrame {
+
+	private static final long serialVersionUID = 1L; // The serial version UID
 	private JButton submitButton;
 	private JButton clearButton;
 	private JButton exitButton;
@@ -18,8 +16,7 @@ public class LoginWindow extends JFrame{
 	private JTextField usernameText;
 	private JPasswordField passwordText;
 	
-	public LoginWindow(String s)
-	{
+	public LoginWindow(String s) {
 		super(s);
 		JLabel loginLabel = new JLabel("Welcome to MoshirLearning", JLabel.CENTER);
 		this.setSize(600, 300);
@@ -31,8 +28,8 @@ public class LoginWindow extends JFrame{
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-	public JPanel createSouthPanel()
-	{
+
+	public JPanel createSouthPanel() {
 		JPanel southPanel = new JPanel();
 		southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS));
 		southPanel.add(usernameLayout());
@@ -40,8 +37,8 @@ public class LoginWindow extends JFrame{
 		southPanel.add(createButtonPanel());
 		return southPanel;
 	}
-	public JPanel createButtonPanel()
-	{
+
+	public JPanel createButtonPanel() {
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		submitButton = new JButton("Submit");
 		clearButton = new JButton("Clear");
@@ -52,8 +49,8 @@ public class LoginWindow extends JFrame{
 		buttonPanel.setBorder(new EmptyBorder(0,10,20,0));
 		return buttonPanel;
 	}
-	public JPanel usernameLayout()
-	{
+
+	public JPanel usernameLayout() {
 		JPanel usernamePanel = new JPanel(new FlowLayout());
 		JLabel usernameLabel = new JLabel("Username");
 		usernameText = new JTextField(10);
@@ -61,8 +58,8 @@ public class LoginWindow extends JFrame{
 		usernamePanel.add(usernameText);
 		return usernamePanel;
 	}
-	public JPanel passwordLayout()
-	{
+
+	public JPanel passwordLayout() {
 		JPanel passwordPanel = new JPanel(new FlowLayout());
 		JLabel passwordLabel = new JLabel("Password");
 		passwordText = new JPasswordField(10);
@@ -70,34 +67,35 @@ public class LoginWindow extends JFrame{
 		passwordPanel.add(passwordText);
 		return passwordPanel;
 	}
-	public void clearTextFields ()
-	{
+
+	public void clearTextFields () {
 		usernameText.setText("");
 		passwordText.setText("");
 	}
-	public void addSubmitListener(ActionListener submitListener)
-	{
+
+	public void addSubmitListener(ActionListener submitListener) {
 		submitButton.addActionListener(submitListener);
 	}
-	public void addClearListener(ActionListener clearListener)
-	{
+
+	public void addClearListener(ActionListener clearListener) {
 		clearButton.addActionListener(clearListener);
 	}
-	public void addExitListener(ActionListener exitListener)
-	{
+
+	public void addExitListener(ActionListener exitListener) {
 		exitButton.addActionListener(exitListener);
 	}
-	public String getUsername ()
-	{
+
+	public String getUsername() {
 		return usernameText.getText();
 	}
-	public String getPassword ()
-	{
+
+	public String getPassword() {
 		return new String(passwordText.getPassword());
 	}
-//	public static void main(String [] args)
-//	{
+
+//	public static void main(String [] args) {
 //		LoginWindow l = new LoginWindow("Login Window");
 //		LoginWindowController c = new LoginWindowController(l);
 //	}
+
 }

@@ -8,18 +8,14 @@ import java.awt.SystemColor;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 import components.PageNavigator;
 import sharedElements.Course;
 
-import javax.swing.JScrollPane;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-
-public class SubmissionPage extends Page {
+public class AssignmentPage extends Page {
 
 	private static final long serialVersionUID = 1L; // The serial version UID
 
@@ -30,7 +26,7 @@ public class SubmissionPage extends Page {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SubmissionPage frame = new SubmissionPage(null, null, null);
+					AssignmentPage frame = new AssignmentPage(null, null, null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,10 +35,7 @@ public class SubmissionPage extends Page {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public SubmissionPage(PageNavigator pageNavigator, ArrayList<Course> courses, String selectedCourse) {
+	public AssignmentPage(PageNavigator pageNavigator, ArrayList<Course> courses, String selectedCourse) {
 		super(pageNavigator, courses);
 
 		btnNewButton_2 = new JButton("Assignments");
@@ -76,7 +69,7 @@ public class SubmissionPage extends Page {
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 
-		JLabel lblCoursePage = new JLabel("Submission Page");
+		JLabel lblCoursePage = new JLabel("Assignment Page");
 		lblCoursePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		lblCoursePage.setHorizontalAlignment(SwingConstants.CENTER);
 		scrollPane.setColumnHeaderView(lblCoursePage);

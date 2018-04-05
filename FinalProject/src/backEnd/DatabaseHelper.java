@@ -6,8 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Scanner;
 
-import sharedElements.*;
+import sharedElements.Course;
+import sharedElements.Professor;
+import sharedElements.Student;
+import sharedElements.User;
 
 public class DatabaseHelper implements ConnectionConstants {
 
@@ -16,9 +20,15 @@ public class DatabaseHelper implements ConnectionConstants {
 	private ResultSet resultSet;
 
 	public DatabaseHelper() {
+		System.out.println("Please enter your username for MySQL: ");
+		Scanner scanner = new Scanner(System.in);
+		String username = scanner.nextLine();
+		System.out.println("Please enter your password for MySQL: ");
+		String password = scanner.nextLine();
+		scanner.close();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(connectionInfo, "root", "1234");
+			connection = DriverManager.getConnection(connectionInfo, username, password);
 			System.out.println("Connected to: " + connectionInfo + "\n");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -164,14 +174,13 @@ public class DatabaseHelper implements ConnectionConstants {
 			removeTable(tables[i]);
 		}
 	}
-	
+
 	public User verifyUser(String username, String password) {
 		try {
 			statement = connection.createStatement();
 			String sql = "SELECT * FROM " + "UserTable" + " WHERE username = " + "'" + username + "'" + " and password = " + "'" + password + "'";
 			resultSet = statement.executeQuery(sql);
 			if (resultSet.next()) {
-
 				if (resultSet.getString("type").charAt(0) == 'S') {
 					Student student = new Student(resultSet.getInt("id"),
 												  resultSet.getString("firstname"),
@@ -190,38 +199,37 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 		return null;
 	}
-	public ArrayList<Course> getCourses(User user)
-	{
+
+	public ArrayList<Course> getCourses(User user) {
 		int id = user.getId();
 		String typeOfUser = user.getClass().getSimpleName();
 		ArrayList<Course> courses = new ArrayList<Course>();
-		if(typeOfUser.equals("Professor"))
-		{
+		if (typeOfUser.equals("Student")) {
+			
+		} else if (typeOfUser.equals("Professor")) {
 			courses = selectCoursesFromDB(id, "CourseTable" );
-		}
-		else {
 		}
 		return courses;
 	}
-	private ArrayList<Course> selectCoursesFromDB(int id, String table)
-	{
+
+	private ArrayList<Course> selectCoursesFromDB(int id, String table) {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		try {
 			statement = connection.createStatement();
 			String sql = "SELECT * FROM " + table + " WHERE prof_id = " + "'" + id + "'";
 			resultSet = statement.executeQuery(sql);
-			while(resultSet.next())
-			{
+			while (resultSet.next()) {
 				courses.add(new Course(resultSet.getInt("id"),
 									   resultSet.getInt("prof_id"),
 									   resultSet.getString("name"),
-									   resultSet.getInt("active")==1));
+									   resultSet.getInt("active") == 1));
 			}
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return courses;
 	}
+
 //	public static void main(String[] args) {
 //		DatabaseHelper dbh = new DatabaseHelper();
 //		// dbh.createDB();

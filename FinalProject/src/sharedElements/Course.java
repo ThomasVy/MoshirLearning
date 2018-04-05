@@ -11,10 +11,7 @@ import java.io.Serializable;
  */
 public class Course implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2340214155332801691L;
+	private static final long serialVersionUID = 1L; // The serial version UID
 	private int id; // The course id
 	private int profId; // The course prof's id
 	private String name; // The course name
@@ -66,6 +63,11 @@ public class Course implements Serializable {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	@Override
+	public String toString() {
+		return id + " " + profId + " " + name + " " + active;
 	}
 
 }

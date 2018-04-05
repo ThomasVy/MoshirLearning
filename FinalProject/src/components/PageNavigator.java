@@ -1,12 +1,24 @@
 package components;
 
-import javax.swing.JFrame;
+import java.util.ArrayList;
 
-import frontEnd.Client;
+import javax.swing.*;
+
+import frontEnd.*;
+import pages.*;
 
 public class PageNavigator extends JFrame {
 
+	private static final long serialVersionUID = 1L; // The serial version UID
 	private Client client;
+
+	protected HomePage homePage;
+	
+	protected ArrayList<Page> coursePages;
+	protected ArrayList<Page> assignmentPages;
+	protected ArrayList<Page> gradePages;
+	protected ArrayList<Page> submissionPages;
+	protected ArrayList<Page> enrollmentPages;
 
 	public PageNavigator(Client client) {
 		this.client = client;
@@ -24,8 +36,8 @@ public class PageNavigator extends JFrame {
 		
 	}
 
-//	public void JPanel searchPage(String name) {
-//		
-//	}
+	public JPanel searchPage(String name) {
+		return null;
+	}
 
 }

@@ -11,16 +11,16 @@ import sharedElements.*;
 
 public class Client {
 	Socket socket;
-	ObjectInputStream in;
 	ObjectOutputStream out;
+	ObjectInputStream in;
 
-	public Client(int portNumber, String serverName) {
+	public Client(String serverName, int portNumber) {
 		try {
 			socket = new Socket(serverName, portNumber);
 			out = new ObjectOutputStream(socket.getOutputStream());
 			in = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Could not connect to server", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Could not connect to server.", "Server Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -30,21 +30,20 @@ public class Client {
 			out.writeObject(toSend);
 			readFromServer = in.readObject();
 		}
-		catch(IOException e)
-		{
+		catch(IOException e) {
 			e.printStackTrace();
 		} 
 		catch (ClassNotFoundException e) {
-			
 			e.printStackTrace();
 		}
 		return readFromServer;
 	}
+
 	public static void main(String [] args)
 	{
-		Client client = new Client(9890, "localhost");
+		Client client = new Client("localhost", 9890);
 		LoginWindow login = new LoginWindow("Login Window");
 		LoginWindowController loginWindowController = new LoginWindowController(login, client);
-		
 	}
+
 }
