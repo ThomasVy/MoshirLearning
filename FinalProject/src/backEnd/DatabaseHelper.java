@@ -14,11 +14,18 @@ import sharedElements.Professor;
 import sharedElements.Student;
 import sharedElements.User;
 
+/**
+ * Provides the fields and methods required to create a DatabaseHelper object.
+ * @author R. Lim & T. Vy
+ * @version 1.0
+ * @since April 5, 2018
+ *
+ */
 public class DatabaseHelper implements ConnectionConstants {
 
-	private Connection connection;
-	private Statement statement;
-	private ResultSet resultSet;
+	private Connection connection; // The connection
+	private Statement statement; // The statement
+	private ResultSet resultSet; // The result set
 
 	public DatabaseHelper() {
 		System.out.println("Please enter your username for MySQL: ");

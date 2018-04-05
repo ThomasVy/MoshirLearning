@@ -50,10 +50,13 @@ public class Worker implements Runnable {
 			userLoggedIn = dbHelper.verifyUser(translatedLoginInfo.getUsername(), translatedLoginInfo.getPassword());
 			sendObject(userLoggedIn);
 		}
-		else if(fromClient.equals("GetCourses")) {
+		else if (fromClient.equals("GetCourses")) {
 			ArrayList<Course> courses = dbHelper.getCourses(userLoggedIn);
 			sendObject(courses);
 		}
+//		else if (classFromClient.equals("GetStudents")) {
+//			ArrayList<Student> students = dbHelper.getStudents();
+//		}
 		else if (classFromClient.equals("Course"))  {
 			Course newCourse = (Course) fromClient;
 			boolean approved = dbHelper.addCourse(newCourse.getId(), newCourse.getProfId(), newCourse.getName(), newCourse.getActive());
