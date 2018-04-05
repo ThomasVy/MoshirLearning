@@ -259,7 +259,25 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 		return result;
 	}
-
+	public void changeStateOfCourse (Course courseToChange)
+	{
+		try {
+			statement = connection.createStatement();
+			boolean active = courseToChange.getActive();
+			String bit = "";
+			if (active == true) {
+				bit = "b'1'";
+			} else {
+				bit = "b'0'";
+			}
+			String sql = "UPDATE CourseTable SET active = "+ bit + " WHERE id = " + "'" + courseToChange.getId() + "'";
+			statement.executeUpdate(sql);
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
 //	public static void main(String[] args) {
 //		DatabaseHelper dbh = new DatabaseHelper();
 //		// dbh.createDB();

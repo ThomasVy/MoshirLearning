@@ -27,7 +27,9 @@ public class Client {
 	public Object communicateWithServer(Object toSend) {
 		Object readFromServer = -1;
 		try {
+			out.reset();
 			out.writeObject(toSend);
+			out.flush();
 			readFromServer = in.readObject();
 		}
 		catch(IOException e) {
@@ -38,7 +40,25 @@ public class Client {
 		}
 		return readFromServer;
 	}
-
+	
+	public Object communicateWithServer(Object toSend, String typeOfRequest) {
+		Object readFromServer = -1;
+		try {
+			out.reset();
+			out.writeObject(toSend);
+			out.flush();
+			out.writeObject(typeOfRequest);
+			out.flush();
+			readFromServer = in.readObject();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		} 
+		catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return readFromServer;
+	}
 	public static void main(String [] args)
 	{
 		Client client = new Client("localhost", 9890);

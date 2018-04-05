@@ -21,25 +21,26 @@ public class CoursePage extends Page {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CoursePage frame = new CoursePage(null, null, null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					CoursePage frame = new CoursePage(null, null, null);
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
+	private Course courseOfThePage;
 	/**
 	 * Create the frame.
 	 */
-	public CoursePage(ProfessorGUI professorGUI,  ArrayList<Course> courses, String selectedCourse){
+	public CoursePage(ProfessorGUI professorGUI,  ArrayList<Course> courses, Course selectedCourse){
 		super(professorGUI, courses);
-
+		this.courseOfThePage = selectedCourse;
+		
 		btnNewButton_2 = new JButton("Assignments");
 		btnNewButton_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_2.setForeground(Color.WHITE);
@@ -58,7 +59,7 @@ public class CoursePage extends Page {
 		btnNewButton_4.setBackground(SystemColor.desktop);
 		panel_1.add(btnNewButton_4);
 
-		lbl = new JLabel(selectedCourse);
+		lbl = new JLabel(courseOfThePage.getName());
 		lbl.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		panel_4.add(lbl);
 
@@ -75,22 +76,36 @@ public class CoursePage extends Page {
 		JLabel lbl_2 = new JLabel("Click to Change Course Activity");
 		lbl_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_10.add(lbl_2);
-
-		JButton btnNewButton_6 = new JButton("Course Inactive");
+		String active;
+		JButton btnNewButton_6 = new JButton();
+		if(courseOfThePage.getActive() == true) {
+			btnNewButton_6.setBackground(SystemColor.desktop);
+			active = "Course Active";
+		}
+		else {
+			btnNewButton_6.setBackground(Color.DARK_GRAY);
+			active = "Course Inactive";
+		}
+		btnNewButton_6.setText(active);
 		btnNewButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (btnNewButton_6.getText().equalsIgnoreCase("Course Inactive")) {
+				if (btnNewButton_6.getText().equalsIgnoreCase("Course Inactive")) //Makes it active
+				{
 					btnNewButton_6.setText("Course Active");
 					btnNewButton_6.setBackground(SystemColor.desktop);
-				} else {
+					courseOfThePage.setActive(true);
+				} 
+				else //deactivates the course 
+				{
 					btnNewButton_6.setText("Course Inactive");
 					btnNewButton_6.setBackground(Color.DARK_GRAY);
+					courseOfThePage.setActive(false);
 				}
+				professorGUI.sendToClient(courseOfThePage, "ChangeActiveState");
 			}
 		});
 		btnNewButton_6.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_6.setForeground(Color.WHITE);
-		btnNewButton_6.setBackground(Color.DARK_GRAY);
 		panel_10.add(btnNewButton_6);
 	}
 

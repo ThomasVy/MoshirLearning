@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import frontEnd.*;
 import pages.*;
+import sharedElements.Course;
 
 public class PageNavigator extends JFrame {
 
@@ -24,10 +25,16 @@ public class PageNavigator extends JFrame {
 		this.client = client;
 	}
 
-	public Client getClient() {
-		return client;
+	public Object sendToClient(Object toSend)
+	{
+		return client.communicateWithServer(toSend);
 	}
-
+	
+	public Object sendToClient(Object toSend, String typeOfRequest)
+	{
+		return client.communicateWithServer(toSend, typeOfRequest);
+	}
+	
 	public ArrayList<Page> getCoursePages() {
 		return coursePages;
 	}

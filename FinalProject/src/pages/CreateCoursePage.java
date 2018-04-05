@@ -88,7 +88,7 @@ public class CreateCoursePage extends Page {
 					Random random = new Random();
 					int newId = 10000000 + random.nextInt(90000000); // Need to fix id generator
 					Course newCourse = new Course(newId, professorGUI.getProfessor().getId(), textField.getText(), false);
-					boolean approved = (boolean) professorGUI.getClient().communicateWithServer(newCourse);
+					boolean approved = (boolean) professorGUI.sendToClient(newCourse, "CreateNewCourse");
 					if (approved == false) {
 						JOptionPane.showMessageDialog(null, "Invalid input for new course.", "Failed to Create New Course", JOptionPane.ERROR_MESSAGE);
 					} else {

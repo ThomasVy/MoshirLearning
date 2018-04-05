@@ -35,44 +35,78 @@ public class Worker implements Runnable {
 	public void run() {
 		try {
 			while(true) {
-				Object fromClient = in.readObject();
-				processRequest(fromClient);
+				processRequest(readRequest());
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			System.out.println("User disconnected");
 		}
 	}
-
-	public void processRequest(Object fromClient) { 
+	private Object readRequest() throws ClassNotFoundException, IOException
+	{
+		return in.readObject();
+	}
+	private void processRequest(Object fromClient) throws ClassNotFoundException, IOException 
+	{ 
 		String classFromClient = fromClient.getClass().getSimpleName();
+		Object objectToSend = null;
 		if(classFromClient.equals("LoginInfo")) { // Client sent in login info
 			LoginInfo translatedLoginInfo = (LoginInfo) fromClient;
 			userLoggedIn = dbHelper.verifyUser(translatedLoginInfo.getUsername(), translatedLoginInfo.getPassword());
-			sendObject(userLoggedIn);
+			objectToSend = userLoggedIn;
 		}
-		else if(fromClient.equals("GetCourses")) {
+		else if(fromClient.equals("GetCourses"))  //Getting list of courses that the user is taking
+		{
 			ArrayList<Course> courses = dbHelper.getCourses(userLoggedIn);
-			sendObject(courses);
+			objectToSend = courses;
 		}
-		else if (classFromClient.equals("Course"))  {
-			Course newCourse = (Course) fromClient;
-			boolean approved = dbHelper.addCourse(newCourse.getId(), newCourse.getProfId(), newCourse.getName(), newCourse.getActive());
-			sendObject(approved);
+		else if (classFromClient.equals("Course"))  //Creating a course
+		{
+			Course courseFromClient = (Course) fromClient;
+			objectToSend = processCourseRequest(courseFromClient);
 		}
-		else if(classFromClient.equals("Assignment"))  {
-			sendObject(null);
+		else if (classFromClient.equals("StudentEnrollment"))
+		{
+			
 		}
-		else {
-			System.out.println("I have no idea what you asked.");
+		else if(classFromClient.equals("Assignment"))  
+		{
 		}
+		sendObject(objectToSend);
 	}
-
+	private Object processCourseRequest (Course courseFromClient) throws ClassNotFoundException, IOException
+	{
+		String typeOfRequest = (String)readRequest(); //Waits for client to be more specific.
+		Object toSend = null;
+		if(typeOfRequest.equalsIgnoreCase("CreateNewCourse"))
+		{
+			boolean approved = dbHelper.addCourse(courseFromClient.getId(), courseFromClient.getProfId(), courseFromClient.getName(), courseFromClient.getActive());
+			 toSend = approved;
+		}
+		else if (typeOfRequest.equals("ChangeActiveState"))
+		{
+			dbHelper.changeStateOfCourse(courseFromClient);
+		}
+		else if(typeOfRequest.equalsIgnoreCase("GetEnrollmentList"))
+		{
+			
+		}
+		else if(typeOfRequest.equalsIgnoreCase("GetAssignment"))
+		{
+			
+		}
+		else if (typeOfRequest.equalsIgnoreCase("GetGrades"))
+		{
+			
+		}
+		return toSend;
+	}
 	private void sendObject (Object toSend) {
 		try {
+			out.reset();
 			out.writeObject(toSend);
 			out.flush();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Could not send to Client");
 		}
 	}
 
