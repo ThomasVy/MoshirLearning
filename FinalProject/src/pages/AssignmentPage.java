@@ -14,6 +14,8 @@ import javax.swing.SwingConstants;
 
 import frontEnd.ProfessorGUI;
 import sharedElements.Course;
+import javax.swing.JPanel;
+import javax.swing.BoxLayout;
 
 public class AssignmentPage extends Page {
 
@@ -65,14 +67,23 @@ public class AssignmentPage extends Page {
 		btnNewButton_5.setForeground(Color.WHITE);
 		btnNewButton_5.setBackground(SystemColor.desktop);
 		panel_1.add(btnNewButton_5);
-
-		JScrollPane scrollPane = new JScrollPane();
-		contentPane.add(scrollPane, BorderLayout.CENTER);
-
-		JLabel lblCoursePage = new JLabel("Assignments Page");
-		lblCoursePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-		lblCoursePage.setHorizontalAlignment(SwingConstants.CENTER);
-		scrollPane.setColumnHeaderView(lblCoursePage);
+		
+		JPanel panel = new JPanel();
+		getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		
+		JPanel panel_1 = new JPanel();
+		panel.add(panel_1);
+		
+		JLabel lblAssignmentsPage = new JLabel("Assignments Page");
+		lblAssignmentsPage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
+		panel_1.add(lblAssignmentsPage);
+		
+		JPanel panel_2 = new JPanel();
+		panel.add(panel_2);
+		
+		JPanel panel_3 = new JPanel();
+		panel.add(panel_3);
 	}
 
 }

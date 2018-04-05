@@ -13,9 +13,15 @@ public class Assignment implements Serializable {
 	private boolean active;
 	private String due_date;
 	
-	public Assignment (String fileExtension)
+	public Assignment (int id, int course_id, String title, String fileExtension, boolean active, String due_date)
 	{
-		
+		this.id = id;
+		this.course_id =course_id;
+		this.title = title;
+		this.fileExtension = fileExtension;
+		this.active= active;
+		this.fileExtension = fileExtension;
+		this.due_date =due_date;
 	}
 	public String getFileExtension ()
 	{

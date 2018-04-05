@@ -11,11 +11,18 @@ import java.util.Scanner;
 
 import sharedElements.*;
 
+/**
+ * Provides the fields and methods required to create a DatabaseHelper object.
+ * @author R. Lim & T. Vy
+ * @version 1.0
+ * @since April 5, 2018
+ *
+ */
 public class DatabaseHelper implements ConnectionConstants {
 
-	private Connection connection;
-	private Statement statement;
-	private ResultSet resultSet;
+	private Connection connection; // The connection
+	private Statement statement; // The statement
+	private ResultSet resultSet; // The result set
 
 	public DatabaseHelper() {
 		System.out.println("Please enter your username for MySQL: ");
@@ -256,8 +263,7 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 		return result;
 	}
-	public void changeStateOfCourse (Course courseToChange)
-	{
+	public void changeStateOfCourse(Course courseToChange) {
 		try {
 			statement = connection.createStatement();
 			boolean active = courseToChange.getActive();
@@ -280,10 +286,15 @@ public class DatabaseHelper implements ConnectionConstants {
 		ArrayList<Student> listOfStudent = new ArrayList<Student>();
 		try {
 			statement = connection.createStatement();
-			String sql = "SELECT * FROM EnrollmentTable WHERE course_id = " + "'" + courseFromClient.getId() + "'";
+
+			String sql = "SELECT * FROM EnrollmentTable WHERE course_id = " + courseFromClient.getId();
 			resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
-				listOfStudent.add(getStudent(resultSet.getInt("student_id")));							
+				Student studentRetrieved = getStudent(resultSet.getInt("student_id"));
+				if(studentRetrieved != null)
+				{
+					listOfStudent.add(studentRetrieved);
+				}		
 			}
 		}
 		catch (SQLException e) {
@@ -297,10 +308,10 @@ public class DatabaseHelper implements ConnectionConstants {
 		try 
 		{
 			statement = connection.createStatement();
-			String sql = "SELECT * FROM UserTable WHERE id = " + "'" + id + "'";
-			resultSet = statement.executeQuery(sql);
-			resultSet.next();
-			student = new Student(id, resultSet.getString("firstname"), resultSet.getString("lastname"));
+			String sql = "SELECT * FROM UserTable WHERE id = " + id;
+			ResultSet temp = statement.executeQuery(sql);
+			if(temp.next());
+				student = new Student(id, temp.getString("firstname"), temp.getString("lastname"));
 		}
 		catch (SQLException e) {
 			e.printStackTrace();

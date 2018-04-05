@@ -111,17 +111,17 @@ public abstract class Page extends JFrame {
 		btnNewButton_1.setBackground(Color.DARK_GRAY);
 		panel_7.add(btnNewButton_1);
 
-		scrollPane = new JScrollPane();
-		contentPane.add(scrollPane, BorderLayout.CENTER);
-		JPanel panel_9 = new JPanel();
-		scrollPane.setViewportView(panel_9);
-		panel_9.setLayout(new BoxLayout(panel_9, BoxLayout.Y_AXIS));
-		
-		panel_8 = new JPanel();
-		panel_9.add(panel_8);
-		
-		panel_10 = new JPanel();
-		panel_9.add(panel_10);
+//		scrollPane = new JScrollPane();
+//		contentPane.add(scrollPane, BorderLayout.CENTER);
+//		JPanel panel_9 = new JPanel();
+//		scrollPane.setViewportView(panel_9);
+//		panel_9.setLayout(new BoxLayout(panel_9, BoxLayout.Y_AXIS));
+//		
+//		panel_8 = new JPanel();
+//		panel_9.add(panel_8);
+//		
+//		panel_10 = new JPanel();
+//		panel_9.add(panel_10);
 
 		panel_2 = new JPanel();
 		panel.add(panel_2);

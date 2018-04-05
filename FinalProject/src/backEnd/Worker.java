@@ -34,7 +34,7 @@ public class Worker implements Runnable {
 	@Override
 	public void run() {
 		try {
-			while(true) {
+			while (true) {
 				processRequest(readRequest());
 			}
 		} catch (ClassNotFoundException | IOException e) {

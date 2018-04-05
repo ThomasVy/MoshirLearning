@@ -59,6 +59,7 @@ public class Client {
 		}
 		return readFromServer;
 	}
+
 	public static void main(String [] args)
 	{
 		Client client = new Client("localhost", 9890);

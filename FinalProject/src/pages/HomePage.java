@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 
 import frontEnd.ProfessorGUI;
 import sharedElements.Course;
+import javax.swing.BoxLayout;
 
 public class HomePage extends Page {
 
@@ -43,10 +44,10 @@ public class HomePage extends Page {
 	 */
 	public HomePage(ProfessorGUI professorGUI, ArrayList<Course> courses) {
 		super(professorGUI, courses);
-		JScrollPane scrollPane = new JScrollPane();
-		contentPane.add(scrollPane, BorderLayout.CENTER);
-		JPanel panel_9 = new JPanel();
-		scrollPane.setViewportView(panel_9);
+//		JScrollPane scrollPane = new JScrollPane();
+//		contentPane.add(scrollPane, BorderLayout.CENTER);
+//		JPanel panel_9 = new JPanel();
+//		scrollPane.setViewportView(panel_9);
 
 		btnNewButton_6 = new JButton("Create New Course");
 		btnNewButton_6.addActionListener(new ActionListener() {
@@ -60,11 +61,27 @@ public class HomePage extends Page {
 		btnNewButton_6.setForeground(Color.WHITE);
 		btnNewButton_6.setBackground(SystemColor.desktop);
 		panel_1.add(btnNewButton_6);
+		
+		JPanel panel = new JPanel();
+		getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		
+		JPanel panel_1 = new JPanel();
+		panel.add(panel_1);
+		
+		JLabel lblNewLabel = new JLabel("Home Page");
+		lblNewLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
+		panel_1.add(lblNewLabel);
+		
+		JPanel panel_2 = new JPanel();
+		panel.add(panel_2);
+		
+		JPanel panel_3 = new JPanel();
+		panel.add(panel_3);
 
 		JLabel lblHomePage = new JLabel("Home Page");
 		lblHomePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		lblHomePage.setHorizontalAlignment(SwingConstants.CENTER);
-		scrollPane.setColumnHeaderView(lblHomePage);
 	}
 
 }
