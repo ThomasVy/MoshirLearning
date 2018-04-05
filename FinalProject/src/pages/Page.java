@@ -141,7 +141,7 @@ public abstract class Page extends JFrame {
 		panel_5.add(lblMoshirlearning);
 
 		panel_1 = new JPanel();
-		panel_1.setBackground(SystemColor.desktop);
+		panel_1.setBackground(new Color(135, 206, 235));
 		panel.add(panel_1);
 
 		setLocationRelativeTo(null);

@@ -17,6 +17,7 @@ import sharedElements.User;
 
 /**
  * Provides the fields and methods required to create a DatabaseHelper object.
+ * 
  * @author R. Lim & T. Vy
  * @version 1.0
  * @since April 5, 2018
@@ -59,14 +60,10 @@ public class DatabaseHelper implements ConnectionConstants {
 	}
 
 	public void createUserTable() {
-		String sql = "CREATE TABLE " + "UserTable" + " (id INT(8) NOT NULL," +
-													 " username VARCHAR(20) NOT NULL," +
-													 " password VARCHAR(20) NOT NULL," +
-													 " email VARCHAR(50) NOT NULL," +
-													 " firstname VARCHAR(30) NOT NULL," +
-													 " lastname VARCHAR(30) NOT NULL," +
-													 " type CHAR(1) NOT NULL," +
-													 " PRIMARY KEY (id))";
+		String sql = "CREATE TABLE " + "UserTable" + " (id INT(8) NOT NULL," + " username VARCHAR(20) NOT NULL,"
+				+ " password VARCHAR(20) NOT NULL," + " email VARCHAR(50) NOT NULL,"
+				+ " firstname VARCHAR(30) NOT NULL," + " lastname VARCHAR(30) NOT NULL," + " type CHAR(1) NOT NULL,"
+				+ " PRIMARY KEY (id))";
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate(sql);
@@ -77,11 +74,8 @@ public class DatabaseHelper implements ConnectionConstants {
 	}
 
 	public void createCourseTable() {
-		String sql = "CREATE TABLE " + "CourseTable" + " (id INT(8) NOT NULL," +
-													   " prof_id INT(8) NOT NULL," +
-													   " name VARCHAR(50) NOT NULL," +
-													   " active BIT(1) NOT NULL," +
-													   " PRIMARY KEY (id))";
+		String sql = "CREATE TABLE " + "CourseTable" + " (id INT(8) NOT NULL," + " prof_id INT(8) NOT NULL,"
+				+ " name VARCHAR(50) NOT NULL," + " active BIT(1) NOT NULL," + " PRIMARY KEY (id))";
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate(sql);
@@ -92,10 +86,8 @@ public class DatabaseHelper implements ConnectionConstants {
 	}
 
 	public void createEnrollmentTable() {
-		String sql = "CREATE TABLE " + "EnrollmentTable" + " (id INT(8) NOT NULL," +
-				   										   " student_id INT(8) NOT NULL," +
-				   										   " course_id INT(8) NOT NULL," +
-				   										   " PRIMARY KEY (id))";
+		String sql = "CREATE TABLE " + "EnrollmentTable" + " (id INT(8) NOT NULL," + " student_id INT(8) NOT NULL,"
+				+ " course_id INT(8) NOT NULL," + " PRIMARY KEY (id))";
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate(sql);
@@ -106,13 +98,9 @@ public class DatabaseHelper implements ConnectionConstants {
 	}
 
 	public void createAssignmentTable() {
-		String sql = "CREATE TABLE " + "AssignmentTable" + " (id INT(8) NOT NULL," +
-				   										   " course_id INT(8) NOT NULL," +
-				   										   " title VARCHAR(50) NOT NULL," +
-				   										   " path VARCHAR(100) NOT NULL," +
-				   										   " active BIT(1) NOT NULL," +
-				   										   " due_date CHAR(16) NOT NULL," +
-				   										   " PRIMARY KEY (id))";
+		String sql = "CREATE TABLE " + "AssignmentTable" + " (id INT(8) NOT NULL," + " course_id INT(8) NOT NULL,"
+				+ " title VARCHAR(50) NOT NULL," + " path VARCHAR(100) NOT NULL," + " active BIT(1) NOT NULL,"
+				+ " due_date CHAR(16) NOT NULL," + " PRIMARY KEY (id))";
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate(sql);
@@ -123,15 +111,10 @@ public class DatabaseHelper implements ConnectionConstants {
 	}
 
 	public void createSubmissionTable() {
-		String sql = "CREATE TABLE " + "SubmissionTable" + " (id INT(8) NOT NULL," +
-				   										   " assign_id INT(8) NOT NULL," +
-				   										   " student_id INT(8) NOT NULL," +
-				   										   " path VARCHAR(100) NOT NULL," +
-				   										   " title VARCHAR(50) NOT NULL," +
-				   										   " submission_grade INT(3) NOT NULL," +
-				   										   " comments VARCHAR(140) NOT NULL," +
-				   										   " timestamp CHAR(16) NOT NULL," +
-				   										   " PRIMARY KEY (id))";
+		String sql = "CREATE TABLE " + "SubmissionTable" + " (id INT(8) NOT NULL," + " assign_id INT(8) NOT NULL,"
+				+ " student_id INT(8) NOT NULL," + " path VARCHAR(100) NOT NULL," + " title VARCHAR(50) NOT NULL,"
+				+ " submission_grade INT(3) NOT NULL," + " comments VARCHAR(140) NOT NULL,"
+				+ " timestamp CHAR(16) NOT NULL," + " PRIMARY KEY (id))";
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate(sql);
@@ -142,12 +125,9 @@ public class DatabaseHelper implements ConnectionConstants {
 	}
 
 	public void createGradeTable() {
-		String sql = "CREATE TABLE " + "GradeTable" + " (id INT(8) NOT NULL," +
-				   									  " assign_id INT(8) NOT NULL," +
-				   									  " student_id INT(8) NOT NULL," +
-				   									  " course_id INT(8) NOT NULL," +
-				   									  " assignment_grade INT(3) NOT NULL," +
-				   									  " PRIMARY KEY (id))";
+		String sql = "CREATE TABLE " + "GradeTable" + " (id INT(8) NOT NULL," + " assign_id INT(8) NOT NULL,"
+				+ " student_id INT(8) NOT NULL," + " course_id INT(8) NOT NULL," + " assignment_grade INT(3) NOT NULL,"
+				+ " PRIMARY KEY (id))";
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate(sql);
@@ -178,7 +158,8 @@ public class DatabaseHelper implements ConnectionConstants {
 	}
 
 	public void removeAllTables() {
-		String[] tables = { "UserTable", "CourseTable", "EnrollmentTable", "AssignmentTable", "SubmissionTable", "GradeTable" };
+		String[] tables = { "UserTable", "CourseTable", "EnrollmentTable", "AssignmentTable", "SubmissionTable",
+				"GradeTable" };
 		for (int i = 0; i < tables.length; i++) {
 			removeTable(tables[i]);
 		}
@@ -187,19 +168,17 @@ public class DatabaseHelper implements ConnectionConstants {
 	public User verifyUser(String username, String password) {
 		try {
 			statement = connection.createStatement();
-			String sql = "SELECT * FROM " + "UserTable" + " WHERE username = " + "'" + username + "'" + " and password = " + "'" + password + "'";
+			String sql = "SELECT * FROM " + "UserTable" + " WHERE username = " + "'" + username + "'"
+					+ " and password = " + "'" + password + "'";
 			resultSet = statement.executeQuery(sql);
 			if (resultSet.next()) {
 				if (resultSet.getString("type").charAt(0) == 'S') {
-					Student student = new Student(resultSet.getInt("id"),
-												  resultSet.getString("firstname"),
-												  resultSet.getString("lastname"));
+					Student student = new Student(resultSet.getInt("id"), resultSet.getString("firstname"),
+							resultSet.getString("lastname"));
 					return student;
-				}
-				else if (resultSet.getString("type").charAt(0) == 'P') {
-					Professor professor = new Professor(resultSet.getInt("id"),
-														resultSet.getString("firstname"),
-														resultSet.getString("lastname"));
+				} else if (resultSet.getString("type").charAt(0) == 'P') {
+					Professor professor = new Professor(resultSet.getInt("id"), resultSet.getString("firstname"),
+							resultSet.getString("lastname"));
 					return professor;
 				}
 			}
@@ -214,9 +193,9 @@ public class DatabaseHelper implements ConnectionConstants {
 		String typeOfUser = user.getClass().getSimpleName();
 		ArrayList<Course> courses = new ArrayList<Course>();
 		if (typeOfUser.equals("Student")) {
-			
+
 		} else if (typeOfUser.equals("Professor")) {
-			courses = selectCoursesFromDB(id, "CourseTable" );
+			courses = selectCoursesFromDB(id, "CourseTable");
 		}
 		return courses;
 	}
@@ -228,10 +207,8 @@ public class DatabaseHelper implements ConnectionConstants {
 			String sql = "SELECT * FROM " + table + " WHERE prof_id = " + "'" + id + "'";
 			resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
-				courses.add(new Course(resultSet.getInt("id"),
-									   resultSet.getInt("prof_id"),
-									   resultSet.getString("name"),
-									   resultSet.getInt("active") == 1));
+				courses.add(new Course(resultSet.getInt("id"), resultSet.getInt("prof_id"), resultSet.getString("name"),
+						resultSet.getInt("active") == 1));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -252,11 +229,8 @@ public class DatabaseHelper implements ConnectionConstants {
 				} else {
 					bit = "b'0'";
 				}
-				sql = "INSERT INTO " + "CourseTable" + " VALUES (" + id
-																   + ", " + prof_id
-																   + ", '" + name
-																   + "', " + bit
-																   + ");";
+				sql = "INSERT INTO " + "CourseTable" + " VALUES (" + id + ", " + prof_id + ", '" + name + "', " + bit
+						+ ");";
 				statement.executeUpdate(sql);
 				result = true;
 			}
@@ -285,53 +259,48 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 	}
 
-	public ArrayList<Student> getEnrollmentList (Course courseFromClient)
-	{
+	public ArrayList<Student> getEnrollmentList(Course courseFromClient) {
 		ArrayList<Student> listOfStudent = new ArrayList<Student>();
 		try {
 			statement = connection.createStatement();
 			String sql = "SELECT * FROM EnrollmentTable WHERE course_id = " + courseFromClient.getId();
 			resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
-				listOfStudent.add(getStudent(resultSet.getInt("student_id")));		
+				listOfStudent.add(getStudent(resultSet.getInt("student_id")));
 			}
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return listOfStudent;
 	}
-	private Student getStudent(int id)
-	{
+
+	private Student getStudent(int id) {
 		Student student = null;
-		try 
-		{
+		try {
 			statement = connection.createStatement();
 			String sql = "SELECT * FROM UserTable WHERE id = " + id;
-			resultSet = statement.executeQuery(sql);
-			resultSet.next();
-			student = new Student(id, resultSet.getString("firstname"), resultSet.getString("lastname"));
-		}
-		catch (SQLException e) {
+			ResultSet temp = statement.executeQuery(sql);
+			if (temp.next())
+				student = new Student(id, temp.getString("firstname"), temp.getString("lastname"));
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return student;
 	}
-	public boolean changeEnrollment (StudentEnrollment enrollment)
-	{
+
+	public boolean changeEnrollment(StudentEnrollment enrollment) {
 		boolean enrollmentStatus = false;
 		boolean enroll = enrollment.getEnrolling();
-		if(enroll == true) //Enroll the student
+		if (enroll == true) // Enroll the student
 		{
 			try {
 				statement = connection.createStatement();
-				String sql = "SELECT * FROM " + "EnrollmentTable" + " WHERE student_id = " + "'" + enrollment.getStudentID() + "' and course_id = "+"'"+enrollment.getCourseID()+"'";
+				String sql = "SELECT * FROM " + "EnrollmentTable" + " WHERE student_id = " + "'"
+						+ enrollment.getStudentID() + "' and course_id = " + "'" + enrollment.getCourseID() + "'";
 				resultSet = statement.executeQuery(sql);
 				if (!resultSet.next()) {
-					sql = "INSERT INTO " + "EnrollmentTable" + " VALUES (" + enrollment.getID()
-																	   + ", " + enrollment.getStudentID()
-																	   + ", '" + enrollment.getCourseID()
-																	   + ");";
+					sql = "INSERT INTO " + "EnrollmentTable" + " VALUES (" + enrollment.getID() + ", "
+							+ enrollment.getStudentID() + ", '" + enrollment.getCourseID() + ");";
 					statement.executeUpdate(sql);
 					enrollmentStatus = true;
 				}
@@ -340,12 +309,11 @@ public class DatabaseHelper implements ConnectionConstants {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
-		else //unenroll student
+		} else // unenroll student
 		{
 			try {
 				statement = connection.createStatement();
-				String delete = "DELETE FROM EnrollmentTable WHERE student_id = '" + enrollment.getStudentID() +"'";
+				String delete = "DELETE FROM EnrollmentTable WHERE student_id = '" + enrollment.getStudentID() + "'";
 				statement.executeUpdate(delete);
 				enrollmentStatus = true;
 			} catch (SQLIntegrityConstraintViolationException e) {
@@ -357,11 +325,11 @@ public class DatabaseHelper implements ConnectionConstants {
 		return enrollmentStatus;
 	}
 
-//	public static void main(String[] args) {
-//		DatabaseHelper dbh = new DatabaseHelper();
-//		// dbh.createDB();
-//		// dbh.createAllTables();
-//		// dbh.removeAllTables();
-//	}
+	// public static void main(String[] args) {
+	// DatabaseHelper dbh = new DatabaseHelper();
+	// // dbh.createDB();
+	// // dbh.createAllTables();
+	// // dbh.removeAllTables();
+	// }
 
 }

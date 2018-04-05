@@ -43,19 +43,19 @@ public class AssignmentPage extends Page {
 		btnNewButton_2 = new JButton("Assignments");
 		btnNewButton_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_2.setForeground(Color.WHITE);
-		btnNewButton_2.setBackground(SystemColor.desktop);
+		btnNewButton_2.setBackground(new Color(135, 206, 235));
 		panel_1.add(btnNewButton_2);
 
 		btnNewButton_3 = new JButton("Grades");
 		btnNewButton_3.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_3.setForeground(Color.WHITE);
-		btnNewButton_3.setBackground(SystemColor.desktop);
+		btnNewButton_3.setBackground(new Color(135, 206, 235));
 		panel_1.add(btnNewButton_3);
 
 		btnNewButton_4 = new JButton("Submissions");
 		btnNewButton_4.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_4.setForeground(Color.WHITE);
-		btnNewButton_4.setBackground(SystemColor.desktop);
+		btnNewButton_4.setBackground(new Color(135, 206, 235));
 		panel_1.add(btnNewButton_4);
 
 		lbl = new JLabel(selectedCourse);
@@ -65,7 +65,7 @@ public class AssignmentPage extends Page {
 		btnNewButton_5 = new JButton("Enrollment");
 		btnNewButton_5.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_5.setForeground(Color.WHITE);
-		btnNewButton_5.setBackground(SystemColor.desktop);
+		btnNewButton_5.setBackground(new Color(135, 206, 235));
 		panel_1.add(btnNewButton_5);
 		
 		JPanel panel = new JPanel();

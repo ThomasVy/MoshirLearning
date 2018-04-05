@@ -59,7 +59,7 @@ public class HomePage extends Page {
 		});
 		btnNewButton_6.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_6.setForeground(Color.WHITE);
-		btnNewButton_6.setBackground(SystemColor.desktop);
+		btnNewButton_6.setBackground(new Color(135, 206, 235));
 		panel_1.add(btnNewButton_6);
 		
 		JPanel panel = new JPanel();

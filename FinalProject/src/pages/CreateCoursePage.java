@@ -73,7 +73,7 @@ public class CreateCoursePage extends Page {
 		
 		JButton enter = new JButton("Enter");
 		enter.setForeground(Color.WHITE);
-		enter.setBackground(SystemColor.desktop);
+		enter.setBackground(new Color(135, 206, 235));
 		enter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (textField_1.getText().length() != 0) {
@@ -120,12 +120,12 @@ public class CreateCoursePage extends Page {
 		});
 		cancel.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		cancel.setForeground(Color.WHITE);
-		cancel.setBackground(SystemColor.desktop);
+		cancel.setBackground(new Color(135, 206, 235));
 		panel_1.add(cancel);
 
 //		JButton btnEnter = new JButton("Enter");
 //		btnEnter.setForeground(Color.WHITE);
-//		btnEnter.setBackground(SystemColor.desktop);
+//		btnEnter.setBackground(new Color(135, 206, 235));
 //		btnEnter.addActionListener(new ActionListener() {
 //			public void actionPerformed(ActionEvent e) {
 //				if (textField.getText().length() != 0) {

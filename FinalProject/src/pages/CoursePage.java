@@ -48,19 +48,19 @@ public class CoursePage extends Page {
 		btnNewButton_2 = new JButton("Assignments");
 		btnNewButton_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_2.setForeground(Color.WHITE);
-		btnNewButton_2.setBackground(SystemColor.desktop);
+		btnNewButton_2.setBackground(new Color(135, 206, 235));
 		panel_1.add(btnNewButton_2);
 
 		btnNewButton_3 = new JButton("Grades");
 		btnNewButton_3.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_3.setForeground(Color.WHITE);
-		btnNewButton_3.setBackground(SystemColor.desktop);
+		btnNewButton_3.setBackground(new Color(135, 206, 235));
 		panel_1.add(btnNewButton_3);
 
 		btnNewButton_4 = new JButton("Submissions");
 		btnNewButton_4.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_4.setForeground(Color.WHITE);
-		btnNewButton_4.setBackground(SystemColor.desktop);
+		btnNewButton_4.setBackground(new Color(135, 206, 235));
 		panel_1.add(btnNewButton_4);
 		
 		lbl = new JLabel(courseOfThePage.getName());
@@ -70,7 +70,7 @@ public class CoursePage extends Page {
 		btnNewButton_5 = new JButton("Enrollment");
 		btnNewButton_5.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_5.setForeground(Color.WHITE);
-		btnNewButton_5.setBackground(SystemColor.desktop);
+		btnNewButton_5.setBackground(new Color(135, 206, 235));
 		panel_1.add(btnNewButton_5);
 		
 		JPanel panel = new JPanel();
@@ -96,7 +96,7 @@ public class CoursePage extends Page {
 //		String active;
 //		JButton btnNewButton_6 = new JButton();
 //		if(courseOfThePage.getActive() == true) {
-//			btnNewButton_6.setBackground(SystemColor.desktop);
+//			btnNewButton_6.setBackground(new Color(135, 206, 235));
 //			active = "Course Active";
 //		}
 //		else {
@@ -109,7 +109,7 @@ public class CoursePage extends Page {
 //				if (btnNewButton_6.getText().equalsIgnoreCase("Course Inactive")) //Makes it active
 //				{
 //					btnNewButton_6.setText("Course Active");
-//					btnNewButton_6.setBackground(SystemColor.desktop);
+//					btnNewButton_6.setBackground(new Color(135, 206, 235));
 //					courseOfThePage.setActive(true);
 //				} 
 //				else //deactivates the course 
