@@ -275,23 +275,64 @@ public class DatabaseHelper implements ConnectionConstants {
 			e.printStackTrace();
 		}
 	}
-//	public ArrayList<StudentEnrollment> getEnrollmentList (Course courseFromClient)
-//	{
-//		ArrayList<StudentEnrollment> listOfStudent = new ArrayList<StudentEnrollment>();
-//		try {
-//			statement = connection.createStatement();
-//			String sql = "SELECT * FROM EnrollmentTable WHERE course_id = " + "'" + courseFromClient.getId() + "'";
-//			resultSet = statement.executeQuery(sql);
-//			while (resultSet.next()) {
-//				listOfStudent.add(new StudentEnrollment(resultSet.getInt("id"),
-//									   resultSet.getInt("prof_id"),
-//									   resultSet.getString("name"),
-//									   resultSet.getInt("active") == 1));
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
+	public ArrayList<StudentEnrollment> getEnrollmentList (Course courseFromClient)
+	{
+		ArrayList<StudentEnrollment> listOfStudent = new ArrayList<StudentEnrollment>();
+		try {
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM EnrollmentTable WHERE course_id = " + "'" + courseFromClient.getId() + "'";
+			resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				listOfStudent.add(new StudentEnrollment(resultSet.getInt("id"),
+									   resultSet.getInt("student_id"),
+									   resultSet.getInt("course_id"),
+									   true));
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listOfStudent;
+	}
+	public boolean changeEnrollment (StudentEnrollment enrollment)
+	{
+		boolean enrollmentStatus = false;
+		boolean enroll = enrollment.getEnrolling();
+		if(enroll == true) //Enroll the student
+		{
+			try {
+				statement = connection.createStatement();
+				String sql = "SELECT * FROM " + "EnrollmentTable" + " WHERE student_id = " + "'" + enrollment.getStudentID() + "' and course_id = "+"'"+enrollment.getCourseID()+"'";
+				resultSet = statement.executeQuery(sql);
+				if (!resultSet.next()) {
+					sql = "INSERT INTO " + "EnrollmentTable" + " VALUES (" + enrollment.getID()
+																	   + ", " + enrollment.getStudentID()
+																	   + ", '" + enrollment.getCourseID()
+																	   + ");";
+					statement.executeUpdate(sql);
+					enrollmentStatus = true;
+				}
+			} catch (SQLIntegrityConstraintViolationException e) {
+				enrollmentStatus = false;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		else //unenroll student
+		{
+			try {
+				statement = connection.createStatement();
+				String delete = "DELETE FROM EnrollmentTable WHERE student_id = '" + enrollment.getStudentID() +"'";
+				statement.executeUpdate(delete);
+				enrollmentStatus = true;
+			} catch (SQLIntegrityConstraintViolationException e) {
+				enrollmentStatus = false;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return enrollmentStatus;
+	}
 //	public static void main(String[] args) {
 //		DatabaseHelper dbh = new DatabaseHelper();
 //		// dbh.createDB();

@@ -51,22 +51,21 @@ public class Worker implements Runnable {
 		Object objectToSend = null;
 		if(classFromClient.equals("LoginInfo")) { // Client sent in login info
 			LoginInfo translatedLoginInfo = (LoginInfo) fromClient;
-			userLoggedIn = dbHelper.verifyUser(translatedLoginInfo.getUsername(), translatedLoginInfo.getPassword());
-			objectToSend = userLoggedIn;
+			objectToSend = dbHelper.verifyUser(translatedLoginInfo.getUsername(), translatedLoginInfo.getPassword());
 		}
 		else if(fromClient.equals("GetCourses"))  //Getting list of courses that the user is taking
 		{
-			ArrayList<Course> courses = dbHelper.getCourses(userLoggedIn);
-			objectToSend = courses;
+			objectToSend = dbHelper.getCourses(userLoggedIn);
 		}
 		else if (classFromClient.equals("Course"))  //Creating a course
 		{
 			Course courseFromClient = (Course) fromClient;
 			objectToSend = processCourseRequest(courseFromClient);
 		}
-		else if (classFromClient.equals("StudentEnrollment"))
+		else if (classFromClient.equals("StudentEnrollment")) //Enrolling or disenrolling a student
 		{
-			
+			StudentEnrollment enrollment = (StudentEnrollment)fromClient;
+			objectToSend = dbHelper.changeEnrollment(enrollment);
 		}
 		else if(classFromClient.equals("Assignment"))  
 		{
@@ -79,18 +78,17 @@ public class Worker implements Runnable {
 		Object toSend = null;
 		if(typeOfRequest.equalsIgnoreCase("CreateNewCourse"))
 		{
-			boolean approved = dbHelper.addCourse(courseFromClient.getId(), courseFromClient.getProfId(), courseFromClient.getName(), courseFromClient.getActive());
-			 toSend = approved;
+			toSend = dbHelper.addCourse(courseFromClient.getId(), courseFromClient.getProfId(), courseFromClient.getName(), courseFromClient.getActive());
 		}
-		else if (typeOfRequest.equals("ChangeActiveState"))
+		else if (typeOfRequest.equalsIgnoreCase("ChangeActiveState"))
 		{
 			dbHelper.changeStateOfCourse(courseFromClient);
 		}
 		else if(typeOfRequest.equalsIgnoreCase("GetEnrollmentList"))
 		{
-			//toSend = dbHelper.getEnrollmentList(courseFromClient);
+			toSend = dbHelper.getEnrollmentList(courseFromClient);
 		}
-		else if(typeOfRequest.equalsIgnoreCase("GetAssignment"))
+		else if(typeOfRequest.equalsIgnoreCase("GetAssignments"))
 		{
 			
 		}
