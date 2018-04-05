@@ -170,6 +170,7 @@ public class EnrollmentPage extends Page {
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Please select either ID or Last Name.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+					list.setVisible(true);
 				}
 			}
 		});
