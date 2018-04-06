@@ -48,32 +48,39 @@ public class FileHelper {
 //		//for writing to socket
 //	}
 	
-	
 	//Assignments will be stored in "absPath"/Assignment/"File name with extension"
 	public void writeFileContent(Assignment a, byte [] content)
 	{
-		String extension = "";
-
-		int i = fileName.lastIndexOf('.');
-		if (i > 0) {
-		    extension = fileName.substring(i+1);
+		try {
+			int j =0;
+			while(true)
+			{
+				String extension = "";
+				int i = a.getPath().lastIndexOf('.');
+				if (i > 0) {
+				    extension = a.getPath().substring(i);
+				}
+				extension = a.getTitle() +j+ extension;
+				Path filePath = Paths.get(absPath, "Assignments",extension );
+				a.setPath(filePath.toString());
+				File newFile = new File(filePath.toString());
+				if(! newFile.exists())
+				{
+					newFile.createNewFile();
+					FileOutputStream writer = new FileOutputStream(newFile);
+					BufferedOutputStream bos = new BufferedOutputStream(writer);
+					bos.write(content);
+					bos.close();
+					break;
+				}
+				j++;
+			}
 		}
-		
-		Path filePath = Paths.get(absPath, "Assignment", );
-		File newFile = new File(filePath);
-		try{
-			if(! newFile.exists())
-				newFile.createNewFile();
-				FileOutputStream writer = new FileOutputStream(newFile);
-				BufferedOutputStream bos = new BufferedOutputStream(writer);
-				bos.write(content);
-				bos.close();
-			} 
-		catch(IOException e){
+		catch(IOException e)
+		{
 			e.printStackTrace();
 		}
 		//writing to assignments 
-		//then call set path
 	}
 //	public void writeFileContent(Submission s, byte [] content)
 //	{

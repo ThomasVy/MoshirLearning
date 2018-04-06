@@ -85,7 +85,6 @@ public class Worker implements Runnable {
 		{
 			byte [] file = (byte [])readRequest();
 			fileHelper.writeFileContent(selectedAssignment, file);
-			selectedAssignment.setPath(path);
 			toSend = dbHelper.addAssignment(selectedAssignment);
 		}
 		else if(typeOfRequest.equalsIgnoreCase("DeleteAssignment"))
