@@ -4,26 +4,27 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import frontEnd.ProfessorGUI;
-import sharedElements.Course;
-import sharedElements.Student;
-
-import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
-import java.awt.Component;
+import frontEnd.ProfessorGUI;
+import sharedElements.Assignment;
+import sharedElements.Course;
+import sharedElements.Student;
+import javax.swing.JTextField;
 
 public class AssignmentPage extends Page {
 
@@ -33,6 +34,8 @@ public class AssignmentPage extends Page {
 	private DefaultListModel<String> model;
 	private JList<String> list;
 	private JScrollPane scrollPane;
+	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -132,10 +135,36 @@ public class AssignmentPage extends Page {
 		lblNewLabel.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
 		panel_4.add(lblNewLabel);
 		
+		JPanel panel_6 = new JPanel();
+		panel_3.add(panel_6);
+		
+		JLabel lblAssignmentTitle = new JLabel("Title");
+		lblAssignmentTitle.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_6.add(lblAssignmentTitle);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_6.add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblDueDate = new JLabel("Due Date");
+		lblDueDate.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_6.add(lblDueDate);
+		
+		textField_1 = new JTextField();
+		textField_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_6.add(textField_1);
+		textField_1.setColumns(10);
+		
 		JPanel panel_5 = new JPanel();
 		panel_3.add(panel_5);
 		
 		JButton btnNewButton = new JButton("Upload");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openFileBrowser();
+			}
+		});
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton.setBackground(new Color(135, 206, 235));
@@ -152,6 +181,21 @@ public class AssignmentPage extends Page {
 		btnNewButton_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_2.setBackground(Color.DARK_GRAY);
 		panel_5.add(btnNewButton_2);
+	}
+
+	public void openFileBrowser() {
+		JFileChooser fileBrowser = new JFileChooser();
+		if (fileBrowser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = fileBrowser.getSelectedFile();
+			String path = selectedFile.getAbsolutePath();
+			Random random = new Random();
+			int newId = 10000000 + random.nextInt(90000000);
+			if (textField.getText().length() == 0 || textField_1.getText().length() == 0) {
+				JOptionPane.showMessageDialog(null, "Please fill in all data fields.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+			} else {
+				Assignment assignment = new Assignment(newId, courseOfThisPage.getId(), textField.getText(),path, false, textField_1.getText());
+			}
+		}
 	}
 
 }

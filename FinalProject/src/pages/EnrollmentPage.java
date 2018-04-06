@@ -224,6 +224,7 @@ public class EnrollmentPage extends Page {
 		panel_11.add(lblNameOfStudent_1);
 		
 		textField_1 = new JTextField();
+		textField_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_11.add(textField_1);
 		textField_1.setColumns(10);
 		

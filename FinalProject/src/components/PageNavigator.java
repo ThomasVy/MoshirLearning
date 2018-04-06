@@ -32,6 +32,10 @@ public class PageNavigator extends JFrame {
 		return client.communicateWithServer(toSend, typeOfRequest);
 	}
 
+	public Object sendToClient(Object toSend, String typeOfRequest, Object file) {
+		return client.communicateWithServer(toSend, typeOfRequest, file);
+	}
+
 	public ArrayList<Page> getCoursePages() {
 		return coursePages;
 	}

@@ -10,13 +10,13 @@ import sharedElements.*;
 
 public class Worker implements Runnable {
 
-	Socket socketClient;
-	ObjectOutputStream out;
-	ObjectInputStream in;
-	DatabaseHelper dbHelper;
-	EmailHelper emailService;
-	FileHelper fileHelper;
-	User userLoggedIn;
+	private Socket socketClient;
+	private ObjectOutputStream out;
+	private ObjectInputStream in;
+	private DatabaseHelper dbHelper;
+	private EmailHelper emailService;
+	private FileHelper fileHelper;
+	private User userLoggedIn;
 
 	public Worker(Socket socketClient, DatabaseHelper dbHelper, EmailHelper emailService, FileHelper fileHelper) {
 		this.socketClient = socketClient;
@@ -53,9 +53,6 @@ public class Worker implements Runnable {
 			LoginInfo translatedLoginInfo = (LoginInfo) fromClient;
 			userLoggedIn = dbHelper.verifyUser(translatedLoginInfo.getUsername(), translatedLoginInfo.getPassword());
 			objectToSend = userLoggedIn;
-		} else if (fromClient.equals("GetCourses")) // Getting list of courses that the user is taking
-		{
-			objectToSend = dbHelper.getCourses(userLoggedIn);
 		} else if (classFromClient.equals("Course")) // Creating a course
 		{
 			Course courseFromClient = (Course) fromClient;
@@ -63,24 +60,44 @@ public class Worker implements Runnable {
 		} else if (classFromClient.equals("StudentEnrollment")) // Enrolling or disenrolling a student
 		{
 			StudentEnrollment enrollment = (StudentEnrollment) fromClient;
-			System.out.println(enrollment.getStudentID());
 			objectToSend = dbHelper.changeEnrollment(enrollment);
 		} else if (classFromClient.equals("Assignment")) {
+			Assignment assignment = (Assignment) fromClient;
+			objectToSend = processAssignmentRequest(assignment);
+		} else if (fromClient.equals("GetCourses")) // Getting list of courses that the user is taking
+		{
+			objectToSend = dbHelper.getCourses(userLoggedIn);
 		}
 		sendObject(objectToSend);
+	}
+
+	private Object processAssignmentRequest(Assignment selectedAssignment) throws ClassNotFoundException, IOException {
+		String typeOfRequest = (String) readRequest();
+		Object toSend = null;
+		if (typeOfRequest.equalsIgnoreCase("AddAssignment")) {
+			byte[] file = (byte[]) readRequest();
+			fileHelper.writeFileContent(selectedAssignment, file);
+			toSend = dbHelper.addAssignment(selectedAssignment);
+		} else if (typeOfRequest.equalsIgnoreCase("DeleteAssignment")) {
+			toSend = dbHelper.deleteAssignment(selectedAssignment);
+		} else if (typeOfRequest.equalsIgnoreCase("ChangeActiveState")) {
+			dbHelper.changeStateOfAssignment(selectedAssignment);
+		}
+		return toSend;
 	}
 
 	private Object processCourseRequest(Course courseFromClient) throws ClassNotFoundException, IOException {
 		String typeOfRequest = (String) readRequest(); // Waits for client to be more specific.
 		Object toSend = null;
 		if (typeOfRequest.equalsIgnoreCase("CreateNewCourse")) {
-			toSend = dbHelper.addCourse(courseFromClient.getId(), courseFromClient.getProfId(), courseFromClient.getName(), courseFromClient.getActive());
+			toSend = dbHelper.addCourse(courseFromClient.getId(), courseFromClient.getProfId(),
+					courseFromClient.getName(), courseFromClient.getActive());
 		} else if (typeOfRequest.equalsIgnoreCase("ChangeActiveState")) {
 			dbHelper.changeStateOfCourse(courseFromClient);
 		} else if (typeOfRequest.equalsIgnoreCase("GetEnrollmentList")) {
 			toSend = dbHelper.getEnrollmentList(courseFromClient);
-		} else if (typeOfRequest.equalsIgnoreCase("GetAssignments")) {
-
+		} else if (typeOfRequest.equalsIgnoreCase("GetAssignmentList")) {
+			toSend = dbHelper.getAssignmentList(courseFromClient);
 		} else if (typeOfRequest.equalsIgnoreCase("GetGrades")) {
 
 		}

@@ -68,6 +68,7 @@ public class CreateCoursePage extends Page {
 		createCoursePagePanel_2.add(lblNewLabel);
 		
 		textField_1 = new JTextField();
+		textField_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		createCoursePagePanel_2.add(textField_1);
 		textField_1.setColumns(10);
 		
@@ -79,8 +80,7 @@ public class CreateCoursePage extends Page {
 				if (textField_1.getText().length() != 0) {
 					Random random = new Random();
 					int newId = 10000000 + random.nextInt(90000000); // Need to fix id generator
-					Course newCourse = new Course(newId, professorGUI.getProfessor().getId(), textField_1.getText(),
-							false);
+					Course newCourse = new Course(newId, professorGUI.getProfessor().getId(), textField_1.getText(), false);
 					boolean approved = (boolean) professorGUI.sendToClient(newCourse, "CreateNewCourse");
 					if (approved == false) {
 						JOptionPane.showMessageDialog(null, "Invalid input for new course.", "Failed to Create New Course", JOptionPane.ERROR_MESSAGE);
