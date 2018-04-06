@@ -295,12 +295,12 @@ public class DatabaseHelper implements ConnectionConstants {
 		{
 			try {
 				statement = connection.createStatement();
-				String sql = "SELECT * FROM " + "EnrollmentTable" + " WHERE student_id = " + "'"
-						+ enrollment.getStudentID() + "' and course_id = " + "'" + enrollment.getCourseID() + "'";
+				String sql = "SELECT * FROM " + "EnrollmentTable" + " WHERE student_id = " +
+						+ enrollment.getStudentID() + " and course_id = " + enrollment.getCourseID();
 				resultSet = statement.executeQuery(sql);
 				if (!resultSet.next()) {
 					sql = "INSERT INTO " + "EnrollmentTable" + " VALUES (" + enrollment.getID() + ", "
-							+ enrollment.getStudentID() + ", '" + enrollment.getCourseID() + ");";
+							+ enrollment.getStudentID() + ", " + enrollment.getCourseID() + ");";
 					statement.executeUpdate(sql);
 					enrollmentStatus = true;
 				}
@@ -313,9 +313,15 @@ public class DatabaseHelper implements ConnectionConstants {
 		{
 			try {
 				statement = connection.createStatement();
-				String delete = "DELETE FROM EnrollmentTable WHERE student_id = '" + enrollment.getStudentID() + "'";
-				statement.executeUpdate(delete);
-				enrollmentStatus = true;
+				String sql = "SELECT * FROM " + "EnrollmentTable" + " WHERE student_id = " +
+						+ enrollment.getStudentID() + " and course_id = " + enrollment.getCourseID();
+				resultSet = statement.executeQuery(sql);
+				if (resultSet.next()) {
+					statement = connection.createStatement();
+					sql = "DELETE FROM EnrollmentTable WHERE student_id = " + enrollment.getStudentID();
+					statement.executeUpdate(sql);
+					enrollmentStatus = true;
+				}
 			} catch (SQLIntegrityConstraintViolationException e) {
 				enrollmentStatus = false;
 			} catch (SQLException e) {
@@ -324,6 +330,13 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 		return enrollmentStatus;
 	}
+
+	public boolean checkStudent(Course courseFromClient) {
+		
+		return false;
+	}
+
+	
 
 	// public static void main(String[] args) {
 	// DatabaseHelper dbh = new DatabaseHelper();

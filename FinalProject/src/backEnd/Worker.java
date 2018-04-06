@@ -63,6 +63,7 @@ public class Worker implements Runnable {
 		} else if (classFromClient.equals("StudentEnrollment")) // Enrolling or disenrolling a student
 		{
 			StudentEnrollment enrollment = (StudentEnrollment) fromClient;
+			System.out.println(enrollment.getStudentID());
 			objectToSend = dbHelper.changeEnrollment(enrollment);
 		} else if (classFromClient.equals("Assignment")) {
 		}
@@ -73,8 +74,7 @@ public class Worker implements Runnable {
 		String typeOfRequest = (String) readRequest(); // Waits for client to be more specific.
 		Object toSend = null;
 		if (typeOfRequest.equalsIgnoreCase("CreateNewCourse")) {
-			toSend = dbHelper.addCourse(courseFromClient.getId(), courseFromClient.getProfId(),
-					courseFromClient.getName(), courseFromClient.getActive());
+			toSend = dbHelper.addCourse(courseFromClient.getId(), courseFromClient.getProfId(), courseFromClient.getName(), courseFromClient.getActive());
 		} else if (typeOfRequest.equalsIgnoreCase("ChangeActiveState")) {
 			dbHelper.changeStateOfCourse(courseFromClient);
 		} else if (typeOfRequest.equalsIgnoreCase("GetEnrollmentList")) {

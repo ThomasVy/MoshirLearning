@@ -7,9 +7,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.Random;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -28,12 +26,18 @@ import javax.swing.event.ListSelectionListener;
 import frontEnd.ProfessorGUI;
 import sharedElements.Course;
 import sharedElements.Student;
+import sharedElements.StudentEnrollment;
 
 public class EnrollmentPage extends Page {
 
 	private static final long serialVersionUID = 1L; // The serial version UID
 	private Course courseOfThisPage;
 	private JTextField textField;
+	private JTextField textField_1;
+	private ArrayList<Student> studentEnrollment;
+	private DefaultListModel<String> model;
+	private JList<String> list;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Launch the application.
@@ -100,14 +104,13 @@ public class EnrollmentPage extends Page {
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);
 
-		ArrayList<Student> studentEnrollment = (ArrayList<Student>) professorGUI.sendToClient(courseOfThisPage,
-				"GetEnrollmentList");
-		DefaultListModel<String> model = new DefaultListModel<String>();
+		studentEnrollment = (ArrayList<Student>) professorGUI.sendToClient(courseOfThisPage, "GetEnrollmentList");
+		model = new DefaultListModel<String>();
 		for (int i = 0; i < studentEnrollment.size(); i++) {
 			model.addElement(studentEnrollment.get(i).toString());
 		}
-		JList<String> list = new JList<String>(model);
-		JScrollPane scrollPane = new JScrollPane(list);
+		list = new JList<String>(model);
+		scrollPane = new JScrollPane(list);
 		list.setFixedCellWidth(500);
 		list.setFixedCellHeight(25);
 		list.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
@@ -119,7 +122,8 @@ public class EnrollmentPage extends Page {
 						return;
 					} else {
 						String student = model.elementAt(list.getSelectedIndex());
-						System.out.println(student);
+						String[] temp = student.split(" ");
+						textField_1.setText(temp[0]);
 					}
 
 				}
@@ -133,6 +137,13 @@ public class EnrollmentPage extends Page {
 		JPanel panel_4 = new JPanel();
 		panel_3.add(panel_4);
 		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.Y_AXIS));
+		
+		JPanel panel_12 = new JPanel();
+		panel_4.add(panel_12);
+		
+		JLabel lblSearchForStudents = new JLabel("Search for Student:");
+		lblSearchForStudents.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
+		panel_12.add(lblSearchForStudents);
 
 		JPanel panel_7 = new JPanel();
 		panel_4.add(panel_7);
@@ -170,7 +181,6 @@ public class EnrollmentPage extends Page {
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Please select either ID or Last Name.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-					list.setVisible(true);
 				}
 			}
 		});
@@ -193,18 +203,82 @@ public class EnrollmentPage extends Page {
 
 		JPanel panel_5 = new JPanel();
 		panel_3.add(panel_5);
-
-		JButton btnEnroll = new JButton("Enroll");
-		btnEnroll.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnEnroll.setForeground(Color.WHITE);
-		btnEnroll.setBackground(new Color(135, 206, 235));
-		panel_5.add(btnEnroll);
-
-		JButton btnUnenroll = new JButton("Unenroll");
-		btnUnenroll.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnUnenroll.setBackground(new Color(135, 206, 235));
-		btnUnenroll.setForeground(Color.WHITE);
-		panel_5.add(btnUnenroll);
+		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.Y_AXIS));
+		
+		JPanel panel_8 = new JPanel();
+		panel_5.add(panel_8);
+		panel_8.setLayout(new BoxLayout(panel_8, BoxLayout.Y_AXIS));
+		
+		JPanel panel_10 = new JPanel();
+		panel_8.add(panel_10);
+		
+		JLabel lblAddNewStudent = new JLabel("Add New Student:");
+		lblAddNewStudent.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
+		panel_10.add(lblAddNewStudent);
+		
+		JPanel panel_11 = new JPanel();
+		panel_8.add(panel_11);
+		
+		JLabel lblNameOfStudent_1 = new JLabel("Student's ID");
+		lblNameOfStudent_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_11.add(lblNameOfStudent_1);
+		
+		textField_1 = new JTextField();
+		panel_11.add(textField_1);
+		textField_1.setColumns(10);
+		
+		JPanel panel_9 = new JPanel();
+		panel_5.add(panel_9);
+		
+		JButton btnNewButton = new JButton("Enroll");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (textField_1.getText().length() != 0) {
+					Random random = new Random();
+					int newId = 10000000 + random.nextInt(90000000); // Need to fix id generator
+					StudentEnrollment enrollStudent = new StudentEnrollment(newId, Integer.parseInt(textField_1.getText()), courseOfThisPage.getId(), true);
+					boolean enrolled = (boolean) professorGUI.sendToClient(enrollStudent);
+					if (enrolled == true) {
+						studentEnrollment = (ArrayList<Student>) professorGUI.sendToClient(courseOfThisPage, "GetEnrollmentList");
+						model.clear();
+						for (int i = 0; i < studentEnrollment.size(); i++) {
+							model.addElement(studentEnrollment.get(i).toString());
+						}
+						JOptionPane.showMessageDialog(null, "Enrollment successful.", "Valid Input", JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "Student does not exist or ID already taken.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setBackground(new Color(135, 206, 235));
+		btnNewButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_9.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Unenroll");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (textField_1.getText().length() != 0) {
+					StudentEnrollment unenrollStudent = new StudentEnrollment(-1, Integer.parseInt(textField_1.getText()), courseOfThisPage.getId(), false);
+					boolean unEnrolled = (boolean) professorGUI.sendToClient(unenrollStudent);
+					if (unEnrolled = true) {
+						studentEnrollment = (ArrayList<Student>) professorGUI.sendToClient(courseOfThisPage, "GetEnrollmentList");
+						model.clear();
+						for (int i = 0; i < studentEnrollment.size(); i++) {
+							model.addElement(studentEnrollment.get(i).toString());
+						}
+						JOptionPane.showMessageDialog(null, "Unenrollment successful.", "Valid Input", JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "Student does not exist.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+		btnNewButton_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		btnNewButton_1.setForeground(Color.WHITE);
+		btnNewButton_1.setBackground(new Color(135, 206, 235));
+		panel_9.add(btnNewButton_1);
 	}
 
 }

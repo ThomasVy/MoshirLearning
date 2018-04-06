@@ -71,7 +71,7 @@ public class ProfessorGUI extends PageNavigator {
 		
 		// Assignment Pages
 		for (int i = 0; i < courses.size(); i++) {
-			assignmentPages.add(new AssignmentPage(this, courses, courses.get(i).getName()));
+			assignmentPages.add(new AssignmentPage(this, courses, courses.get(i)));
 		}
 		
 		// Grade Pages
