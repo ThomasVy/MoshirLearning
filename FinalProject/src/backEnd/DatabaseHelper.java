@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import sharedElements.Assignment;
@@ -236,7 +237,8 @@ public class DatabaseHelper implements ConnectionConstants {
 				result = true;
 			}
 		} catch (SQLIntegrityConstraintViolationException e) {
-			result = false;
+			int idnew = generateID();
+			result = addCourse(idnew, prof_id, name, active);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -306,7 +308,8 @@ public class DatabaseHelper implements ConnectionConstants {
 					enrollmentStatus = true;
 				}
 			} catch (SQLIntegrityConstraintViolationException e) {
-				enrollmentStatus = false;
+				enrollment.setID(generateID());
+				enrollmentStatus = changeEnrollment(enrollment);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -323,8 +326,6 @@ public class DatabaseHelper implements ConnectionConstants {
 					statement.executeUpdate(sql);
 					enrollmentStatus = true;
 				}
-			} catch (SQLIntegrityConstraintViolationException e) {
-				enrollmentStatus = false;
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -389,13 +390,19 @@ public class DatabaseHelper implements ConnectionConstants {
 				result = true;
 			}
 		} catch (SQLIntegrityConstraintViolationException e) {
-			result = false;
+			currentAssignment.setID(generateID());
+			result = addAssignment(currentAssignment);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			return false;
 		}
 		return result;
 	}
-
+	private int generateID ()
+	{
+		Random random = new Random();
+		int newId = 10000000 + random.nextInt(90000000);
+		return newId;
+	}
 	public boolean deleteAssignment(Assignment currentAssignment) {
 		boolean result = false;
 		try {
@@ -404,8 +411,6 @@ public class DatabaseHelper implements ConnectionConstants {
 					+ " and id = " + currentAssignment.getID();
 			statement.executeUpdate(delete);
 			result = true;
-		} catch (SQLIntegrityConstraintViolationException e) {
-			result = false;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

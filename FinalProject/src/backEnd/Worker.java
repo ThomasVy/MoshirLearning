@@ -49,22 +49,27 @@ public class Worker implements Runnable {
 	private void processRequest(Object fromClient) throws ClassNotFoundException, IOException {
 		String classFromClient = fromClient.getClass().getSimpleName();
 		Object objectToSend = null;
-		if (classFromClient.equals("LoginInfo")) { // Client sent in login info
+		if (classFromClient.equals("LoginInfo")) 
+		{ // Client sent in login info
 			LoginInfo translatedLoginInfo = (LoginInfo) fromClient;
 			userLoggedIn = dbHelper.verifyUser(translatedLoginInfo.getUsername(), translatedLoginInfo.getPassword());
 			objectToSend = userLoggedIn;
-		} else if (classFromClient.equals("Course")) // Creating a course
+		} 
+		else if (classFromClient.equals("Course")) // Creating a course
 		{
 			Course courseFromClient = (Course) fromClient;
 			objectToSend = processCourseRequest(courseFromClient);
-		} else if (classFromClient.equals("StudentEnrollment")) // Enrolling or disenrolling a student
+		} 
+		else if (classFromClient.equals("StudentEnrollment")) // Enrolling or disenrolling a student
 		{
 			StudentEnrollment enrollment = (StudentEnrollment) fromClient;
 			objectToSend = dbHelper.changeEnrollment(enrollment);
-		} else if (classFromClient.equals("Assignment")) {
+		} 
+		else if (classFromClient.equals("Assignment")) {
 			Assignment assignment = (Assignment) fromClient;
 			objectToSend = processAssignmentRequest(assignment);
-		} else if (fromClient.equals("GetCourses")) // Getting list of courses that the user is taking
+		}
+		else if (fromClient.equals("GetCourses")) // Getting list of courses that the user is taking
 		{
 			objectToSend = dbHelper.getCourses(userLoggedIn);
 		}

@@ -32,7 +32,16 @@ public class Assignment implements Serializable {
 	public int getCourseID() {
 		return course_id;
 	}
-
+	public void setID (int id) {
+		this.id =id;
+	}
+	public void setActiveToOpposite ()
+	{
+		if(active == false)
+			active =true;
+		else
+			active =false;
+	}
 	public boolean getActive() {
 		return active;
 	}
@@ -47,6 +56,14 @@ public class Assignment implements Serializable {
 
 	public String getDueDate() {
 		return due_date;
+	}
+	@Override
+	public String toString ()
+	{
+		String state = "Active";
+		if(active == false)
+			state ="Inactive";
+		return id + "   " + title + "   " + due_date + "   " + state;
 	}
 
 }

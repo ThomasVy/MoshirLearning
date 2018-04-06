@@ -17,6 +17,10 @@ public class StudentEnrollment implements Serializable {
 		this.course_id = course_id;
 		this.enrolling = enrolling;
 	}
+	public void setID (int id)
+	{
+		this.id =id;
+	}
 	public int getID ()
 	{
 		return id;

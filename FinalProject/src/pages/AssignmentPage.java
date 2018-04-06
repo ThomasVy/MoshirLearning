@@ -6,37 +6,23 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 
 import frontEnd.ProfessorGUI;
-import sharedElements.Assignment;
-import sharedElements.Course;
-import sharedElements.Student;
+import sharedElements.*;
 import javax.swing.JTextField;
 
 public class AssignmentPage extends Page {
 
 	private static final long serialVersionUID = 1L; // The serial version UID
 	private Course courseOfThisPage;
-	private ArrayList<Student> studentEnrollment;
-	private DefaultListModel<String> model;
-	private JList<String> list;
+	private ArrayList<Assignment> assignmentList;
+	private DefaultListModel<Assignment> model;
+	private JList<Assignment> list;
 	private JScrollPane scrollPane;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -44,18 +30,18 @@ public class AssignmentPage extends Page {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AssignmentPage frame = new AssignmentPage(null, null, null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					AssignmentPage frame = new AssignmentPage(null, null, null);
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	public AssignmentPage(ProfessorGUI professorGUI, ArrayList<Course> courses, Course courseOfThisPage) {
 		super(professorGUI, courses);
@@ -103,30 +89,16 @@ public class AssignmentPage extends Page {
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);
 		
-		studentEnrollment = (ArrayList<Student>) professorGUI.sendToClient(courseOfThisPage, "GetEnrollmentList");
-		model = new DefaultListModel<String>();
-		for (int i = 0; i < studentEnrollment.size(); i++) {
-			model.addElement(studentEnrollment.get(i).toString());
-		}
-		list = new JList<String>(model);
+		
+		model = new DefaultListModel<Assignment>();
+		refreshList();
+		
+		list = new JList<Assignment>(model);
 		scrollPane = new JScrollPane(list);
 		list.setFixedCellWidth(500);
 		list.setFixedCellHeight(25);
 		list.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-//		list.addListSelectionListener(new ListSelectionListener() {
-//			@Override
-//			public void valueChanged(ListSelectionEvent e) {
-//				if (!e.getValueIsAdjusting()) {
-//					if (list.getSelectedIndex() == -1) {
-//						return;
-//					} else {
-//						String student = model.elementAt(list.getSelectedIndex());
-//						
-//					}
-//
-//				}
-//			}
-//		});
+		
 		panel_2.add(scrollPane);
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3);
@@ -167,6 +139,7 @@ public class AssignmentPage extends Page {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openFileBrowser();
+				refreshList();
 			}
 		});
 		btnNewButton.setForeground(Color.WHITE);
@@ -179,12 +152,37 @@ public class AssignmentPage extends Page {
 		btnNewButton_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_1.setBackground(new Color(135, 206, 235));
 		panel_5.add(btnNewButton_1);
+		btnNewButton_1.addActionListener(new ActionListener () {
+			public void actionPerformed(ActionEvent e)
+			{
+				Assignment currentSelected =list.getSelectedValue();
+				if(currentSelected != null) {
+					professorGUI.sendToClient(currentSelected, "DeleteAssignment");
+					refreshList();
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Please click on an assignment to delete.", "Failed to Delete", JOptionPane.ERROR_MESSAGE);
+			}
+		});
 		
-		JButton btnNewButton_2 = new JButton("Inactive");
+		JButton btnNewButton_2 = new JButton("Change Active State");
 		btnNewButton_2.setForeground(Color.WHITE);
 		btnNewButton_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_2.setBackground(Color.DARK_GRAY);
 		panel_5.add(btnNewButton_2);
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				Assignment currentSelected =list.getSelectedValue();
+				if(currentSelected !=null) {
+					currentSelected.setActiveToOpposite();
+					professorGUI.sendToClient(currentSelected, "ChangeActiveState");
+					refreshList();
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Please click on an assignment to change state.", "Failed to change state", JOptionPane.ERROR_MESSAGE);
+			}
+		});
 	}
 
 	public void openFileBrowser() {
@@ -218,5 +216,12 @@ public class AssignmentPage extends Page {
 		}
 		return content;
 	}
-
+	private void refreshList ()
+	{
+		model.clear();
+		assignmentList = (ArrayList<Assignment>) professorGUI.sendToClient(courseOfThisPage, "GetAssignmentList");
+		for (int i = 0; i < assignmentList.size(); i++) {
+			model.addElement(assignmentList.get(i));
+		}
+	}
 }
