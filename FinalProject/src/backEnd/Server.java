@@ -19,8 +19,7 @@ public class Server {
 		try {
 			threadpool = Executors.newCachedThreadPool();
 			server = new ServerSocket(portNumber);
-			fileManager = new FileHelper();
-			fileManager.setPath(System.getProperty("user.dir"));
+			fileManager = new FileHelper(System.getProperty("user.dir"));
 			emailService = new EmailHelper();
 			dataBaseHelper = new DatabaseHelper();
 		} catch (IOException e) {

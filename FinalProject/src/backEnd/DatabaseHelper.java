@@ -331,7 +331,7 @@ public class DatabaseHelper implements ConnectionConstants {
 				if (!resultSet.next()) {
 					sql = "INSERT INTO " + "EnrollmentTable" + " VALUES (" + enrollment.getID()
 																	   + ", " + enrollment.getStudentID()
-																	   + ", '" + enrollment.getCourseID()
+																	   + ", " + enrollment.getCourseID()
 																	   + ");";
 					statement.executeUpdate(sql);
 					enrollmentStatus = true;
@@ -346,7 +346,7 @@ public class DatabaseHelper implements ConnectionConstants {
 		{
 			try {
 				statement = connection.createStatement();
-				String delete = "DELETE FROM EnrollmentTable WHERE student_id = '" + enrollment.getStudentID() +"'";
+				String delete = "DELETE FROM EnrollmentTable WHERE student_id = " + enrollment.getStudentID() +"";
 				statement.executeUpdate(delete);
 				enrollmentStatus = true;
 			} catch (SQLIntegrityConstraintViolationException e) {
@@ -356,6 +356,95 @@ public class DatabaseHelper implements ConnectionConstants {
 			}
 		}
 		return enrollmentStatus;
+	}
+	public ArrayList<Assignment> getAssignmentList (Course selectedCourse)
+	{
+		ArrayList<Assignment> assignments = new ArrayList<Assignment>();
+		try {
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM AssignmentTable WHERE course_id = " + selectedCourse.getId();
+			resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				Assignment fetchedAssignment = new Assignment(resultSet.getInt("id"),
+															  resultSet.getInt("course_id"),
+															  resultSet.getString("title"),
+															  resultSet.getString("path"),
+															  resultSet.getInt("active")==1,
+															  resultSet.getString("due_date"));
+				
+				assignments.add(fetchedAssignment);
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return assignments;
+	}
+	public void changeStateOfAssignment (Assignment currentAssignment)
+	{
+		try {
+			statement = connection.createStatement();
+			boolean active = currentAssignment.getActive();
+			String bit = "";
+			if (active == true) {
+				bit = "b'1'";
+			} else {
+				bit = "b'0'";
+			}
+			String sql = "UPDATE AssignmentTable SET active = "+ bit + " WHERE id = "+ currentAssignment.getID();
+			statement.executeUpdate(sql);
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	public boolean addAssignment (Assignment currentAssignment)
+	{
+		boolean result= false;
+		try {
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM " + "AssignmentTable" + " WHERE course_id = " + currentAssignment.getCourseID() + "and title = " + currentAssignment.getTitle();
+			resultSet = statement.executeQuery(sql);
+			if (!resultSet.next()) {
+				String bit = "";
+				if (currentAssignment.getActive() == true) {
+					bit = "b'1'";
+				} else {
+					bit = "b'0'";
+				}
+				sql = "INSERT INTO " + "AssignmentTable" + " VALUES (" + currentAssignment.getID()
+																   + ", " + currentAssignment.getCourseID()
+																   + ", '" + currentAssignment.getTitle()
+																   + "', '" + currentAssignment.getPath()
+																   + "', " + bit
+																   +", '" + currentAssignment.getDueDate()
+																   +"');";
+				statement.executeUpdate(sql);
+				result = true;
+			}
+		} catch (SQLIntegrityConstraintViolationException e) {
+			result = false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public boolean deleteAssignment (Assignment currentAssignment)
+	{
+		boolean result = false;
+		try {
+			statement = connection.createStatement();
+			String delete = "DELETE FROM AssignmentTable WHERE course_id = " + currentAssignment.getCourseID() + " and id = " + currentAssignment.getID() ;
+			statement.executeUpdate(delete);
+			result = true;
+		} catch (SQLIntegrityConstraintViolationException e) {
+			result = false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 //	public static void main(String[] args) {
 //		DatabaseHelper dbh = new DatabaseHelper();

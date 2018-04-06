@@ -66,6 +66,8 @@ public class Worker implements Runnable {
 		}
 		else if(classFromClient.equals("Assignment"))  
 		{
+			Assignment assignment = (Assignment)fromClient;
+			objectToSend = processAssignmentRequest(assignment);
 		}
 		else if(fromClient.equals("GetCourses"))  //Getting list of courses that the user is taking
 		{
@@ -73,6 +75,31 @@ public class Worker implements Runnable {
 		}
 		sendObject(objectToSend);
 	}
+	
+	
+	private Object processAssignmentRequest(Assignment selectedAssignment) throws ClassNotFoundException, IOException
+	{
+		String typeOfRequest = (String)readRequest();
+		Object toSend = null;
+		if(typeOfRequest.equalsIgnoreCase("AddAssignment"))
+		{
+			byte [] file = (byte [])readRequest();
+			fileHelper.writeFileContent(selectedAssignment, file);
+			selectedAssignment.setPath(path);
+			toSend = dbHelper.addAssignment(selectedAssignment);
+		}
+		else if(typeOfRequest.equalsIgnoreCase("DeleteAssignment"))
+		{
+			toSend = dbHelper.deleteAssignment(selectedAssignment); 
+		}
+		else if(typeOfRequest.equalsIgnoreCase("ChangeActiveState"))
+		{
+			dbHelper.changeStateOfAssignment(selectedAssignment);
+		}
+		return toSend;
+	}
+	
+	
 	private Object processCourseRequest (Course courseFromClient) throws ClassNotFoundException, IOException
 	{
 		String typeOfRequest = (String)readRequest(); //Waits for client to be more specific.
@@ -89,9 +116,9 @@ public class Worker implements Runnable {
 		{
 			toSend = dbHelper.getEnrollmentList(courseFromClient);
 		}
-		else if(typeOfRequest.equalsIgnoreCase("GetAssignments"))
+		else if(typeOfRequest.equalsIgnoreCase("GetAssignmentList"))
 		{
-			
+			toSend = dbHelper.getAssignmentList(courseFromClient);
 		}
 		else if (typeOfRequest.equalsIgnoreCase("GetGrades"))
 		{
