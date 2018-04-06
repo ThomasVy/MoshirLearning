@@ -57,6 +57,7 @@ public class FileHelper {
 				}
 				extension = a.getTitle() + j + extension;
 				Path filePath = Paths.get(absPath, "Assignments", extension);
+				System.out.println(filePath.toString());
 				a.setPath(filePath.toString());
 				File newFile = new File(filePath.toString());
 				if (!newFile.exists()) {
