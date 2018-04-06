@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 /**
  * Provides the fields and methods required to create a Course object.
- * @author R. Lim
+ * 
+ * @author Rainer Lim & Thomas Vy
  * @version 1.0
  * @since April 3, 2018
  *
@@ -19,10 +20,15 @@ public class Course implements Serializable {
 
 	/**
 	 * Constructs a Course object.
-	 * @param id - the course id
-	 * @param profId - the course prof's id
-	 * @param name - the course name
-	 * @param active - the course activity
+	 * 
+	 * @param id
+	 *            - the course id
+	 * @param profId
+	 *            - the course prof's id
+	 * @param name
+	 *            - the course name
+	 * @param active
+	 *            - the course activity
 	 */
 	public Course(int id, int profId, String name, boolean active) {
 		this.id = id;

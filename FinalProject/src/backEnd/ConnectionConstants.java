@@ -2,7 +2,8 @@ package backEnd;
 
 /**
  * Provides the constant variables required for creating a connection with MySQL.
- * @author T. Vy
+ * 
+ * @author Rainer Lim & Thomas Vy
  * @version 1.0
  * @since April 3, 2018
  *

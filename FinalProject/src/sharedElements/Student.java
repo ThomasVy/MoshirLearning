@@ -2,7 +2,7 @@ package sharedElements;
 
 /**
  * Provides the fields and methods required to create a Student object.
- * @author R. Lim
+ * @author Rainer Lim & Thomas Vy
  * @version 1.0
  * @since April 3, 2018
  *

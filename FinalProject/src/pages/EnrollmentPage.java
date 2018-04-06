@@ -28,6 +28,11 @@ import sharedElements.Course;
 import sharedElements.Student;
 import sharedElements.StudentEnrollment;
 
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public class EnrollmentPage extends Page {
 
 	private static final long serialVersionUID = 1L; // The serial version UID
@@ -137,10 +142,10 @@ public class EnrollmentPage extends Page {
 		JPanel panel_4 = new JPanel();
 		panel_3.add(panel_4);
 		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.Y_AXIS));
-		
+
 		JPanel panel_12 = new JPanel();
 		panel_4.add(panel_12);
-		
+
 		JLabel lblSearchForStudents = new JLabel("Search for Student:");
 		lblSearchForStudents.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
 		panel_12.add(lblSearchForStudents);
@@ -175,12 +180,14 @@ public class EnrollmentPage extends Page {
 					}
 				} else if (rdbtnLastName.isSelected()) {
 					for (int i = 0; i < studentEnrollment.size(); i++) {
-						if (studentEnrollment.get(i).getLastName().toLowerCase().contains(textField.getText().toLowerCase())) {
+						if (studentEnrollment.get(i).getLastName().toLowerCase()
+								.contains(textField.getText().toLowerCase())) {
 							model.addElement(studentEnrollment.get(i).toString());
 						}
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Please select either ID or Last Name.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Please select either ID or Last Name.", "Invalid Input",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -204,50 +211,54 @@ public class EnrollmentPage extends Page {
 		JPanel panel_5 = new JPanel();
 		panel_3.add(panel_5);
 		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.Y_AXIS));
-		
+
 		JPanel panel_8 = new JPanel();
 		panel_5.add(panel_8);
 		panel_8.setLayout(new BoxLayout(panel_8, BoxLayout.Y_AXIS));
-		
+
 		JPanel panel_10 = new JPanel();
 		panel_8.add(panel_10);
-		
+
 		JLabel lblAddNewStudent = new JLabel("Add New Student:");
 		lblAddNewStudent.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
 		panel_10.add(lblAddNewStudent);
-		
+
 		JPanel panel_11 = new JPanel();
 		panel_8.add(panel_11);
-		
+
 		JLabel lblNameOfStudent_1 = new JLabel("Student's ID");
 		lblNameOfStudent_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_11.add(lblNameOfStudent_1);
-		
+
 		textField_1 = new JTextField();
 		textField_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_11.add(textField_1);
 		textField_1.setColumns(10);
-		
+
 		JPanel panel_9 = new JPanel();
 		panel_5.add(panel_9);
-		
+
 		JButton btnNewButton = new JButton("Enroll");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (textField_1.getText().length() != 0) {
 					Random random = new Random();
 					int newId = 10000000 + random.nextInt(90000000); // Need to fix id generator
-					StudentEnrollment enrollStudent = new StudentEnrollment(newId, Integer.parseInt(textField_1.getText()), courseOfThisPage.getId(), true);
+					StudentEnrollment enrollStudent = new StudentEnrollment(newId,
+							Integer.parseInt(textField_1.getText()), courseOfThisPage.getId(), true);
 					boolean enrolled = (boolean) professorGUI.sendToClient(enrollStudent);
 					if (enrolled == true) {
-						studentEnrollment = (ArrayList<Student>) professorGUI.sendToClient(courseOfThisPage, "GetEnrollmentList");
+						studentEnrollment = (ArrayList<Student>) professorGUI.sendToClient(courseOfThisPage,
+								"GetEnrollmentList");
 						model.clear();
 						for (int i = 0; i < studentEnrollment.size(); i++) {
 							model.addElement(studentEnrollment.get(i).toString());
 						}
-						JOptionPane.showMessageDialog(null, "Enrollment successful.", "Valid Input", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Enrollment successful.", "Valid Input",
+								JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						JOptionPane.showMessageDialog(null, "Student does not exist or ID already taken.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Student does not exist or ID already taken.",
+								"Invalid Input", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -256,22 +267,26 @@ public class EnrollmentPage extends Page {
 		btnNewButton.setBackground(new Color(135, 206, 235));
 		btnNewButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_9.add(btnNewButton);
-		
+
 		JButton btnNewButton_1 = new JButton("Unenroll");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (textField_1.getText().length() != 0) {
-					StudentEnrollment unenrollStudent = new StudentEnrollment(-1, Integer.parseInt(textField_1.getText()), courseOfThisPage.getId(), false);
+					StudentEnrollment unenrollStudent = new StudentEnrollment(-1,
+							Integer.parseInt(textField_1.getText()), courseOfThisPage.getId(), false);
 					boolean unEnrolled = (boolean) professorGUI.sendToClient(unenrollStudent);
 					if (unEnrolled = true) {
-						studentEnrollment = (ArrayList<Student>) professorGUI.sendToClient(courseOfThisPage, "GetEnrollmentList");
+						studentEnrollment = (ArrayList<Student>) professorGUI.sendToClient(courseOfThisPage,
+								"GetEnrollmentList");
 						model.clear();
 						for (int i = 0; i < studentEnrollment.size(); i++) {
 							model.addElement(studentEnrollment.get(i).toString());
 						}
-						JOptionPane.showMessageDialog(null, "Unenrollment successful.", "Valid Input", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Unenrollment successful.", "Valid Input",
+								JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						JOptionPane.showMessageDialog(null, "Student does not exist.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Student does not exist.", "Invalid Input",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}

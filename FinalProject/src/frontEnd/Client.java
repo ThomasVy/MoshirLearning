@@ -7,8 +7,11 @@ import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
-import sharedElements.*;
-
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public class Client {
 	Socket socket;
 	ObjectOutputStream out;
@@ -20,7 +23,8 @@ public class Client {
 			out = new ObjectOutputStream(socket.getOutputStream());
 			in = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Could not connect to server.", "Server Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Could not connect to server.", "Server Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -29,16 +33,14 @@ public class Client {
 		try {
 			out.writeObject(toSend);
 			readFromServer = in.readObject();
-		}
-		catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
-		} 
-		catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		return readFromServer;
 	}
-	
+
 	public Object communicateWithServer(Object toSend, String typeOfRequest) {
 		Object readFromServer = -1;
 		try {
@@ -48,11 +50,9 @@ public class Client {
 			out.writeObject(typeOfRequest);
 			out.flush();
 			readFromServer = in.readObject();
-		}
-		catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
-		} 
-		catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		return readFromServer;
@@ -69,18 +69,15 @@ public class Client {
 			out.writeObject(file);
 			out.flush();
 			readFromServer = in.readObject();
-		}
-		catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
-		} 
-		catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		return readFromServer;
 	}
 
-	public static void main(String [] args)
-	{
+	public static void main(String[] args) {
 		Client client = new Client("localhost", 9890);
 		LoginWindow login = new LoginWindow("Login Window");
 		LoginWindowController loginWindowController = new LoginWindowController(login, client);

@@ -16,6 +16,11 @@ import javax.swing.JPanel;
 import frontEnd.ProfessorGUI;
 import sharedElements.Course;
 
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public class CoursePage extends Page {
 
 	private static final long serialVersionUID = 1L; // The serial version UID

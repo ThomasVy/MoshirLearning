@@ -6,16 +6,21 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public class LoginWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L; // The serial version UID
 	private JButton submitButton;
 	private JButton clearButton;
 	private JButton exitButton;
-	
+
 	private JTextField usernameText;
 	private JPasswordField passwordText;
-	
+
 	public LoginWindow(String s) {
 		super(s);
 		JLabel loginLabel = new JLabel("Welcome to MoshirLearning", JLabel.CENTER);
@@ -46,7 +51,7 @@ public class LoginWindow extends JFrame {
 		buttonPanel.add(submitButton);
 		buttonPanel.add(clearButton);
 		buttonPanel.add(exitButton);
-		buttonPanel.setBorder(new EmptyBorder(0,10,20,0));
+		buttonPanel.setBorder(new EmptyBorder(0, 10, 20, 0));
 		return buttonPanel;
 	}
 
@@ -68,7 +73,7 @@ public class LoginWindow extends JFrame {
 		return passwordPanel;
 	}
 
-	public void clearTextFields () {
+	public void clearTextFields() {
 		usernameText.setText("");
 		passwordText.setText("");
 	}
@@ -93,9 +98,9 @@ public class LoginWindow extends JFrame {
 		return new String(passwordText.getPassword());
 	}
 
-//	public static void main(String [] args) {
-//		LoginWindow l = new LoginWindow("Login Window");
-//		LoginWindowController c = new LoginWindowController(l);
-//	}
+	// public static void main(String [] args) {
+	// LoginWindow l = new LoginWindow("Login Window");
+	// LoginWindowController c = new LoginWindowController(l);
+	// }
 
 }

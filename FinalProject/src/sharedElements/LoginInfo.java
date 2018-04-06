@@ -2,6 +2,11 @@ package sharedElements;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public class LoginInfo implements Serializable {
 
 	private static final long serialVersionUID = 5803285845307421959L;

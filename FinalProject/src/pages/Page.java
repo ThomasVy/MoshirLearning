@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -25,6 +24,11 @@ import javax.swing.border.EmptyBorder;
 import frontEnd.ProfessorGUI;
 import sharedElements.Course;
 
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public abstract class Page extends JFrame {
 
 	private static final long serialVersionUID = 1L; // The serial version UID
@@ -39,24 +43,24 @@ public abstract class Page extends JFrame {
 	protected JPanel panel_5;
 	protected JScrollPane scrollPane;
 	protected boolean isProfessor;
-	protected String [] dropCourses;
+	protected String[] dropCourses;
 	protected JPanel panel_6;
 	protected JPanel panel_7;
 	protected JButton btnNewButton;
 	protected JComboBox<String> comboBox;
 	protected JButton btnNewButton_1;
-	
+
 	protected JButton btnNewButton_2;
 	protected JButton btnNewButton_3;
 	protected JButton btnNewButton_4;
 	protected JButton btnNewButton_5;
 	protected JButton btnNewButton_6;
 	protected JLabel lbl;
-	
+
 	protected JPanel panel_8;
 	protected JPanel panel_10;
 
-	public Page (ProfessorGUI professorGUI,  ArrayList<Course> courses) {
+	public Page(ProfessorGUI professorGUI, ArrayList<Course> courses) {
 		this.professorGUI = professorGUI;
 		this.courses = courses;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -110,17 +114,17 @@ public abstract class Page extends JFrame {
 		btnNewButton_1.setBackground(Color.DARK_GRAY);
 		panel_7.add(btnNewButton_1);
 
-//		scrollPane = new JScrollPane();
-//		contentPane.add(scrollPane, BorderLayout.CENTER);
-//		JPanel panel_9 = new JPanel();
-//		scrollPane.setViewportView(panel_9);
-//		panel_9.setLayout(new BoxLayout(panel_9, BoxLayout.Y_AXIS));
-//		
-//		panel_8 = new JPanel();
-//		panel_9.add(panel_8);
-//		
-//		panel_10 = new JPanel();
-//		panel_9.add(panel_10);
+		// scrollPane = new JScrollPane();
+		// contentPane.add(scrollPane, BorderLayout.CENTER);
+		// JPanel panel_9 = new JPanel();
+		// scrollPane.setViewportView(panel_9);
+		// panel_9.setLayout(new BoxLayout(panel_9, BoxLayout.Y_AXIS));
+		//
+		// panel_8 = new JPanel();
+		// panel_9.add(panel_8);
+		//
+		// panel_10 = new JPanel();
+		// panel_9.add(panel_10);
 
 		panel_2 = new JPanel();
 		panel.add(panel_2);
@@ -149,7 +153,8 @@ public abstract class Page extends JFrame {
 		setUpComboBox();
 	}
 
-	public void setUpHomeButtonListener(HomePage homePage, ArrayList<Page> coursePages, ArrayList<Page> assignmentPages, ArrayList<Page> gradePages, ArrayList<Page> submissionPages, ArrayList<Page> enrollmentPages) {
+	public void setUpHomeButtonListener(HomePage homePage, ArrayList<Page> coursePages, ArrayList<Page> assignmentPages,
+			ArrayList<Page> gradePages, ArrayList<Page> submissionPages, ArrayList<Page> enrollmentPages) {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				closeAllWindows(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
@@ -164,10 +169,10 @@ public abstract class Page extends JFrame {
 	public void setUpComboBox() {
 		try {
 			Iterator<Course> it = courses.iterator();
-			dropCourses = new String [courses.size() + 1];
+			dropCourses = new String[courses.size() + 1];
 			dropCourses[0] = "Select a course...";
 			int i = 1;
-			while(it.hasNext()) {
+			while (it.hasNext()) {
 				dropCourses[i++] = it.next().getName();
 			}
 			comboBox.setModel(new DefaultComboBoxModel<String>(dropCourses));
@@ -176,13 +181,15 @@ public abstract class Page extends JFrame {
 		}
 	}
 
-	public void setUpComboBoxListeners(HomePage homePage, ArrayList<Page> coursePages, ArrayList<Page> assignmentPages, ArrayList<Page> gradePages, ArrayList<Page> submissionPages, ArrayList<Page> enrollmentPages) {
+	public void setUpComboBoxListeners(HomePage homePage, ArrayList<Page> coursePages, ArrayList<Page> assignmentPages,
+			ArrayList<Page> gradePages, ArrayList<Page> submissionPages, ArrayList<Page> enrollmentPages) {
 		comboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					for (int i = 0; i < courses.size(); i++) {
 						if (comboBox.getSelectedIndex() == i + 1) {
-							closeAllWindows(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
+							closeAllWindows(homePage, coursePages, assignmentPages, gradePages, submissionPages,
+									enrollmentPages);
 							coursePages.get(i).comboBox.setEnabled(false);
 							coursePages.get(i).comboBox.setEnabled(true);
 							coursePages.get(i).comboBox.setSelectedIndex(i + 1);
@@ -194,7 +201,8 @@ public abstract class Page extends JFrame {
 		});
 	}
 
-	public void setUpPageListeners(HomePage homePage, ArrayList<Page> coursePages, ArrayList<Page> assignmentPages, ArrayList<Page> gradePages, ArrayList<Page> submissionPages, ArrayList<Page> enrollmentPages) {
+	public void setUpPageListeners(HomePage homePage, ArrayList<Page> coursePages, ArrayList<Page> assignmentPages,
+			ArrayList<Page> gradePages, ArrayList<Page> submissionPages, ArrayList<Page> enrollmentPages) {
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = 0;
@@ -249,7 +257,8 @@ public abstract class Page extends JFrame {
 		});
 	}
 
-	public void closeAllWindows(HomePage homePage, ArrayList<Page> coursePages, ArrayList<Page> assignmentPages, ArrayList<Page> gradePages, ArrayList<Page> submissionPages, ArrayList<Page> enrollmentPages) {
+	public void closeAllWindows(HomePage homePage, ArrayList<Page> coursePages, ArrayList<Page> assignmentPages,
+			ArrayList<Page> gradePages, ArrayList<Page> submissionPages, ArrayList<Page> enrollmentPages) {
 		homePage.setVisible(false);
 		for (int i = 0; i < courses.size(); i++) {
 			coursePages.get(i).setVisible(false);

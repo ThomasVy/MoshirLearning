@@ -2,6 +2,11 @@ package sharedElements;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public class Assignment implements Serializable {
 
 	private static final long serialVersionUID = -7463971612832731497L;
@@ -33,6 +38,17 @@ public class Assignment implements Serializable {
 		return course_id;
 	}
 
+	public void setID(int id) {
+		this.id = id;
+	}
+
+	public void setActiveToOpposite() {
+		if (active == false)
+			active = true;
+		else
+			active = false;
+	}
+
 	public boolean getActive() {
 		return active;
 	}
@@ -47,6 +63,14 @@ public class Assignment implements Serializable {
 
 	public String getDueDate() {
 		return due_date;
+	}
+
+	@Override
+	public String toString() {
+		String state = "Active";
+		if (active == false)
+			state = "Inactive";
+		return id + "   " + title + "   " + due_date + "   " + state;
 	}
 
 }
