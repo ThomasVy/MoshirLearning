@@ -24,44 +24,18 @@ public class HomePage extends Page {
 	private static final long serialVersionUID = 1L; // The serial version UID
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					HomePage frame = new HomePage(null, null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
-	public HomePage(ProfessorGUI professorGUI, ArrayList<Course> courses) {
-		super(professorGUI, courses);
-//		JScrollPane scrollPane = new JScrollPane();
-//		contentPane.add(scrollPane, BorderLayout.CENTER);
-//		JPanel panel_9 = new JPanel();
-//		scrollPane.setViewportView(panel_9);
-
-		btnNewButton_6 = new JButton("Create New Course");
-		btnNewButton_6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CreateCoursePage createCoursePage = new CreateCoursePage(professorGUI, courses, HomePage.this);
-				HomePage.this.setVisible(false);
-				createCoursePage.setVisible(true);
-			}
-		});
-		btnNewButton_6.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_6.setForeground(Color.WHITE);
-		btnNewButton_6.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_6);
-		
+	public HomePage(ArrayList<Course> courses, boolean isProfessor) {
+		super(courses, isProfessor);
+		if(isProfessor == true)
+		{
+			btnNewButton_6 = new JButton("Create New Course");
+			btnNewButton_6.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			btnNewButton_6.setForeground(Color.WHITE);
+			btnNewButton_6.setBackground(new Color(135, 206, 235));
+			panel_1.add(btnNewButton_6);
+		}
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -83,5 +57,8 @@ public class HomePage extends Page {
 		lblHomePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		lblHomePage.setHorizontalAlignment(SwingConstants.CENTER);
 	}
-
+	public void addCreateACourseListener(ActionListener e)
+	{
+		btnNewButton_6.addActionListener(e);
+	}
 }

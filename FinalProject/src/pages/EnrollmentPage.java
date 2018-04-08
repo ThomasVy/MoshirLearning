@@ -28,68 +28,25 @@ import sharedElements.Course;
 import sharedElements.Student;
 import sharedElements.StudentEnrollment;
 
-public class EnrollmentPage extends Page {
+public class EnrollmentPage extends PagesInACourse {
 
 	private static final long serialVersionUID = 1L; // The serial version UID
-	private Course courseOfThisPage;
-	private JTextField textField;
-	private JTextField textField_1;
-	private ArrayList<Student> studentEnrollment;
-	private DefaultListModel<String> model;
-	private JList<String> list;
+	private JTextField searchField;
+	private JTextField studentIDField;
+	private DefaultListModel<Student> model;
+	private JList<Student> list;
 	private JScrollPane scrollPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EnrollmentPage frame = new EnrollmentPage(null, null, null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	private JButton btnNewButton_7;
+	private JButton btnNewButton_8;
+	private JButton btnSearch;
+	private JRadioButton rdbtnId;
+	private JRadioButton rdbtnLastName;
 	/**
 	 * Create the frame.
 	 */
-	public EnrollmentPage(ProfessorGUI professorGUI, ArrayList<Course> courses, Course courseOfThisPage) {
-		super(professorGUI, courses);
-		this.courseOfThisPage = courseOfThisPage;
-
-		btnNewButton_2 = new JButton("Assignments");
-		btnNewButton_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_2.setForeground(Color.WHITE);
-		btnNewButton_2.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_2);
-
-		btnNewButton_3 = new JButton("Grades");
-		btnNewButton_3.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_3.setForeground(Color.WHITE);
-		btnNewButton_3.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_3);
-
-		btnNewButton_4 = new JButton("Submissions");
-		btnNewButton_4.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_4.setForeground(Color.WHITE);
-		btnNewButton_4.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_4);
-
-		lbl = new JLabel(courseOfThisPage.getName());
-		lbl.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-		panel_4.add(lbl);
-
-		btnNewButton_5 = new JButton("Enrollment");
-		btnNewButton_5.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_5.setForeground(Color.WHITE);
-		btnNewButton_5.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_5);
-
+	public EnrollmentPage(ArrayList<Course> courses, boolean isProfessor, Course courseOfThisPage) {
+		super(courses, isProfessor, courseOfThisPage);
+		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -104,31 +61,14 @@ public class EnrollmentPage extends Page {
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);
 
-		studentEnrollment = (ArrayList<Student>) professorGUI.sendToClient(courseOfThisPage, "GetEnrollmentList");
-		model = new DefaultListModel<String>();
-		for (int i = 0; i < studentEnrollment.size(); i++) {
-			model.addElement(studentEnrollment.get(i).toString());
-		}
-		list = new JList<String>(model);
+
+		model = new DefaultListModel<Student>();
+		list = new JList<Student>(model);
 		scrollPane = new JScrollPane(list);
 		list.setFixedCellWidth(500);
 		list.setFixedCellHeight(25);
 		list.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		list.addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if (!e.getValueIsAdjusting()) {
-					if (list.getSelectedIndex() == -1) {
-						return;
-					} else {
-						String student = model.elementAt(list.getSelectedIndex());
-						String[] temp = student.split(" ");
-						textField_1.setText(temp[0]);
-					}
-
-				}
-			}
-		});
+		
 		panel_2.add(scrollPane);
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3);
@@ -152,39 +92,18 @@ public class EnrollmentPage extends Page {
 		lblNameOfStudent.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_7.add(lblNameOfStudent);
 
-		textField = new JTextField();
-		textField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_7.add(textField);
-		textField.setColumns(10);
+		searchField = new JTextField();
+		searchField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_7.add(searchField);
+		searchField.setColumns(10);
 
-		JRadioButton rdbtnId = new JRadioButton("ID");
+		rdbtnId = new JRadioButton("ID");
 		rdbtnId.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 
-		JRadioButton rdbtnLastName = new JRadioButton("Last Name");
+		rdbtnLastName = new JRadioButton("Last Name");
 		rdbtnLastName.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 
-		JButton btnSearch = new JButton("Search");
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model.clear();
-				if (rdbtnId.isSelected()) {
-					for (int i = 0; i < studentEnrollment.size(); i++) {
-						if (String.valueOf(studentEnrollment.get(i).getId()).contains(textField.getText())) {
-							model.addElement(studentEnrollment.get(i).toString());
-						}
-					}
-				} else if (rdbtnLastName.isSelected()) {
-					for (int i = 0; i < studentEnrollment.size(); i++) {
-						if (studentEnrollment.get(i).getLastName().toLowerCase().contains(textField.getText().toLowerCase())) {
-							model.addElement(studentEnrollment.get(i).toString());
-						}
-					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Please select either ID or Last Name.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-
+		btnSearch = new JButton("Search");
 		JPanel panel_6 = new JPanel();
 		panel_7.add(panel_6);
 		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.Y_AXIS));
@@ -223,63 +142,66 @@ public class EnrollmentPage extends Page {
 		lblNameOfStudent_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_11.add(lblNameOfStudent_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_11.add(textField_1);
-		textField_1.setColumns(10);
+		studentIDField = new JTextField();
+		studentIDField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_11.add(studentIDField);
+		studentIDField.setColumns(10);
 		
 		JPanel panel_9 = new JPanel();
 		panel_5.add(panel_9);
 		
-		JButton btnNewButton = new JButton("Enroll");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (textField_1.getText().length() != 0) {
-					Random random = new Random();
-					int newId = 10000000 + random.nextInt(90000000); // Need to fix id generator
-					StudentEnrollment enrollStudent = new StudentEnrollment(newId, Integer.parseInt(textField_1.getText()), courseOfThisPage.getId(), true);
-					boolean enrolled = (boolean) professorGUI.sendToClient(enrollStudent);
-					if (enrolled == true) {
-						studentEnrollment = (ArrayList<Student>) professorGUI.sendToClient(courseOfThisPage, "GetEnrollmentList");
-						model.clear();
-						for (int i = 0; i < studentEnrollment.size(); i++) {
-							model.addElement(studentEnrollment.get(i).toString());
-						}
-						JOptionPane.showMessageDialog(null, "Enrollment successful.", "Valid Input", JOptionPane.INFORMATION_MESSAGE);
-					} else {
-						JOptionPane.showMessageDialog(null, "Student does not exist or ID already taken.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
-		});
-		btnNewButton.setForeground(Color.WHITE);
-		btnNewButton.setBackground(new Color(135, 206, 235));
-		btnNewButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_9.add(btnNewButton);
+		btnNewButton_8 = new JButton("Enroll");
+		btnNewButton_8.setForeground(Color.WHITE);
+		btnNewButton_8.setBackground(new Color(135, 206, 235));
+		btnNewButton_8.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_9.add(btnNewButton_8);
 		
-		JButton btnNewButton_1 = new JButton("Unenroll");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (textField_1.getText().length() != 0) {
-					StudentEnrollment unenrollStudent = new StudentEnrollment(-1, Integer.parseInt(textField_1.getText()), courseOfThisPage.getId(), false);
-					boolean unEnrolled = (boolean) professorGUI.sendToClient(unenrollStudent);
-					if (unEnrolled = true) {
-						studentEnrollment = (ArrayList<Student>) professorGUI.sendToClient(courseOfThisPage, "GetEnrollmentList");
-						model.clear();
-						for (int i = 0; i < studentEnrollment.size(); i++) {
-							model.addElement(studentEnrollment.get(i).toString());
-						}
-						JOptionPane.showMessageDialog(null, "Unenrollment successful.", "Valid Input", JOptionPane.INFORMATION_MESSAGE);
-					} else {
-						JOptionPane.showMessageDialog(null, "Student does not exist.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
-		});
-		btnNewButton_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_1.setForeground(Color.WHITE);
-		btnNewButton_1.setBackground(new Color(135, 206, 235));
-		panel_9.add(btnNewButton_1);
+		btnNewButton_7 = new JButton("Unenroll");
+		btnNewButton_7.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		btnNewButton_7.setForeground(Color.WHITE);
+		btnNewButton_7.setBackground(new Color(135, 206, 235));
+		panel_9.add(btnNewButton_7);
 	}
-
+	public void setupEnrollButton(ActionListener e)
+	{
+		btnNewButton_8.addActionListener(e);
+	}
+	public void setupUnenrollButton(ActionListener e)
+	{
+		btnNewButton_7.addActionListener(e);
+	}
+	public void setupSearch(ActionListener e)
+	{
+		btnSearch.addActionListener(e);
+	}
+	public void setEnrollList (ArrayList<Student> students)
+	{
+		model.clear();
+		for (int i = 0; i < students.size(); i++) {
+			model.addElement(students.get(i));
+		}
+	}
+	public String getSearchField ()
+	{
+		return searchField.getText();
+	}
+	public char selectedRadioButton ()
+	{
+		if (rdbtnId.isSelected()) {
+			return 'I';
+		} 
+		else if (rdbtnLastName.isSelected()) 
+		{
+			return 'L';
+		}
+		return '0';
+	}
+	public String getId()
+	{
+		return studentIDField.getText();
+	}
+	public JList<Student> getList()
+	{
+		return list;
+	}
 }

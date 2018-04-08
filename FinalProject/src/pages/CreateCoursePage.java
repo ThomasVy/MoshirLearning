@@ -25,29 +25,15 @@ import java.awt.BorderLayout;
 public class CreateCoursePage extends Page {
 
 	private static final long serialVersionUID = 1L; // The serial version UID
-	private JTextField textField;
-	private HomePage homePage;
-	private JTextField textField_1;
-
+	private JTextField nameOfCourseField;
+	private JButton enter;
+	private JButton cancel;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreateCoursePage frame = new CreateCoursePage(null, null, null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	public CreateCoursePage(ProfessorGUI professorGUI, ArrayList<Course> courses, HomePage homePage) {
-		super(professorGUI, courses);
-		this.homePage = homePage;
+	public CreateCoursePage(ArrayList<Course> courses, boolean isProfessor) {
+		super(courses, isProfessor);
 		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
@@ -67,92 +53,36 @@ public class CreateCoursePage extends Page {
 		lblNewLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		createCoursePagePanel_2.add(lblNewLabel);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		createCoursePagePanel_2.add(textField_1);
-		textField_1.setColumns(10);
+		nameOfCourseField = new JTextField();
+		nameOfCourseField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		createCoursePagePanel_2.add(nameOfCourseField);
+		nameOfCourseField.setColumns(10);
 		
-		JButton enter = new JButton("Enter");
+		enter = new JButton("Enter");
 		enter.setForeground(Color.WHITE);
 		enter.setBackground(new Color(135, 206, 235));
-		enter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (textField_1.getText().length() != 0) {
-					Random random = new Random();
-					int newId = 10000000 + random.nextInt(90000000); // Need to fix id generator
-					Course newCourse = new Course(newId, professorGUI.getProfessor().getId(), textField_1.getText(), false);
-					boolean approved = (boolean) professorGUI.sendToClient(newCourse, "CreateNewCourse");
-					if (approved == false) {
-						JOptionPane.showMessageDialog(null, "Invalid input for new course.", "Failed to Create New Course", JOptionPane.ERROR_MESSAGE);
-					} else {
-						professorGUI.getCourses().add(newCourse);
-						professorGUI.createAllPages();
-						professorGUI.refreshPages();
-						CreateCoursePage.this.setVisible(false);
-						professorGUI.getCoursePages().get(professorGUI.getCourses().size() - 1).setVisible(true);
-					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Invalid name.", "Failed to Create New Course", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
 		enter.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		createCoursePagePanel_2.add(enter);
 		
 		JPanel createCoursePagePanel_3 = new JPanel();
 		panel.add(createCoursePagePanel_3);
 		
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CreateCoursePage.this.setVisible(false);
-				textField_1.setText("");
-				homePage.setVisible(true);
-			}
-		});
-		
-		JButton cancel = new JButton("Cancel");
-		cancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CreateCoursePage.this.setVisible(false);
-				textField_1.setText("");
-				homePage.setVisible(true);
-			}
-		});
+		cancel = new JButton("Cancel");
 		cancel.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		cancel.setForeground(Color.WHITE);
 		cancel.setBackground(new Color(135, 206, 235));
 		panel_1.add(cancel);
-
-//		JButton btnEnter = new JButton("Enter");
-//		btnEnter.setForeground(Color.WHITE);
-//		btnEnter.setBackground(new Color(135, 206, 235));
-//		btnEnter.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				if (textField.getText().length() != 0) {
-//					Random random = new Random();
-//					int newId = 10000000 + random.nextInt(90000000); // Need to fix id generator
-//					Course newCourse = new Course(newId, professorGUI.getProfessor().getId(), textField.getText(), false);
-//					boolean approved = (boolean) professorGUI.sendToClient(newCourse, "CreateNewCourse");
-//					if (approved == false) {
-//						JOptionPane.showMessageDialog(null, "Invalid input for new course.", "Failed to Create New Course", JOptionPane.ERROR_MESSAGE);
-//					} else {
-//						professorGUI.getCourses().add(newCourse);
-//						professorGUI.createAllPages();
-//						professorGUI.refreshPages();
-//						CreateCoursePage.this.setVisible(false);
-//						professorGUI.getCoursePages().get(professorGUI.getCourses().size() - 1).setVisible(true);
-//					}
-//				} else {
-//					JOptionPane.showMessageDialog(null, "Invalid name.", "Failed to Create New Course", JOptionPane.ERROR_MESSAGE);
-//				}
-//			}
-//		});
-//		btnEnter.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-//		panel.add(btnEnter);
 	}
-
+	public void setUpEnter(ActionListener e)
+	{
+		enter.addActionListener(e);
+	}
+	public void setUpCancel(ActionListener e)
+	{
+		cancel.addActionListener(e);
+	}
 	public String getCourseName() {
-		return textField.getText();
+		return nameOfCourseField.getText();
 	}
 
 }

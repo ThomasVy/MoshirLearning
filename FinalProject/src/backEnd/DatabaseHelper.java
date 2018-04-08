@@ -290,10 +290,13 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 		return student;
 	}
-
 	public boolean changeEnrollment(StudentEnrollment enrollment) {
 		boolean enrollmentStatus = false;
 		boolean enroll = enrollment.getEnrolling();
+		if(getStudent(enrollment.getStudentID()) == null) //Student does not exist
+		{
+			return false;
+		}
 		if (enroll == true) // Enroll the student
 		{
 			try {

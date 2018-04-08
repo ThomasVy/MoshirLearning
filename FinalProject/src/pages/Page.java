@@ -18,18 +18,21 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import components.PageNavigator;
 import frontEnd.ProfessorGUI;
 import sharedElements.Course;
 
 public abstract class Page extends JFrame {
 
 	private static final long serialVersionUID = 1L; // The serial version UID
-	protected ProfessorGUI professorGUI;
 	protected ArrayList<Course> courses;
+	protected boolean isProfessor;
+	
 	protected JPanel contentPane;
 	protected JPanel panel;
 	protected JPanel panel_1;
@@ -38,12 +41,11 @@ public abstract class Page extends JFrame {
 	protected JPanel panel_4;
 	protected JPanel panel_5;
 	protected JScrollPane scrollPane;
-	protected boolean isProfessor;
-	protected String [] dropCourses;
+	protected Course[] dropCourses;
 	protected JPanel panel_6;
 	protected JPanel panel_7;
 	protected JButton btnNewButton;
-	protected JComboBox<String> comboBox;
+	protected JComboBox<Course> comboBox;
 	protected JButton btnNewButton_1;
 	
 	protected JButton btnNewButton_2;
@@ -56,9 +58,10 @@ public abstract class Page extends JFrame {
 	protected JPanel panel_8;
 	protected JPanel panel_10;
 
-	public Page (ProfessorGUI professorGUI,  ArrayList<Course> courses) {
-		this.professorGUI = professorGUI;
+	public Page (ArrayList<Course> courses, boolean isProfessor) {
 		this.courses = courses;
+		this.isProfessor = isProfessor;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
@@ -87,7 +90,7 @@ public abstract class Page extends JFrame {
 		btnNewButton.setBackground(Color.DARK_GRAY);
 		panel_6.add(btnNewButton);
 
-		comboBox = new JComboBox<String>();
+		comboBox = new JComboBox<Course>();
 		comboBox.setForeground(Color.WHITE);
 		comboBox.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		comboBox.setBackground(Color.DARK_GRAY);
@@ -109,18 +112,6 @@ public abstract class Page extends JFrame {
 		btnNewButton_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_1.setBackground(Color.DARK_GRAY);
 		panel_7.add(btnNewButton_1);
-
-//		scrollPane = new JScrollPane();
-//		contentPane.add(scrollPane, BorderLayout.CENTER);
-//		JPanel panel_9 = new JPanel();
-//		scrollPane.setViewportView(panel_9);
-//		panel_9.setLayout(new BoxLayout(panel_9, BoxLayout.Y_AXIS));
-//		
-//		panel_8 = new JPanel();
-//		panel_9.add(panel_8);
-//		
-//		panel_10 = new JPanel();
-//		panel_9.add(panel_10);
 
 		panel_2 = new JPanel();
 		panel.add(panel_2);
@@ -148,116 +139,37 @@ public abstract class Page extends JFrame {
 
 		setUpComboBox();
 	}
-
-	public void setUpHomeButtonListener(HomePage homePage, ArrayList<Page> coursePages, ArrayList<Page> assignmentPages, ArrayList<Page> gradePages, ArrayList<Page> submissionPages, ArrayList<Page> enrollmentPages) {
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				closeAllWindows(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
-				homePage.comboBox.setEnabled(false);
-				homePage.comboBox.setEnabled(true);
-				homePage.comboBox.setSelectedIndex(0);
-				homePage.setVisible(true);
-			}
-		});
+	public JComboBox<Course> getComboBox()
+	{
+		return comboBox;
 	}
-
+	public void setUpHomeButtonListener(ActionListener e) {
+		btnNewButton.addActionListener(e);
+	}
 	public void setUpComboBox() {
 		try {
 			Iterator<Course> it = courses.iterator();
-			dropCourses = new String [courses.size() + 1];
-			dropCourses[0] = "Select a course...";
+			dropCourses = new Course [courses.size() + 1];
+			dropCourses[0] = new Course(-1, -1, "Select a course...", false);
 			int i = 1;
 			while(it.hasNext()) {
-				dropCourses[i++] = it.next().getName();
+				dropCourses[i++] = it.next();
 			}
-			comboBox.setModel(new DefaultComboBoxModel<String>(dropCourses));
+			comboBox.setModel(new DefaultComboBoxModel<Course>(dropCourses));
 		} catch (NullPointerException e) {
 			System.out.println("Testing individual pages.");
 		}
 	}
-
-	public void setUpComboBoxListeners(HomePage homePage, ArrayList<Page> coursePages, ArrayList<Page> assignmentPages, ArrayList<Page> gradePages, ArrayList<Page> submissionPages, ArrayList<Page> enrollmentPages) {
-		comboBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-					for (int i = 0; i < courses.size(); i++) {
-						if (comboBox.getSelectedIndex() == i + 1) {
-							closeAllWindows(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
-							coursePages.get(i).comboBox.setEnabled(false);
-							coursePages.get(i).comboBox.setEnabled(true);
-							coursePages.get(i).comboBox.setSelectedIndex(i + 1);
-							coursePages.get(i).setVisible(true);
-						}
-					}
-				}
-			}
-		});
+	public void showSuccess (String succ)
+	{
+		JOptionPane.showMessageDialog(null, succ , "Successful", JOptionPane.INFORMATION_MESSAGE);
 	}
-
-	public void setUpPageListeners(HomePage homePage, ArrayList<Page> coursePages, ArrayList<Page> assignmentPages, ArrayList<Page> gradePages, ArrayList<Page> submissionPages, ArrayList<Page> enrollmentPages) {
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int i = 0;
-				while (i < coursePages.size()) {
-					if (Page.this.lbl.getText().equalsIgnoreCase(coursePages.get(i).lbl.getText())) {
-						break;
-					}
-					i++;
-				}
-				closeAllWindows(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
-				assignmentPages.get(i).setVisible(true);
-			}
-		});
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int i = 0;
-				while (i < coursePages.size()) {
-					if (Page.this.lbl.getText().equalsIgnoreCase(coursePages.get(i).lbl.getText())) {
-						break;
-					}
-					i++;
-				}
-				closeAllWindows(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
-				gradePages.get(i).setVisible(true);
-			}
-		});
-		btnNewButton_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int i = 0;
-				while (i < coursePages.size()) {
-					if (Page.this.lbl.getText().equalsIgnoreCase(coursePages.get(i).lbl.getText())) {
-						break;
-					}
-					i++;
-				}
-				closeAllWindows(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
-				submissionPages.get(i).setVisible(true);
-			}
-		});
-		btnNewButton_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int i = 0;
-				while (i < coursePages.size()) {
-					if (Page.this.lbl.getText().equalsIgnoreCase(coursePages.get(i).lbl.getText())) {
-						break;
-					}
-					i++;
-				}
-				closeAllWindows(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
-				enrollmentPages.get(i).setVisible(true);
-			}
-		});
+	public void showError (String error)
+	{
+		JOptionPane.showMessageDialog(null, error , "Failed", JOptionPane.ERROR_MESSAGE);
 	}
-
-	public void closeAllWindows(HomePage homePage, ArrayList<Page> coursePages, ArrayList<Page> assignmentPages, ArrayList<Page> gradePages, ArrayList<Page> submissionPages, ArrayList<Page> enrollmentPages) {
-		homePage.setVisible(false);
-		for (int i = 0; i < courses.size(); i++) {
-			coursePages.get(i).setVisible(false);
-			assignmentPages.get(i).setVisible(false);
-			gradePages.get(i).setVisible(false);
-			submissionPages.get(i).setVisible(false);
-			enrollmentPages.get(i).setVisible(false);
-		}
+	public void setUpComboBoxListeners(ItemListener e) {
+		comboBox.addItemListener(e);
 	}
 
 }

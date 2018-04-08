@@ -13,64 +13,25 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import components.PageNavigator;
 import frontEnd.ProfessorGUI;
 import sharedElements.Course;
 
-public class CoursePage extends Page {
+public class CoursePage extends PagesInACourse {
 
-	private static final long serialVersionUID = 1L; // The serial version UID
-	private Course courseOfThePage;
-
+	private JButton btnActivity;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5422193522154528362L;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CoursePage frame = new CoursePage(null, null, null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the frame.
 	 */
-	public CoursePage(ProfessorGUI professorGUI, ArrayList<Course> courses, Course courseOfThePage) {
-		super(professorGUI, courses);
-		this.courseOfThePage = courseOfThePage;
-
-		btnNewButton_2 = new JButton("Assignments");
-		btnNewButton_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_2.setForeground(Color.WHITE);
-		btnNewButton_2.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_2);
-
-		btnNewButton_3 = new JButton("Grades");
-		btnNewButton_3.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_3.setForeground(Color.WHITE);
-		btnNewButton_3.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_3);
-
-		btnNewButton_4 = new JButton("Submissions");
-		btnNewButton_4.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_4.setForeground(Color.WHITE);
-		btnNewButton_4.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_4);
-
-		lbl = new JLabel(courseOfThePage.getName());
-		lbl.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-		panel_4.add(lbl);
-
-		btnNewButton_5 = new JButton("Enrollment");
-		btnNewButton_5.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_5.setForeground(Color.WHITE);
-		btnNewButton_5.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_5);
+	public CoursePage(ArrayList<Course> courses, boolean isProfessor, Course courseOfThePage) {
+		super(courses,isProfessor, courseOfThePage);
 
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
@@ -90,7 +51,7 @@ public class CoursePage extends Page {
 		lblNewLabel_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_2.add(lblNewLabel_1);
 		String active;
-		JButton btnActivity = new JButton();
+		btnActivity = new JButton();
 		if (courseOfThePage.getActive() == true) {
 			btnActivity.setBackground(new Color(60, 179, 113));
 			active = "Course Active";
@@ -99,28 +60,21 @@ public class CoursePage extends Page {
 			active = "Course Inactive";
 		}
 		btnActivity.setText(active);
-		btnActivity.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (btnActivity.getText().equalsIgnoreCase("Course Inactive")) // Makes it active
-				{
-					btnActivity.setText("Course Active");
-					btnActivity.setBackground(new Color(60, 179, 113));
-					courseOfThePage.setActive(true);
-				} else // deactivates the course
-				{
-					btnActivity.setText("Course Inactive");
-					btnActivity.setBackground(new Color(250, 128, 114));
-					courseOfThePage.setActive(false);
-				}
-				professorGUI.sendToClient(courseOfThePage, "ChangeActiveState");
-			}
-		});
 		btnActivity.setForeground(Color.WHITE);
 		btnActivity.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_2.add(btnActivity);
 
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3);
+	}
+	public void setupCourseActiveButton(ActionListener e)
+	{
+		btnActivity.addActionListener(e);
+	}
+	public void setActiveButton(String toSet, Color colour)
+	{
+		btnActivity.setText(toSet);
+		btnActivity.setBackground(colour);
 	}
 
 }

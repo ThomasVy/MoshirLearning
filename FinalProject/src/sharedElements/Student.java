@@ -19,4 +19,8 @@ public class Student extends User {
 		super(id, firstName, lastName);
 	}
 
+	@Override
+	public String toString() {
+		return id + "   " + firstName + "  " + lastName;
+	}
 }

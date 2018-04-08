@@ -16,64 +16,21 @@ import frontEnd.ProfessorGUI;
 import sharedElements.*;
 import javax.swing.JTextField;
 
-public class AssignmentPage extends Page {
-
-	private static final long serialVersionUID = 1L; // The serial version UID
-	private Course courseOfThisPage;
-	private ArrayList<Assignment> assignmentList;
+public class AssignmentPage extends PagesInACourse {
 	private DefaultListModel<Assignment> model;
 	private JList<Assignment> list;
 	private JScrollPane scrollPane;
-	private JTextField textField;
-	private JTextField textField_1;
-
+	private JTextField titleField;
+	private JTextField dueDateField;
+	private JButton uploadButton;
+	private JButton deleteButton;
+	private JButton changeStateButton;
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					AssignmentPage frame = new AssignmentPage(null, null, null);
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
-	public AssignmentPage(ProfessorGUI professorGUI, ArrayList<Course> courses, Course courseOfThisPage) {
-		super(professorGUI, courses);
-		this.courseOfThisPage = courseOfThisPage;
-
-		btnNewButton_2 = new JButton("Assignments");
-		btnNewButton_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_2.setForeground(Color.WHITE);
-		btnNewButton_2.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_2);
-
-		btnNewButton_3 = new JButton("Grades");
-		btnNewButton_3.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_3.setForeground(Color.WHITE);
-		btnNewButton_3.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_3);
-
-		btnNewButton_4 = new JButton("Submissions");
-		btnNewButton_4.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_4.setForeground(Color.WHITE);
-		btnNewButton_4.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_4);
-
-		lbl = new JLabel(courseOfThisPage.getName());
-		lbl.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-		panel_4.add(lbl);
-
-		btnNewButton_5 = new JButton("Enrollment");
-		btnNewButton_5.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_5.setForeground(Color.WHITE);
-		btnNewButton_5.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_5);
+	public AssignmentPage(ArrayList<Course> courses, boolean isProfessor,  Course courseOfThisPage) {
+		super(courses, isProfessor, courseOfThisPage);
 		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
@@ -91,8 +48,6 @@ public class AssignmentPage extends Page {
 		
 		
 		model = new DefaultListModel<Assignment>();
-		refreshList();
-		
 		list = new JList<Assignment>(model);
 		scrollPane = new JScrollPane(list);
 		list.setFixedCellWidth(500);
@@ -118,110 +73,69 @@ public class AssignmentPage extends Page {
 		lblAssignmentTitle.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_6.add(lblAssignmentTitle);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_6.add(textField);
-		textField.setColumns(10);
+		titleField = new JTextField();
+		titleField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_6.add(titleField);
+		titleField.setColumns(10);
 		
 		JLabel lblDueDate = new JLabel("Due Date");
 		lblDueDate.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_6.add(lblDueDate);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_6.add(textField_1);
-		textField_1.setColumns(10);
+		dueDateField = new JTextField();
+		dueDateField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_6.add(dueDateField);
+		dueDateField.setColumns(10);
 		
 		JPanel panel_5 = new JPanel();
 		panel_3.add(panel_5);
 		
-		JButton btnNewButton = new JButton("Upload");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				openFileBrowser();
-				refreshList();
-			}
-		});
-		btnNewButton.setForeground(Color.WHITE);
-		btnNewButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton.setBackground(new Color(135, 206, 235));
-		panel_5.add(btnNewButton);
+		uploadButton = new JButton("Upload");
+		uploadButton.setForeground(Color.WHITE);
+		uploadButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		uploadButton.setBackground(new Color(135, 206, 235));
+		panel_5.add(uploadButton);
 		
-		JButton btnNewButton_1 = new JButton("Delete");
-		btnNewButton_1.setForeground(Color.WHITE);
-		btnNewButton_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_1.setBackground(new Color(135, 206, 235));
-		panel_5.add(btnNewButton_1);
-		btnNewButton_1.addActionListener(new ActionListener () {
-			public void actionPerformed(ActionEvent e)
-			{
-				Assignment currentSelected =list.getSelectedValue();
-				if(currentSelected != null) {
-					professorGUI.sendToClient(currentSelected, "DeleteAssignment");
-					refreshList();
-				}
-				else
-					JOptionPane.showMessageDialog(null, "Please click on an assignment to delete.", "Failed to Delete", JOptionPane.ERROR_MESSAGE);
-			}
-		});
-		
-		JButton btnNewButton_2 = new JButton("Change Active State");
-		btnNewButton_2.setForeground(Color.WHITE);
-		btnNewButton_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_2.setBackground(Color.DARK_GRAY);
-		panel_5.add(btnNewButton_2);
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-			{
-				Assignment currentSelected =list.getSelectedValue();
-				if(currentSelected !=null) {
-					currentSelected.setActiveToOpposite();
-					professorGUI.sendToClient(currentSelected, "ChangeActiveState");
-					refreshList();
-				}
-				else
-					JOptionPane.showMessageDialog(null, "Please click on an assignment to change state.", "Failed to change state", JOptionPane.ERROR_MESSAGE);
-			}
-		});
+		deleteButton = new JButton("Delete");
+		deleteButton.setForeground(Color.WHITE);
+		deleteButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		deleteButton.setBackground(new Color(135, 206, 235));
+		panel_5.add(deleteButton);	
+		changeStateButton = new JButton("Change Active State");
+		changeStateButton.setForeground(Color.WHITE);
+		changeStateButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		changeStateButton.setBackground(Color.DARK_GRAY);
+		panel_5.add(changeStateButton);
 	}
-
-	public void openFileBrowser() {
-		JFileChooser fileBrowser = new JFileChooser();
-		if (fileBrowser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = fileBrowser.getSelectedFile();
-			String path = selectedFile.getAbsolutePath();
-			Random random = new Random();
-			int newId = 10000000 + random.nextInt(90000000);
-			if (textField.getText().length() == 0 || textField_1.getText().length() == 0) {
-				JOptionPane.showMessageDialog(null, "Please fill in all data fields.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-			} else {
-				Assignment assignment = new Assignment(newId, courseOfThisPage.getId(), textField.getText(),path, false, textField_1.getText());
-				byte [] fileInBytes = turnFileIntoBytes(selectedFile);
-				professorGUI.sendToClient(assignment, "AddAssignment", fileInBytes );
-			}
-		}
-	}
-	private byte [] turnFileIntoBytes (File selectedFile)
+	public void setupUploadButton (ActionListener e)
 	{
-		long length = selectedFile.length();
-		byte[] content = new byte[(int) length]; // Converting Long to Int
-		try {
-			FileInputStream fis = new FileInputStream(selectedFile);
-			BufferedInputStream bos = new BufferedInputStream(fis);
-			bos.read(content, 0, (int)length);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch(IOException e){
-			e.printStackTrace();
-		}
-		return content;
+		uploadButton.addActionListener(e);
 	}
-	private void refreshList ()
+	public void setupDeleteButton (ActionListener e)
+	{
+		deleteButton.addActionListener(e);
+	}
+	public void setupChangeActionButton (ActionListener e)
+	{
+		changeStateButton.addActionListener(e);
+	}
+	public void setAssignmentList (ArrayList<Assignment> assignmentList)
 	{
 		model.clear();
-		assignmentList = (ArrayList<Assignment>) professorGUI.sendToClient(courseOfThisPage, "GetAssignmentList");
 		for (int i = 0; i < assignmentList.size(); i++) {
 			model.addElement(assignmentList.get(i));
 		}
+	}
+	public String getAssignmentTitle ()
+	{
+		return titleField.getText();
+	}
+	public String getAssignmentDueDate()
+	{
+		return dueDateField.getText();
+	}
+	public JList<Assignment> getList ()
+	{
+		return list;
 	}
 }

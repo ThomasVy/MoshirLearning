@@ -11,10 +11,10 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
 
-	private static final long serialVersionUID = 1L; // The serial version UID
-	private int id; // The user's id
-	private String firstName; // The user's first name
-	private String lastName; // The user's last name
+	protected static final long serialVersionUID = 1L; // The serial version UID
+	protected int id; // The user's id
+	protected String firstName; // The user's first name
+	protected String lastName; // The user's last name
 
 	/**
 	 * Constructs a User object.
@@ -55,9 +55,6 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 
-	@Override
-	public String toString() {
-		return id + "   " + firstName + "  " + lastName;
-	}
+	
 
 }

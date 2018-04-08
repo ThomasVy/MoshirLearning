@@ -49,10 +49,8 @@ public class LoginWindowController {
 			JOptionPane.showMessageDialog(null, "Invalid username/password.", "Failed Login", JOptionPane.ERROR_MESSAGE);
 		} else {
 			System.out.println("Login accepted.");
-			ArrayList<Course> courses = (ArrayList<Course>) client.communicateWithServer("GetCourses");
-			System.out.println(courses.get(0));
 			view.dispose();
-			ProfessorGUI pgui = new ProfessorGUI(client, (Professor) userLoggedIn, true, courses);
+			ProfessorGUI pgui = new ProfessorGUI(client,(Professor) userLoggedIn);
 		}
 	}
 

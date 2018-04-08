@@ -1,43 +1,62 @@
 package components;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
-
-import javax.swing.*;
-
 import frontEnd.*;
 import pages.*;
+import sharedElements.*;
 
-public class PageNavigator extends JFrame {
+public class PageNavigator {
 
-	private static final long serialVersionUID = 1L; // The serial version UID
-	private Client client;
-
+	protected Client client;
+	protected boolean isProfessor;
 	protected HomePage homePage;
+	protected User user;
+	protected ArrayList<Course> courses;
 	
-	protected ArrayList<Page> coursePages;
-	protected ArrayList<Page> assignmentPages;
-	protected ArrayList<Page> gradePages;
-	protected ArrayList<Page> submissionPages;
-	protected ArrayList<Page> enrollmentPages;
-
-	public PageNavigator(Client client) {
+	public PageNavigator(Client client, boolean isProfessor, User user) {
+		this.isProfessor =isProfessor;
 		this.client = client;
+		this.user = user;
+		createHomePage();
 	}
-
-	public Object sendToClient(Object toSend) {
-		return client.communicateWithServer(toSend);
+	public ArrayList<Course> getCourses()
+	{
+		return (ArrayList<Course>)(client.communicateWithServer("GetCourses"));
 	}
-
-	public Object sendToClient(Object toSend, String typeOfRequest) {
-		return client.communicateWithServer(toSend, typeOfRequest);
+	public void createHomePage ()
+	{
+		courses = getCourses();
+		homePage = new HomePage(courses, isProfessor);
+		addComboBoxListener(homePage);
+		homePage.setVisible(true);
 	}
-
-	public Object sendToClient(Object toSend, String typeOfRequest, Object file) {
-		return client.communicateWithServer(toSend, typeOfRequest, file);
+	public void addComboBoxListener(Page page)
+	{
+		page.setUpComboBoxListeners(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+						if (page.getComboBox().getSelectedIndex()!= 0) {
+							page.dispose();
+							showCourse((Course)page.getComboBox().getSelectedItem());
+						}
+				}
+			}
+		});
+		
 	}
-
-	public ArrayList<Page> getCoursePages() {
-		return coursePages;
+	public void showCourse(Course currentCourse)
+	{
+		CourseHandler courseHandler = new CourseHandler(this, currentCourse);
 	}
-
+	public Client getClient ()
+	{
+		return client;
+	}
+	public boolean getIsProfessor ()
+	{
+		return isProfessor;
+	}
 }
+

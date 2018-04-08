@@ -1,133 +1,80 @@
 package frontEnd;
 
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
 
 import components.*;
 import pages.*;
 import sharedElements.*;
 
 public class ProfessorGUI extends PageNavigator {
-
-	private static final long serialVersionUID = 1L; // The serial version UID
-	private Professor professor;
-	private boolean isProfessor;
-
-	private ArrayList<Course> courses;
-
-	public ProfessorGUI(Client client, Professor professor, boolean isProfessor, ArrayList<Course> courses) {
-		super(client);
-		this.professor = professor;
-		this.isProfessor = isProfessor;
-		this.courses = courses;
-		
-		coursePages = new ArrayList<Page>();
-		assignmentPages = new ArrayList<Page>();
-		gradePages = new ArrayList<Page>();
-		submissionPages = new ArrayList<Page>();
-		enrollmentPages = new ArrayList<Page>();
-
-		createAllPages();
-
-		refreshPages();
-		
-		homePage.setVisible(true);
+	private CreateCoursePage createCoursePage;
+	
+	public ProfessorGUI(Client client, Professor professor) {
+		super(client, true,professor);
+		addCreateACourseListener();
 	}
-
-	// Getters
-	public Professor getProfessor() {
-		return professor;
+	public void addCreateACourseListener()
+	{
+		homePage.addCreateACourseListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				homePage.dispose();
+				bringUpCreateACoursePage();
+			}
+		});
 	}
-
-	public boolean getIsProfessor() {
-		return isProfessor;
+	private void bringUpCreateACoursePage ()
+	{
+		createCoursePage = new CreateCoursePage(courses, isProfessor);
+		setupCreateCourseListeners();
+		createCoursePage.setVisible(true);
 	}
-
-	public ArrayList<Course> getCourses() {
-		return courses;
+	private void setupCreateCourseListeners()
+	{
+		setupEnterListener();
+		setupCancelListener();
+		addComboBoxListener(createCoursePage);
+		setupHomePageListener();
 	}
-
-	// Setters
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
+	public void setupHomePageListener()
+	{
+		createCoursePage.setUpHomeButtonListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createCoursePage.dispose();
+				createHomePage();
+			}
+		});
 	}
-
-	public void setIsProfessor(boolean isProfessor) {
-		this.isProfessor = isProfessor;
+	public void setupCancelListener()
+	{
+		createCoursePage.setUpCancel(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createCoursePage.dispose();
+				createHomePage();
+			}
+		});
 	}
-
-	public void createAllPages() {
-		coursePages.clear();
-		assignmentPages.clear();
-		gradePages.clear();
-		submissionPages.clear();
-		enrollmentPages.clear();
-		
-		homePage = new HomePage(this, courses);
-
-		// Course Pages
-		for (int i = 0; i < courses.size(); i++) {
-			coursePages.add(new CoursePage(this, courses, courses.get(i)));
-		}
-		
-		// Assignment Pages
-		for (int i = 0; i < courses.size(); i++) {
-			assignmentPages.add(new AssignmentPage(this, courses, courses.get(i)));
-		}
-		
-		// Grade Pages
-		for (int i = 0; i < courses.size(); i++) {
-			gradePages.add(new GradePage(this, courses, courses.get(i).getName()));
-		}
-		
-		// Submission Pages
-		for (int i = 0; i < courses.size(); i++) {
-			submissionPages.add(new SubmissionPage(this, courses, courses.get(i).getName()));
-		}
-		
-		// Enrollment Pages
-		for (int i = 0; i < courses.size(); i++) {
-			enrollmentPages.add(new EnrollmentPage(this, courses, courses.get(i)));
-		}
+	public void setupEnterListener()
+	{
+		createCoursePage.setUpEnter(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String courseName = createCoursePage.getCourseName();
+				if (courseName.length() != 0) {
+					Random random = new Random();
+					int newId = 10000000 + random.nextInt(90000000); // Need to fix id generator
+					Course newCourse = new Course(newId, user.getId(), courseName, false);
+					boolean approved = (boolean) client.communicateWithServer(newCourse, "CreateNewCourse");
+					if (approved == false) {
+						createCoursePage.showError("Invalid input for new course.");
+					} else {
+						createCoursePage.dispose();
+						createHomePage();
+					}
+				} else {
+					createCoursePage.showError("Please fill in the name of the course.");
+				}
+			}
+		});
 	}
-
-	public void refreshPages() {
-		homePage.setUpHomeButtonListener(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
-		addHomeButtonListenerToPage(coursePages);
-		addHomeButtonListenerToPage(assignmentPages);
-		addHomeButtonListenerToPage(gradePages);
-		addHomeButtonListenerToPage(submissionPages);
-		addHomeButtonListenerToPage(enrollmentPages);
-
-		homePage.setUpComboBoxListeners(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
-		addComboBoxListenerToPage(coursePages);
-		addComboBoxListenerToPage(assignmentPages);
-		addComboBoxListenerToPage(gradePages);
-		addComboBoxListenerToPage(submissionPages);
-		addComboBoxListenerToPage(enrollmentPages);
-
-		addPageListeners(coursePages);
-		addPageListeners(assignmentPages);
-		addPageListeners(gradePages);
-		addPageListeners(submissionPages);
-		addPageListeners(enrollmentPages);
-	}
-
-	public void addHomeButtonListenerToPage(ArrayList<Page> pages) {
-		for (int i = 0; i < pages.size(); i++) {
-			pages.get(i).setUpHomeButtonListener(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
-		}
-	}
-
-	public void addComboBoxListenerToPage(ArrayList<Page> pages) {
-		for (int i = 0; i < pages.size(); i++) {
-			pages.get(i).setUpComboBoxListeners(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
-		}
-	}
-
-	public void addPageListeners(ArrayList<Page> pages) {
-		for (int i = 0; i < pages.size(); i++) {
-			pages.get(i).setUpPageListeners(homePage, coursePages, assignmentPages, gradePages, submissionPages, enrollmentPages);
-		}
-	}
-
 }
