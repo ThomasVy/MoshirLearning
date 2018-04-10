@@ -48,6 +48,7 @@ public class ProfessorGUI extends PageNavigator {
 			public void actionPerformed(ActionEvent e) {
 				createCoursePage.dispose();
 				createHomePage();
+				addCreateACourseListener();
 			}
 		});
 	}
@@ -57,6 +58,7 @@ public class ProfessorGUI extends PageNavigator {
 			public void actionPerformed(ActionEvent e) {
 				createCoursePage.dispose();
 				createHomePage();
+				addCreateACourseListener();
 			}
 		});
 	}

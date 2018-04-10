@@ -299,7 +299,7 @@ public class DatabaseHelper implements ConnectionConstants {
 		boolean result = false;
 		try {
 			statement = connection.createStatement();
-			String sql = "SELECT * FROM " + "CourseTable" + " WHERE id = " + "'" + id + "'";
+			String sql = "SELECT * FROM " + "CourseTable" + " WHERE name = " + "'" + name + "'";
 			resultSet = statement.executeQuery(sql);
 			if (!resultSet.next()) {
 				String bit = "";
