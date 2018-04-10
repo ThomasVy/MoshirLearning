@@ -9,6 +9,7 @@ import sharedElements.Assignment;
 import sharedElements.Course;
 import sharedElements.LoginInfo;
 import sharedElements.StudentEnrollment;
+import sharedElements.Submission;
 import sharedElements.User;
 
 /**
@@ -77,6 +78,10 @@ public class Worker implements Runnable {
 			Assignment assignment = (Assignment) fromClient;
 			objectToSend = processAssignmentRequest(assignment);
 		}
+		else if (classFromClient.equals("Submission")) {
+			Submission submission = (Submission) fromClient;
+			objectToSend = processSubmissionRequest(submission);
+		}
 		else if (fromClient.equals("GetCourses")) // Getting list of courses that the user is taking
 		{
 			objectToSend = dbHelper.getCourses(userLoggedIn);
@@ -101,6 +106,21 @@ public class Worker implements Runnable {
 		return toSend;
 	}
 
+	private Object processSubmissionRequest(Submission selectedSubmission) throws ClassNotFoundException, IOException {
+		String typeOfRequest = (String) readRequest();
+		Object toSend = null;
+		if (typeOfRequest.equalsIgnoreCase("AddSubmission")) {
+			byte[] file = (byte[]) readRequest();
+			fileHelper.writeFileContent(selectedSubmission, file);
+			toSend = dbHelper.addSubmission(selectedSubmission);
+		} else if (typeOfRequest.equalsIgnoreCase("DeleteSubmission")) {
+			toSend = dbHelper.deleteSubmission(selectedSubmission);
+		} else if (typeOfRequest.equalsIgnoreCase("DownloadSubmission")) {
+			toSend = fileHelper.getFileContent(selectedSubmission.getPath());
+		}
+		return toSend;
+	}
+
 	private Object processCourseRequest(Course courseFromClient) throws ClassNotFoundException, IOException {
 		String typeOfRequest = (String) readRequest(); // Waits for client to be more specific.
 		Object toSend = null;
@@ -114,8 +134,8 @@ public class Worker implements Runnable {
 			toSend = dbHelper.getAssignmentList(courseFromClient);
 		} else if (typeOfRequest.equalsIgnoreCase("GetGrades")) {
 			toSend = dbHelper.getGradeList(courseFromClient);
-		} else if (typeOfRequest.equalsIgnoreCase("GetSubmissions")){
-			
+		} else if (typeOfRequest.equalsIgnoreCase("GetSubmissionList")){
+			toSend = dbHelper.getSubmissionList(courseFromClient);
 		}
 		return toSend;
 	}

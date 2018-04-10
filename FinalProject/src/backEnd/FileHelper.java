@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import sharedElements.Assignment;
+import sharedElements.Submission;
 
 /**
  * 
@@ -61,6 +62,37 @@ public class FileHelper {
 				extension = a.getCourseID() +"_"+ j + extension;
 				Path filePath = Paths.get(absPath, "Assignments", extension); // A folder titled "Assignments" must exist in project directory
 				a.setPath(filePath.toString());
+				File newFile = new File(filePath.toString());
+				if (!newFile.exists()) {
+					newFile.createNewFile();
+					FileOutputStream writer = new FileOutputStream(newFile);
+					BufferedOutputStream bos = new BufferedOutputStream(writer);
+					bos.write(content);
+					bos.close();
+					break;
+				}
+				j++;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// SUBMISSION
+	public void writeFileContent(Submission s, byte[] content) {
+		try {
+			int j = 0;
+			while (true) {
+				String extension = "";
+				int i = s.getPath().lastIndexOf('.');
+				if (i > 0) {
+					extension = s.getPath().substring(i);
+				}
+				extension = s.getCourseId() + "_" + j + extension;
+				Path filePath = Paths.get(absPath, "Submissions", extension);
+				s.setPath(filePath.toString());
 				File newFile = new File(filePath.toString());
 				if (!newFile.exists()) {
 					newFile.createNewFile();

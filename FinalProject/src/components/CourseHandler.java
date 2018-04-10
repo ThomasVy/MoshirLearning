@@ -33,7 +33,7 @@ public class CourseHandler {
 	public CourseHandler (PageNavigator pageNavigator, Course course)
 	{
 		this.pageNavigator = pageNavigator;
-		this.currentCourse =course;
+		this.currentCourse = course;
 		createCourseHomePage();
 	}
 	private void createCourseHomePage ()
@@ -57,16 +57,18 @@ public class CourseHandler {
 		addAssignmentButtonListeners();
 		assignmentPage.setVisible(true);
 	}
-	private void createSubmissionPage ()
-	{
+
+	private void createSubmissionPage () {
 		courses = pageNavigator.getCourses();
 		submissionPage = new SubmissionPage(courses, pageNavigator.getIsProfessor(), currentCourse);
+		submissionPage.setSubmissionList((ArrayList<Submission>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetSubmissionList"));
 		pageNavigator.addComboBoxListener(submissionPage);
 		pageNavigator.addHomeButtonListener(submissionPage);
 		addPageListeners(submissionPage);
 		addSubmissionButtonListeners();
 		submissionPage.setVisible(true);
 	}
+
 	private void createEnrollmentPage ()
 	{
 		courses = pageNavigator.getCourses();
@@ -148,10 +150,14 @@ public class CourseHandler {
 			initChangeStateButton();
 		}
 	}
-	private void addSubmissionButtonListeners()
-	{
-		
+
+	private void addSubmissionButtonListeners() {
+		if (pageNavigator.getIsProfessor() == false) {
+			initUploadSubmissionButton();
+			initDeleteSubmissionButton();
+		}
 	}
+
 	private void addGradeButtonListeners()
 	{
 		
@@ -251,7 +257,7 @@ public class CourseHandler {
 	{
 		assignmentPage.setupUploadButton(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				openFileBrowser();
+				openFileBrowser("AssignmentFile");
 				assignmentPage.setAssignmentList((ArrayList<Assignment>)pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList"));
 			}
 		});
@@ -288,20 +294,56 @@ public class CourseHandler {
 			}
 		});
 	}
-	private void openFileBrowser() {
+
+	private void initUploadSubmissionButton() {
+		submissionPage.setupUploadButton(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openFileBrowser("SubmissionFile");
+				submissionPage.setSubmissionList((ArrayList<Submission>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetSubmissionList"));
+			}
+		});
+	}
+
+	private void initDeleteSubmissionButton() {
+		submissionPage.setupDeleteButton(new ActionListener () {
+			public void actionPerformed(ActionEvent e) {
+				JList<Submission> list = submissionPage.getList();
+				if(list.getSelectedIndex() != -1) {
+					pageNavigator.getClient().communicateWithServer(list.getSelectedValue(), "DeleteSubmission");
+					submissionPage.setSubmissionList((ArrayList<Submission>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetSubmissionList"));
+				}
+				else
+					submissionPage.showError("Please click on a submission to delete.");
+			}
+		});
+	}
+
+	private void openFileBrowser(String specifier) {
 		JFileChooser fileBrowser = new JFileChooser();
 		if (fileBrowser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileBrowser.getSelectedFile();
 			String path = selectedFile.getAbsolutePath();
 			int newId = randomIntGenerator();
-			String assignmentTitle = assignmentPage.getAssignmentTitle();
-			String assignmentDueDate = assignmentPage.getAssignmentDueDate();
-			if (assignmentTitle.length() == 0 || assignmentDueDate.length() == 0) {
-				assignmentPage.showError("Please fill in all data fields.");
-			} else {
-				Assignment assignment = new Assignment(newId, currentCourse.getId(), assignmentTitle,path, false, assignmentDueDate);
-				byte [] fileInBytes = turnFileIntoBytes(selectedFile);
-				pageNavigator.getClient().communicateWithServer(assignment, "AddAssignment", fileInBytes);
+			if (specifier.equalsIgnoreCase("AssignmentFile")) {
+				String assignmentTitle = assignmentPage.getAssignmentTitle();
+				String assignmentDueDate = assignmentPage.getAssignmentDueDate();
+				if (assignmentTitle.length() == 0 || assignmentDueDate.length() == 0) {
+					assignmentPage.showError("Please fill in all data fields.");
+				} else {
+					Assignment assignment = new Assignment(newId, currentCourse.getId(), assignmentTitle, path, false, assignmentDueDate);
+					byte [] fileInBytes = turnFileIntoBytes(selectedFile);
+					pageNavigator.getClient().communicateWithServer(assignment, "AddAssignment", fileInBytes);
+				}
+			} else if (specifier.equalsIgnoreCase("SubmissionFile")) {
+				String submissionTitle = submissionPage.getSubmissionTitle();
+				String submissionAssignmentId = submissionPage.getSubmissionAssignmentId();
+				if (submissionTitle.length() == 0 || submissionAssignmentId.length() == 0) {
+					submissionPage.showError("Please fill in all data fields.");
+				} else {
+					Submission submission = new Submission(newId, currentCourse.getId(), Integer.parseInt(submissionAssignmentId), pageNavigator.user.getId(), path, submissionTitle, 0, "N/A", "N/A");
+					byte [] fileInBytes = turnFileIntoBytes(selectedFile);
+					pageNavigator.getClient().communicateWithServer(submission, "AddSubmission", fileInBytes);
+				}
 			}
 		}
 	}

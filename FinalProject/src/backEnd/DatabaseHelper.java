@@ -143,6 +143,7 @@ public class DatabaseHelper implements ConnectionConstants {
 	 */
 	public void createSubmissionTable() {
 		String sql = "CREATE TABLE " + "SubmissionTable" + " (id INT(8) NOT NULL,"
+														 + " course_id INT(8) NOT NULL,"
 														 + " assign_id INT(8) NOT NULL,"
 														 + " student_id INT(8) NOT NULL,"
 														 + " path VARCHAR(100) NOT NULL,"
@@ -595,6 +596,70 @@ public class DatabaseHelper implements ConnectionConstants {
 			e.printStackTrace();
 		}
 		return grades;
+	}
+
+	// SUBMISSION METHODS
+	public ArrayList<Submission> getSubmissionList(Course selectedCourse) {
+		ArrayList<Submission> submissions = new ArrayList<Submission>();
+		try {
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM SubmissionTable WHERE course_id = " + selectedCourse.getId();
+			resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				Submission fetchedSubmission = new Submission(resultSet.getInt("id"), resultSet.getInt("course_id"), resultSet.getInt("assign_id"), resultSet.getInt("student_id"), resultSet.getString("path"), resultSet.getString("title"), resultSet.getInt("submission_grade"), resultSet.getString("comments"), resultSet.getString("timestamp"));
+				submissions.add(fetchedSubmission);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return submissions;
+	}
+
+	public boolean addSubmission(Submission currentSubmission) {
+		boolean result = false;
+		try {
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM " + "SubmissionTable" + " WHERE course_id = " + currentSubmission.getCourseId() + " and title = '" + currentSubmission.getTitle() + "'";
+			resultSet = statement.executeQuery(sql);
+			if (!resultSet.next()) {
+				sql = "INSERT INTO " + "SubmissionTable" + " VALUES (" + currentSubmission.getId() + ", " + currentSubmission.getCourseId() + ", "+ currentSubmission.getAssignId() + ", " + currentSubmission.getStudentId() + ", '" + currentSubmission.getPath() + "', '" + currentSubmission.getTitle() + "', " + currentSubmission.getGrade() + ", '" + currentSubmission.getComments() + "', '" + currentSubmission.getTimestamp() + "');";
+				statement.executeUpdate(sql);
+				result = true;
+			}
+		} catch (SQLIntegrityConstraintViolationException e) {
+			currentSubmission.setId(generateID());
+			result = addSubmission(currentSubmission);
+		} catch (SQLException e) {
+			return false;
+		}
+		return result;
+	}
+
+	public boolean deleteSubmission(Submission currentSubmission) {
+		boolean result = false;
+		try {
+			statement = connection.createStatement();
+			String delete = "DELETE FROM SubmissionTable WHERE course_id = " + currentSubmission.getCourseId() + " and id = " + currentSubmission.getId();
+			statement.executeUpdate(delete);
+			result = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public Submission getSubmission(int submission_id) {
+		Submission submission = null;
+		try {
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM SubmissionTable WHERE id = " + submission_id;
+			ResultSet temp = statement.executeQuery(sql);
+			if (temp.next())
+				submission = new Submission(submission_id, temp.getInt("course_id"), temp.getInt("assign_id"), temp.getInt("student_id"), temp.getString("path"), temp.getString("title"), temp.getInt("submission_grade"), temp.getString("comments"), temp.getString("timestamp"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return submission;
 	}
 //	/**
 //	 * Sets up the database.

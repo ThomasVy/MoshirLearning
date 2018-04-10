@@ -22,6 +22,7 @@ import javax.swing.JTextField;
  */
 public class AssignmentPage extends PagesInACourse {
 
+	private static final long serialVersionUID = 1L;
 	private DefaultListModel<Assignment> model;
 	private JList<Assignment> list;
 	private JScrollPane scrollPane;
@@ -30,9 +31,6 @@ public class AssignmentPage extends PagesInACourse {
 	private JButton uploadButton;
 	private JButton deleteButton;
 	private JButton changeStateButton;
-	/**
-	 * Launch the application.
-	 */
 
 	public AssignmentPage(ArrayList<Course> courses, boolean isProfessor,  Course courseOfThisPage) {
 		super(courses, isProfessor, courseOfThisPage);
@@ -139,6 +137,5 @@ public class AssignmentPage extends PagesInACourse {
 	public JList<Assignment> getList ()
 	{
 		return list;
-
 	}
 }
