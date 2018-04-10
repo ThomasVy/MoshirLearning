@@ -15,8 +15,13 @@ import javax.swing.*;
 import frontEnd.ProfessorGUI;
 import sharedElements.*;
 import javax.swing.JTextField;
-
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public class AssignmentPage extends PagesInACourse {
+
 	private DefaultListModel<Assignment> model;
 	private JList<Assignment> list;
 	private JScrollPane scrollPane;
@@ -31,48 +36,44 @@ public class AssignmentPage extends PagesInACourse {
 
 	public AssignmentPage(ArrayList<Course> courses, boolean isProfessor,  Course courseOfThisPage) {
 		super(courses, isProfessor, courseOfThisPage);
-		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		
+
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1);
-		
+
 		JLabel lblAssignmentsPage = new JLabel("Assignments Page");
 		lblAssignmentsPage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		panel_1.add(lblAssignmentsPage);
-		
+
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);
-		
-		
 		model = new DefaultListModel<Assignment>();
 		list = new JList<Assignment>(model);
 		scrollPane = new JScrollPane(list);
 		list.setFixedCellWidth(500);
 		list.setFixedCellHeight(25);
 		list.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		
+
 		panel_2.add(scrollPane);
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3);
 		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.Y_AXIS));
-		
+
 		JPanel panel_4 = new JPanel();
 		panel_3.add(panel_4);
-		
+
 		JLabel lblNewLabel = new JLabel("Assignment Options:");
 		lblNewLabel.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
 		panel_4.add(lblNewLabel);
-		
+
 		JPanel panel_6 = new JPanel();
 		panel_3.add(panel_6);
-		
+
 		JLabel lblAssignmentTitle = new JLabel("Title");
 		lblAssignmentTitle.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_6.add(lblAssignmentTitle);
-		
 		titleField = new JTextField();
 		titleField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_6.add(titleField);
@@ -137,5 +138,6 @@ public class AssignmentPage extends PagesInACourse {
 	public JList<Assignment> getList ()
 	{
 		return list;
+
 	}
 }

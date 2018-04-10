@@ -2,6 +2,11 @@ package sharedElements;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public class StudentEnrollment implements Serializable {
 
 	private static final long serialVersionUID = 7889018319659988650L;
@@ -9,10 +14,9 @@ public class StudentEnrollment implements Serializable {
 	private int student_id;
 	private int course_id;
 	private boolean enrolling;
-	
-	public StudentEnrollment(int id, int student_id, int course_id, boolean enrolling)
-	{
-		this.id =id;
+
+	public StudentEnrollment(int id, int student_id, int course_id, boolean enrolling) {
+		this.id = id;
 		this.student_id = student_id;
 		this.course_id = course_id;
 		this.enrolling = enrolling;
@@ -25,16 +29,16 @@ public class StudentEnrollment implements Serializable {
 	{
 		return id;
 	}
-	public int getStudentID()
-	{
+
+	public int getStudentID() {
 		return student_id;
 	}
-	public int getCourseID()
-	{
+
+	public int getCourseID() {
 		return course_id;
 	}
-	public boolean getEnrolling ()
-	{
+
+	public boolean getEnrolling() {
 		return enrolling;
 	}
 

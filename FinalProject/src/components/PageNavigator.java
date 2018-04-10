@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import frontEnd.*;
 import pages.*;
 import sharedElements.*;
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 
 public class PageNavigator {
-
 	protected Client client;
 	protected boolean isProfessor;
 	protected HomePage homePage;

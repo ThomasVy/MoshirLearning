@@ -7,6 +7,11 @@ import javax.swing.JOptionPane;
 
 import sharedElements.*;
 
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public class LoginWindowController {
 
 	private LoginWindow view;
@@ -46,7 +51,8 @@ public class LoginWindowController {
 		LoginInfo userLoginInfo = new LoginInfo(username, password);
 		User userLoggedIn = (User) client.communicateWithServer(userLoginInfo);
 		if (userLoggedIn == null) {
-			JOptionPane.showMessageDialog(null, "Invalid username/password.", "Failed Login", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Invalid username/password.", "Failed Login",
+					JOptionPane.ERROR_MESSAGE);
 		} else {
 			System.out.println("Login accepted.");
 			view.dispose();

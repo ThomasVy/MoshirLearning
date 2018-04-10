@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 /**
  * Provides the fields and methods required to create a User object.
- * @author R. Lim
+ * 
+ * @author Rainer Lim & Thomas Vy
  * @version 1.0
  * @since April 3, 2018
  *
@@ -18,9 +19,13 @@ public class User implements Serializable {
 
 	/**
 	 * Constructs a User object.
-	 * @param id - the user's id
-	 * @param firstName - the user's first name
-	 * @param lastName - the user's last name
+	 * 
+	 * @param id
+	 *            - the user's id
+	 * @param firstName
+	 *            - the user's first name
+	 * @param lastName
+	 *            - the user's last name
 	 */
 	public User(int id, String firstName, String lastName) {
 		this.id = id;
@@ -28,12 +33,11 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 
-
 	// Getters:
 	public int getId() {
 		return id;
 	}
-	
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -54,7 +58,5 @@ public class User implements Serializable {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
-	
 
 }

@@ -8,6 +8,11 @@ import components.*;
 import pages.*;
 import sharedElements.*;
 
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public class ProfessorGUI extends PageNavigator {
 	private CreateCoursePage createCoursePage;
 	

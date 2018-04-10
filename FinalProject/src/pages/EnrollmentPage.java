@@ -2,12 +2,9 @@ package pages;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -15,19 +12,18 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
-import frontEnd.ProfessorGUI;
 import sharedElements.Course;
 import sharedElements.Student;
-import sharedElements.StudentEnrollment;
-
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public class EnrollmentPage extends PagesInACourse {
 
 	private static final long serialVersionUID = 1L; // The serial version UID
@@ -77,10 +73,10 @@ public class EnrollmentPage extends PagesInACourse {
 		JPanel panel_4 = new JPanel();
 		panel_3.add(panel_4);
 		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.Y_AXIS));
-		
+
 		JPanel panel_12 = new JPanel();
 		panel_4.add(panel_12);
-		
+
 		JLabel lblSearchForStudents = new JLabel("Search for Student:");
 		lblSearchForStudents.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
 		panel_12.add(lblSearchForStudents);
@@ -123,25 +119,25 @@ public class EnrollmentPage extends PagesInACourse {
 		JPanel panel_5 = new JPanel();
 		panel_3.add(panel_5);
 		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.Y_AXIS));
-		
+
 		JPanel panel_8 = new JPanel();
 		panel_5.add(panel_8);
 		panel_8.setLayout(new BoxLayout(panel_8, BoxLayout.Y_AXIS));
-		
+
 		JPanel panel_10 = new JPanel();
 		panel_8.add(panel_10);
-		
+
 		JLabel lblAddNewStudent = new JLabel("Add New Student:");
 		lblAddNewStudent.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
 		panel_10.add(lblAddNewStudent);
-		
+
 		JPanel panel_11 = new JPanel();
 		panel_8.add(panel_11);
-		
+
 		JLabel lblNameOfStudent_1 = new JLabel("Student's ID");
 		lblNameOfStudent_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_11.add(lblNameOfStudent_1);
-		
+
 		studentIDField = new JTextField();
 		studentIDField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_11.add(studentIDField);

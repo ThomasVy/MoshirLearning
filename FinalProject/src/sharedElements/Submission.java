@@ -2,7 +2,12 @@ package sharedElements;
 
 import java.io.Serializable;
 
-public class Submission implements Serializable{
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
+public class Submission implements Serializable {
 
 	private static final long serialVersionUID = 1290171084621310056L;
 	private int id;
@@ -14,21 +19,20 @@ public class Submission implements Serializable{
 	private String title;
 	private String timestamp;
 	private String fileExtension;
-	
-	public Submission()
-	{
+
+	public Submission() {
 		path = "//ServerSide//Submissions";
 	}
-	public String getFileExtension ()
-	{
+
+	public String getFileExtension() {
 		return fileExtension;
 	}
-	public void setPath (String path)
-	{
+
+	public void setPath(String path) {
 		this.path = path;
 	}
-	public String getPath ()
-	{
+
+	public String getPath() {
 		return path;
 	}
 }

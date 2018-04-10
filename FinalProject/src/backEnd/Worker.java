@@ -4,10 +4,18 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 
-import sharedElements.*;
+import sharedElements.Assignment;
+import sharedElements.Course;
+import sharedElements.LoginInfo;
+import sharedElements.StudentEnrollment;
+import sharedElements.User;
 
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public class Worker implements Runnable {
 
 	private Socket socketClient;
@@ -95,8 +103,7 @@ public class Worker implements Runnable {
 		String typeOfRequest = (String) readRequest(); // Waits for client to be more specific.
 		Object toSend = null;
 		if (typeOfRequest.equalsIgnoreCase("CreateNewCourse")) {
-			toSend = dbHelper.addCourse(courseFromClient.getId(), courseFromClient.getProfId(),
-					courseFromClient.getName(), courseFromClient.getActive());
+			toSend = dbHelper.addCourse(courseFromClient.getId(), courseFromClient.getProfId(), courseFromClient.getName(), courseFromClient.getActive());
 		} else if (typeOfRequest.equalsIgnoreCase("ChangeActiveState")) {
 			dbHelper.changeStateOfCourse(courseFromClient);
 		} else if (typeOfRequest.equalsIgnoreCase("GetEnrollmentList")) {

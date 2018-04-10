@@ -2,30 +2,25 @@ package pages;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
-import frontEnd.ProfessorGUI;
 import sharedElements.Course;
-import javax.swing.BoxLayout;
 
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public class HomePage extends Page {
 
-	private static final long serialVersionUID = 1L; // The serial version UID
-
-	/**
-	 * Create the frame.
-	 */
 	public HomePage(ArrayList<Course> courses, boolean isProfessor) {
 		super(courses, isProfessor);
 		if(isProfessor == true)
@@ -36,20 +31,21 @@ public class HomePage extends Page {
 			btnNewButton_6.setBackground(new Color(135, 206, 235));
 			panel_1.add(btnNewButton_6);
 		}
+
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		
+
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1);
-		
+
 		JLabel lblNewLabel = new JLabel("Home Page");
 		lblNewLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		panel_1.add(lblNewLabel);
-		
+
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);
-		
+
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3);
 

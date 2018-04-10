@@ -4,10 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,10 +21,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import components.PageNavigator;
-import frontEnd.ProfessorGUI;
 import sharedElements.Course;
 
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public abstract class Page extends JFrame {
 
 	private static final long serialVersionUID = 1L; // The serial version UID
@@ -47,14 +48,14 @@ public abstract class Page extends JFrame {
 	protected JButton btnNewButton;
 	protected JComboBox<Course> comboBox;
 	protected JButton btnNewButton_1;
-	
+
 	protected JButton btnNewButton_2;
 	protected JButton btnNewButton_3;
 	protected JButton btnNewButton_4;
 	protected JButton btnNewButton_5;
 	protected JButton btnNewButton_6;
 	protected JLabel lbl;
-	
+
 	protected JPanel panel_8;
 	protected JPanel panel_10;
 

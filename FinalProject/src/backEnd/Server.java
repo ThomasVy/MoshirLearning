@@ -6,6 +6,11 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public class Server {
 
 	private ExecutorService threadpool;
@@ -25,7 +30,7 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("System is le working.");
+		System.out.println("Server is running.");
 	}
 
 	public void communicate() {

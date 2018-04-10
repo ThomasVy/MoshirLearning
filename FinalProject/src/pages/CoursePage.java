@@ -2,9 +2,7 @@ package pages;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -12,13 +10,13 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import components.PageNavigator;
-import frontEnd.ProfessorGUI;
 import sharedElements.Course;
-
+/**
+ * 
+ * @author Rainer Lim & Thomas Vy
+ *
+ */
 public class CoursePage extends PagesInACourse {
-
 	private JButton btnActivity;
 	/**
 	 * 
