@@ -70,43 +70,44 @@ public class AssignmentPage extends PagesInACourse {
 
 		JPanel panel_6 = new JPanel();
 		panel_3.add(panel_6);
-
-		JLabel lblAssignmentTitle = new JLabel("Title");
-		lblAssignmentTitle.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_6.add(lblAssignmentTitle);
-		titleField = new JTextField();
-		titleField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_6.add(titleField);
-		titleField.setColumns(10);
-		
-		JLabel lblDueDate = new JLabel("Due Date");
-		lblDueDate.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_6.add(lblDueDate);
-		
-		dueDateField = new JTextField();
-		dueDateField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_6.add(dueDateField);
-		dueDateField.setColumns(10);
-		
-		JPanel panel_5 = new JPanel();
-		panel_3.add(panel_5);
-		
-		uploadButton = new JButton("Upload");
-		uploadButton.setForeground(Color.WHITE);
-		uploadButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		uploadButton.setBackground(new Color(135, 206, 235));
-		panel_5.add(uploadButton);
-		
-		deleteButton = new JButton("Delete");
-		deleteButton.setForeground(Color.WHITE);
-		deleteButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		deleteButton.setBackground(new Color(135, 206, 235));
-		panel_5.add(deleteButton);	
-		changeStateButton = new JButton("Change Active State");
-		changeStateButton.setForeground(Color.WHITE);
-		changeStateButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		changeStateButton.setBackground(Color.DARK_GRAY);
-		panel_5.add(changeStateButton);
+		if(isProfessor == true)
+		{
+			JLabel lblAssignmentTitle = new JLabel("Title");
+			lblAssignmentTitle.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			panel_6.add(lblAssignmentTitle);
+			titleField = new JTextField();
+			titleField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			panel_6.add(titleField);
+			titleField.setColumns(10);
+			
+			JLabel lblDueDate = new JLabel("Due Date");
+			lblDueDate.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			panel_6.add(lblDueDate);
+			
+			dueDateField = new JTextField();
+			dueDateField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			panel_6.add(dueDateField);
+			dueDateField.setColumns(10);
+			
+			JPanel panel_5 = new JPanel();
+			panel_3.add(panel_5);
+			uploadButton = new JButton("Upload");
+			uploadButton.setForeground(Color.WHITE);
+			uploadButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			uploadButton.setBackground(new Color(135, 206, 235));
+			panel_5.add(uploadButton);
+			
+			deleteButton = new JButton("Delete");
+			deleteButton.setForeground(Color.WHITE);
+			deleteButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			deleteButton.setBackground(new Color(135, 206, 235));
+			panel_5.add(deleteButton);	
+			changeStateButton = new JButton("Change Active State");
+			changeStateButton.setForeground(Color.WHITE);
+			changeStateButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			changeStateButton.setBackground(Color.DARK_GRAY);
+			panel_5.add(changeStateButton);
+		}
 	}
 	public void setupUploadButton (ActionListener e)
 	{

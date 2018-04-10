@@ -41,7 +41,7 @@ public class CourseHandler {
 		courses = pageNavigator.getCourses();
 		courseHomePage = new CoursePage(courses, pageNavigator.getIsProfessor(), currentCourse); //start off with home page at first
 		pageNavigator.addComboBoxListener(courseHomePage);
-		addHomeButtonListener(courseHomePage);
+		pageNavigator.addHomeButtonListener(courseHomePage);
 		addPageListeners(courseHomePage);
 		addCourseHomePageListener();
 		courseHomePage.setVisible(true);
@@ -52,7 +52,7 @@ public class CourseHandler {
 		assignmentPage = new AssignmentPage(courses, pageNavigator.getIsProfessor(), currentCourse);
 		assignmentPage.setAssignmentList((ArrayList<Assignment>)pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList"));
 		pageNavigator.addComboBoxListener(assignmentPage);
-		addHomeButtonListener(assignmentPage);
+		pageNavigator.addHomeButtonListener(assignmentPage);
 		addPageListeners(assignmentPage);
 		addAssignmentButtonListeners();
 		assignmentPage.setVisible(true);
@@ -62,7 +62,7 @@ public class CourseHandler {
 		courses = pageNavigator.getCourses();
 		submissionPage = new SubmissionPage(courses, pageNavigator.getIsProfessor(), currentCourse);
 		pageNavigator.addComboBoxListener(submissionPage);
-		addHomeButtonListener(submissionPage);
+		pageNavigator.addHomeButtonListener(submissionPage);
 		addPageListeners(submissionPage);
 		addSubmissionButtonListeners();
 		submissionPage.setVisible(true);
@@ -73,7 +73,7 @@ public class CourseHandler {
 		enrollmentPage = new EnrollmentPage(courses, pageNavigator.getIsProfessor(), currentCourse);
 		enrollmentPage.setEnrollList((ArrayList<Student>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetEnrollmentList"));
 		pageNavigator.addComboBoxListener(enrollmentPage);
-		addHomeButtonListener(enrollmentPage);
+		pageNavigator.addHomeButtonListener(enrollmentPage);
 		addPageListeners(enrollmentPage);
 		addEnrollmentButtonListeners();
 		enrollmentPage.setVisible(true);
@@ -83,26 +83,10 @@ public class CourseHandler {
 		courses = pageNavigator.getCourses();
 		gradePage = new GradePage(courses, pageNavigator.getIsProfessor(), currentCourse);
 		pageNavigator.addComboBoxListener(gradePage);
-		addHomeButtonListener(gradePage);
+		pageNavigator.addHomeButtonListener(gradePage);
 		addPageListeners(gradePage);
 		addGradeButtonListeners();
 		gradePage.setVisible(true);	
-	}
-	
-	private void addHomeButtonListener(PagesInACourse page)
-	{
-		page.setUpHomeButtonListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				page.dispose();
-				pageNavigator.createHomePage();
-				if(pageNavigator.getIsProfessor()==true)
-				{
-					ProfessorGUI prof = (ProfessorGUI)pageNavigator;
-					prof.addCreateACourseListener();
-				}
-				
-			}
-		});
 	}
 	private void addPageListeners(PagesInACourse page)
 	{
@@ -133,30 +117,36 @@ public class CourseHandler {
 	}
 	private void addCourseHomePageListener()
 	{
-		courseHomePage.setupCourseActiveButton(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (currentCourse.getActive()== false) // Makes it active
-				{
-					String text = "Course Active";
-					Color colour = new Color(60, 179, 113);
-					courseHomePage.setActiveButton(text, colour);
-					currentCourse.setActive(true);
-				} else // deactivates the course
-				{
-					String text = "Course Inactive";
-					Color colour = new Color(250, 128, 114);
-					courseHomePage.setActiveButton(text, colour);
-					currentCourse.setActive(false);
+		if(pageNavigator.getIsProfessor()==true)
+		{
+			courseHomePage.setupCourseActiveButton(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (currentCourse.getActive()== false) // Makes it active
+					{
+						String text = "Course Active";
+						Color colour = new Color(60, 179, 113);
+						courseHomePage.setActiveButton(text, colour);
+						currentCourse.setActive(true);
+					} else // deactivates the course
+					{
+						String text = "Course Inactive";
+						Color colour = new Color(250, 128, 114);
+						courseHomePage.setActiveButton(text, colour);
+						currentCourse.setActive(false);
+					}
+					pageNavigator.getClient().communicateWithServer(currentCourse, "ChangeActiveState");
 				}
-				pageNavigator.getClient().communicateWithServer(currentCourse, "ChangeActiveState");
-			}
-		});
+			});
+		}
 	}
 	private void addAssignmentButtonListeners()
 	{
-		initUploadAssignmentButton();
-		initDeleteAssignmentButton();
-		initChangeStateButton();
+		if(pageNavigator.getIsProfessor()==true)
+		{
+			initUploadAssignmentButton();
+			initDeleteAssignmentButton();
+			initChangeStateButton();
+		}
 	}
 	private void addSubmissionButtonListeners()
 	{
@@ -169,8 +159,11 @@ public class CourseHandler {
 	private void addEnrollmentButtonListeners()
 	{
 		initSearchEnrollmentButton();
-		initEnrollButton();
-		initUnenrollButton();
+		if(pageNavigator.getIsProfessor()==true)
+		{
+			initEnrollButton();
+			initUnenrollButton();
+		}
 	}
 	private void initSearchEnrollmentButton()
 	{

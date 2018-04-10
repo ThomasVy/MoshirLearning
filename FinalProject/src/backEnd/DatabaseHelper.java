@@ -10,12 +10,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-import sharedElements.Assignment;
-import sharedElements.Course;
-import sharedElements.Professor;
-import sharedElements.Student;
-import sharedElements.StudentEnrollment;
-import sharedElements.User;
+import sharedElements.*;
 
 /**
  * Provides the fields and methods required to create a DatabaseHelper object.
@@ -257,36 +252,61 @@ public class DatabaseHelper implements ConnectionConstants {
 		int id = user.getId();
 		String typeOfUser = user.getClass().getSimpleName();
 		ArrayList<Course> courses = new ArrayList<Course>();
-		if (typeOfUser.equals("Student")) {
-
-		} else if (typeOfUser.equals("Professor")) {
-			courses = selectCoursesFromDB(id, "CourseTable");
+		if(typeOfUser.equals("Student"))
+		{
+			courses= selectStudentCoursesFromDB(id);
+		}
+		else if(typeOfUser.equals("Professor")){
+			courses = selectProfCoursesFromDB(id);
 		}
 		return courses;
 	}
 
 	/**
 	 * A helper method used by the getCourses method.
-	 * @param id - the user's id
+	 * @param id - the prof's id
 	 * @param table - the table's name
-	 * @return - the user's courses
+	 * @return - the prof's courses
 	 */
-	private ArrayList<Course> selectCoursesFromDB(int id, String table) {
+	private ArrayList<Course> selectProfCoursesFromDB(int prof_id) {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		try {
 			statement = connection.createStatement();
-			String sql = "SELECT * FROM " + table + " WHERE prof_id = " + "'" + id + "'";
+			String sql = "SELECT * FROM CourseTable WHERE prof_id = " + "'" + prof_id + "'";
 			resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
-				courses.add(new Course(resultSet.getInt("id"), resultSet.getInt("prof_id"), resultSet.getString("name"),
-						resultSet.getInt("active") == 1));
+					courses.add(new Course(resultSet.getInt("id"), resultSet.getInt("prof_id"), resultSet.getString("name"),
+							resultSet.getInt("active") == 1));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return courses;
 	}
-
+	private ArrayList<Course> selectStudentCoursesFromDB(int student_id)
+	{
+		ArrayList<Course> courses = new ArrayList<Course>();
+		try {
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM EnrollmentTable WHERE student_id = " + "'" + student_id + "'";
+			resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				Statement secondStatement = connection.createStatement();
+				sql = "SELECT * FROM CourseTable WHERE id = " + "'" + resultSet.getInt("course_id") + "'";
+				ResultSet secondResultSet = secondStatement.executeQuery(sql);
+				while (secondResultSet.next()) {
+					if(secondResultSet.getInt("active") == 1)
+					{
+						courses.add(new Course(secondResultSet.getInt("id"), secondResultSet.getInt("prof_id"), secondResultSet.getString("name"),
+								secondResultSet.getInt("active") == 1));
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return courses;
+	}
 	/**
 	 * Adds a course into the database.
 	 * @param id - the course id
@@ -536,7 +556,46 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 		return result;
 	}
+	public Assignment getAssignment (int assignment_id)
+	{
+		Assignment assignment = null;
+		try {
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM AssignmentTable WHERE id = " + assignment_id;
+			ResultSet temp = statement.executeQuery(sql);
+			if (temp.next())
+				assignment = new Assignment(assignment_id,
+											temp.getInt("course_id"),
+											temp.getString("title"),
+											temp.getString("path"),
+											temp.getInt("active")==1,
+											temp.getString("due_date"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return assignment;
+	}
+	public ArrayList<Grade> getGradeList (Course course)
+	{
+		ArrayList<Grade> grades = new ArrayList<Grade>();
+		try {
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM GradeTable WHERE course_id = " + course.getId();
+			resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				Student fetchedStudent = getStudent(resultSet.getInt("student_id"));
+				Grade fetchedgrade = new Grade(resultSet.getInt("student_id"),
+											   resultSet.getInt("assignment_grade"),
+											   fetchedStudent.getFirstName()+" "+fetchedStudent.getLastName(),
+											   getAssignment(resultSet.getInt("assign_id")).getTitle());
 
+				grades.add(fetchedgrade);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return grades;
+	}
 //	/**
 //	 * Sets up the database.
 //	 * @param args - command-line arguments

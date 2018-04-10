@@ -115,48 +115,50 @@ public class EnrollmentPage extends PagesInACourse {
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(rdbtnId);
 		bg.add(rdbtnLastName);
-
-		JPanel panel_5 = new JPanel();
-		panel_3.add(panel_5);
-		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.Y_AXIS));
-
-		JPanel panel_8 = new JPanel();
-		panel_5.add(panel_8);
-		panel_8.setLayout(new BoxLayout(panel_8, BoxLayout.Y_AXIS));
-
-		JPanel panel_10 = new JPanel();
-		panel_8.add(panel_10);
-
-		JLabel lblAddNewStudent = new JLabel("Add New Student:");
-		lblAddNewStudent.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
-		panel_10.add(lblAddNewStudent);
-
-		JPanel panel_11 = new JPanel();
-		panel_8.add(panel_11);
-
-		JLabel lblNameOfStudent_1 = new JLabel("Student's ID");
-		lblNameOfStudent_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_11.add(lblNameOfStudent_1);
-
-		studentIDField = new JTextField();
-		studentIDField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_11.add(studentIDField);
-		studentIDField.setColumns(10);
+		if(isProfessor ==true)
+		{
+			JPanel panel_5 = new JPanel();
+			panel_3.add(panel_5);
+			panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.Y_AXIS));
+	
+			JPanel panel_8 = new JPanel();
+			panel_5.add(panel_8);
+			panel_8.setLayout(new BoxLayout(panel_8, BoxLayout.Y_AXIS));
+	
+			JPanel panel_10 = new JPanel();
+			panel_8.add(panel_10);
+	
+			JLabel lblAddNewStudent = new JLabel("Add New Student:");
+			lblAddNewStudent.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
+			panel_10.add(lblAddNewStudent);
+	
+			JPanel panel_11 = new JPanel();
+			panel_8.add(panel_11);
+	
+			JLabel lblNameOfStudent_1 = new JLabel("Student's ID");
+			lblNameOfStudent_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			panel_11.add(lblNameOfStudent_1);
+	
+			studentIDField = new JTextField();
+			studentIDField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			panel_11.add(studentIDField);
+			studentIDField.setColumns(10);
+			
+			JPanel panel_9 = new JPanel();
+			panel_5.add(panel_9);
 		
-		JPanel panel_9 = new JPanel();
-		panel_5.add(panel_9);
-		
-		btnNewButton_8 = new JButton("Enroll");
-		btnNewButton_8.setForeground(Color.WHITE);
-		btnNewButton_8.setBackground(new Color(135, 206, 235));
-		btnNewButton_8.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_9.add(btnNewButton_8);
-		
-		btnNewButton_7 = new JButton("Unenroll");
-		btnNewButton_7.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_7.setForeground(Color.WHITE);
-		btnNewButton_7.setBackground(new Color(135, 206, 235));
-		panel_9.add(btnNewButton_7);
+			btnNewButton_8 = new JButton("Enroll");
+			btnNewButton_8.setForeground(Color.WHITE);
+			btnNewButton_8.setBackground(new Color(135, 206, 235));
+			btnNewButton_8.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			panel_9.add(btnNewButton_8);
+			
+			btnNewButton_7 = new JButton("Unenroll");
+			btnNewButton_7.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			btnNewButton_7.setForeground(Color.WHITE);
+			btnNewButton_7.setBackground(new Color(135, 206, 235));
+			panel_9.add(btnNewButton_7);
+		}
 	}
 	public void setupEnrollButton(ActionListener e)
 	{

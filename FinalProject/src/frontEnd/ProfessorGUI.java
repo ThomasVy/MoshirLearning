@@ -18,7 +18,16 @@ public class ProfessorGUI extends PageNavigator {
 	
 	public ProfessorGUI(Client client, Professor professor) {
 		super(client, true,professor);
+	}
+	@Override
+	public void createHomePage ()
+	{
+		courses = getCourses();
+		homePage = new HomePage(courses, isProfessor);
+		addComboBoxListener(homePage);
 		addCreateACourseListener();
+		addHomeButtonListener(homePage);
+		homePage.setVisible(true);
 	}
 	public void addCreateACourseListener()
 	{
@@ -48,7 +57,6 @@ public class ProfessorGUI extends PageNavigator {
 			public void actionPerformed(ActionEvent e) {
 				createCoursePage.dispose();
 				createHomePage();
-				addCreateACourseListener();
 			}
 		});
 	}
@@ -58,7 +66,6 @@ public class ProfessorGUI extends PageNavigator {
 			public void actionPerformed(ActionEvent e) {
 				createCoursePage.dispose();
 				createHomePage();
-				addCreateACourseListener();
 			}
 		});
 	}

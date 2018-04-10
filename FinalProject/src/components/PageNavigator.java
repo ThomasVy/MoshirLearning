@@ -1,5 +1,7 @@
 package components;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class PageNavigator {
 		courses = getCourses();
 		homePage = new HomePage(courses, isProfessor);
 		addComboBoxListener(homePage);
+		addHomeButtonListener(homePage);
 		homePage.setVisible(true);
 	}
 	public void addComboBoxListener(Page page)
@@ -49,6 +52,15 @@ public class PageNavigator {
 			}
 		});
 		
+	}
+	public void addHomeButtonListener(Page page)
+	{
+		page.setUpHomeButtonListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				page.dispose();
+				createHomePage();
+			}
+		});
 	}
 	public void showCourse(Course currentCourse)
 	{

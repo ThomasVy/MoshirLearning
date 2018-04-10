@@ -44,26 +44,28 @@ public class CoursePage extends PagesInACourse {
 
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);
-
-		JLabel lblNewLabel_1 = new JLabel("Click to Change Course Activity");
-		lblNewLabel_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_2.add(lblNewLabel_1);
-		String active;
-		btnActivity = new JButton();
-		if (courseOfThePage.getActive() == true) {
-			btnActivity.setBackground(new Color(60, 179, 113));
-			active = "Course Active";
-		} else {
-			btnActivity.setBackground(new Color(250, 128, 114));
-			active = "Course Inactive";
+		if(isProfessor == true)
+		{
+			JLabel lblNewLabel_1 = new JLabel("Click to Change Course Activity");
+			lblNewLabel_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			panel_2.add(lblNewLabel_1);
+			String active;
+			btnActivity = new JButton();
+			if (courseOfThePage.getActive() == true) {
+				btnActivity.setBackground(new Color(60, 179, 113));
+				active = "Course Active";
+			} else {
+				btnActivity.setBackground(new Color(250, 128, 114));
+				active = "Course Inactive";
+			}
+			btnActivity.setText(active);
+			btnActivity.setForeground(Color.WHITE);
+			btnActivity.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			panel_2.add(btnActivity);
+	
+			JPanel panel_3 = new JPanel();
+			panel.add(panel_3);
 		}
-		btnActivity.setText(active);
-		btnActivity.setForeground(Color.WHITE);
-		btnActivity.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_2.add(btnActivity);
-
-		JPanel panel_3 = new JPanel();
-		panel.add(panel_3);
 	}
 	public void setupCourseActiveButton(ActionListener e)
 	{

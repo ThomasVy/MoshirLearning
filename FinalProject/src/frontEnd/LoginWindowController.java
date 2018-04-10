@@ -53,10 +53,13 @@ public class LoginWindowController {
 		if (userLoggedIn == null) {
 			JOptionPane.showMessageDialog(null, "Invalid username/password.", "Failed Login",
 					JOptionPane.ERROR_MESSAGE);
-		} else {
-			System.out.println("Login accepted.");
+		} else if (userLoggedIn.getClass().getSimpleName().equals("Professor")){
 			view.dispose();
 			ProfessorGUI pgui = new ProfessorGUI(client,(Professor) userLoggedIn);
+		}
+		else if(userLoggedIn.getClass().getSimpleName().equals("Student")) {
+			view.dispose();
+			StudentGUI sgui = new StudentGUI(client,(Student)userLoggedIn);
 		}
 	}
 

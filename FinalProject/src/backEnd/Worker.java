@@ -96,6 +96,10 @@ public class Worker implements Runnable {
 		} else if (typeOfRequest.equalsIgnoreCase("ChangeActiveState")) {
 			dbHelper.changeStateOfAssignment(selectedAssignment);
 		}
+		else if(typeOfRequest.equalsIgnoreCase("DownloadAssignment"))
+		{
+			toSend = fileHelper.getFileContent(selectedAssignment.getPath());
+		}
 		return toSend;
 	}
 
@@ -111,7 +115,11 @@ public class Worker implements Runnable {
 		} else if (typeOfRequest.equalsIgnoreCase("GetAssignmentList")) {
 			toSend = dbHelper.getAssignmentList(courseFromClient);
 		} else if (typeOfRequest.equalsIgnoreCase("GetGrades")) {
-
+			toSend = dbHelper.getGradeList(courseFromClient);
+		} 
+		else if (typeOfRequest.equalsIgnoreCase("GetSubmissions"))
+		{
+			
 		}
 		return toSend;
 	}
