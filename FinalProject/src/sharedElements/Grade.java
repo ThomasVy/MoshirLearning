@@ -24,7 +24,6 @@ public class Grade implements Serializable{
 	public int getGrade ()
 	{
 		return grade;
-		
 	}
 	public String getStudentName ()
 	{

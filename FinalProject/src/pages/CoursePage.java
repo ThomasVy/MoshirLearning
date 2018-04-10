@@ -29,7 +29,7 @@ public class CoursePage extends PagesInACourse {
 	 * Create the frame.
 	 */
 	public CoursePage(ArrayList<Course> courses, boolean isProfessor, Course courseOfThePage) {
-		super(courses,isProfessor, courseOfThePage);
+		super(courses, isProfessor,courseOfThePage);
 
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
@@ -41,16 +41,34 @@ public class CoursePage extends PagesInACourse {
 		JLabel lblNewLabel = new JLabel("Course Page");
 		lblNewLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		panel_1.add(lblNewLabel);
-
-		JPanel panel_2 = new JPanel();
-		panel.add(panel_2);
+				
+		JPanel panel_4 = new JPanel();
+		panel.add(panel_4);
+		String emailLabel = "Send Email to Course Professor";
 		if(isProfessor == true)
 		{
+			emailLabel = "Send Email to All Students";
+		}
+		JLabel lblSendEmailTo = new JLabel(emailLabel);
+		lblSendEmailTo.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_4.add(lblSendEmailTo);
+		
+		JButton btnEmail = new JButton("Email");
+		btnEmail.setForeground(Color.WHITE);
+		btnEmail.setBackground(new Color(135, 206, 235));
+		btnEmail.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_4.add(btnEmail);
+		JPanel panel_2 = new JPanel();
+		panel.add(panel_2);
+				
+		if(isProfessor == true)
+		{
+			
 			JLabel lblNewLabel_1 = new JLabel("Click to Change Course Activity");
 			lblNewLabel_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			btnActivity = new JButton();
 			panel_2.add(lblNewLabel_1);
 			String active;
-			btnActivity = new JButton();
 			if (courseOfThePage.getActive() == true) {
 				btnActivity.setBackground(new Color(60, 179, 113));
 				active = "Course Active";
@@ -62,9 +80,6 @@ public class CoursePage extends PagesInACourse {
 			btnActivity.setForeground(Color.WHITE);
 			btnActivity.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 			panel_2.add(btnActivity);
-	
-			JPanel panel_3 = new JPanel();
-			panel.add(panel_3);
 		}
 	}
 	public void setupCourseActiveButton(ActionListener e)
