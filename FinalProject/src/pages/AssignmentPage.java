@@ -24,6 +24,7 @@ import java.awt.FlowLayout;
  */
 public class AssignmentPage extends PagesInACourse {
 
+	private static final long serialVersionUID = 1L;
 	private DefaultListModel<Assignment> model;
 	private JList<Assignment> list;
 	private JScrollPane scrollPane;
@@ -36,9 +37,9 @@ public class AssignmentPage extends PagesInACourse {
 	/**
 	 * Launch the application.
 	 */
-
 	public AssignmentPage(ArrayList<Course> courses, boolean isProfessor,  Course courseOfThisPage) {
 		super(courses, isProfessor, courseOfThisPage);
+
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -127,19 +128,19 @@ public class AssignmentPage extends PagesInACourse {
 	{
 		btnDownload.addActionListener(e);
 	}
-	public void setupUploadButton (ActionListener e)
+	public void setupUploadButton(ActionListener e)
 	{
 		uploadButton.addActionListener(e);
 	}
-	public void setupDeleteButton (ActionListener e)
+	public void setupDeleteButton(ActionListener e)
 	{
 		deleteButton.addActionListener(e);
 	}
-	public void setupChangeActionButton (ActionListener e)
+	public void setupChangeActionButton(ActionListener e)
 	{
 		changeStateButton.addActionListener(e);
 	}
-	public void setAssignmentList (ArrayList<Assignment> assignmentList)
+	public void setAssignmentList(ArrayList<Assignment> assignmentList)
 	{
 		model.clear();
 		for (int i = 0; i < assignmentList.size(); i++) {
@@ -157,6 +158,5 @@ public class AssignmentPage extends PagesInACourse {
 	public JList<Assignment> getList ()
 	{
 		return list;
-
 	}
 }

@@ -59,4 +59,8 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 
+	public String toString() {
+		return id + "    " + firstName + "    " + lastName;
+	}
+
 }

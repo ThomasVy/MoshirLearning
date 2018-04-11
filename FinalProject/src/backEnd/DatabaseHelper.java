@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -144,6 +146,7 @@ public class DatabaseHelper implements ConnectionConstants {
 	 */
 	public void createSubmissionTable() {
 		String sql = "CREATE TABLE " + "SubmissionTable" + " (id INT(8) NOT NULL,"
+														 + " course_id INT(8) NOT NULL,"
 														 + " assign_id INT(8) NOT NULL,"
 														 + " student_id INT(8) NOT NULL,"
 														 + " path VARCHAR(100) NOT NULL,"
@@ -276,8 +279,10 @@ public class DatabaseHelper implements ConnectionConstants {
 			String sql = "SELECT * FROM CourseTable WHERE prof_id = " + "'" + prof_id + "'";
 			resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
-					courses.add(new Course(resultSet.getInt("id"), resultSet.getInt("prof_id"), resultSet.getString("name"),
-							resultSet.getInt("active") == 1));
+					Course temp = new Course(resultSet.getInt("prof_id"), resultSet.getString("name"),
+							resultSet.getInt("active") == 1);
+					temp.setId(resultSet.getInt("id"));
+					courses.add(temp);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -298,8 +303,9 @@ public class DatabaseHelper implements ConnectionConstants {
 				while (secondResultSet.next()) {
 					if(secondResultSet.getInt("active") == 1)
 					{
-						courses.add(new Course(secondResultSet.getInt("id"), secondResultSet.getInt("prof_id"), secondResultSet.getString("name"),
-								secondResultSet.getInt("active") == 1));
+						Course temp = new Course(secondResultSet.getInt("prof_id"), secondResultSet.getString("name"), secondResultSet.getInt("active") == 1);
+						temp.setId(secondResultSet.getInt("id"));
+						courses.add(temp);
 					}
 				}
 			}
@@ -316,29 +322,32 @@ public class DatabaseHelper implements ConnectionConstants {
 	 * @param active - the course activity
 	 * @return - true if course is added, false otherwise
 	 */
-	public boolean addCourse(int id, int prof_id, String name, boolean active) {
+	public boolean addCourse(int prof_id, String name, boolean active) {
 		boolean result = false;
-		try {
-			statement = connection.createStatement();
-			String sql = "SELECT * FROM " + "CourseTable" + " WHERE name = " + "'" + name + "'";
-			resultSet = statement.executeQuery(sql);
-			if (!resultSet.next()) {
-				String bit = "";
-				if (active == true) {
-					bit = "b'1'";
-				} else {
-					bit = "b'0'";
+		int id = 0;
+		while (true) {
+			try {
+				statement = connection.createStatement();
+				String sql = "SELECT * FROM " + "CourseTable" + " WHERE name = " + "'" + name + "'";
+				resultSet = statement.executeQuery(sql);
+				if (!resultSet.next()) {
+					String bit = "";
+					if (active == true) {
+						bit = "b'1'";
+					} else {
+						bit = "b'0'";
+					}
+					sql = "INSERT INTO " + "CourseTable" + " VALUES (" + id + ", " + prof_id + ", '" + name + "', " + bit
+							+ ");";
+					statement.executeUpdate(sql);
+					result = true;
 				}
-				sql = "INSERT INTO " + "CourseTable" + " VALUES (" + id + ", " + prof_id + ", '" + name + "', " + bit
-						+ ");";
-				statement.executeUpdate(sql);
-				result = true;
+				break;
+			} catch (SQLIntegrityConstraintViolationException e) {
+				id++;
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLIntegrityConstraintViolationException e) {
-			int idnew = generateID();
-			result = addCourse(idnew, prof_id, name, active);
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		return result;
 	}
@@ -417,21 +426,23 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 		if (enroll == true) // Enroll the student
 		{
-
-			try {
-				statement = connection.createStatement();
-				String sql = "SELECT * FROM " + "EnrollmentTable" + " WHERE student_id = " + +enrollment.getStudentID() + " and course_id = " + enrollment.getCourseID();
-				resultSet = statement.executeQuery(sql);
-				if (!resultSet.next()) {
-					sql = "INSERT INTO " + "EnrollmentTable" + " VALUES (" + enrollment.getID() + ", " + enrollment.getStudentID() + ", " + enrollment.getCourseID() + ");";
-					statement.executeUpdate(sql);
-					enrollmentStatus = true;
+			int id = 0;
+			while (true) {
+				try {
+					statement = connection.createStatement();
+					String sql = "SELECT * FROM " + "EnrollmentTable" + " WHERE student_id = " + +enrollment.getStudentID() + " and course_id = " + enrollment.getCourseID();
+					resultSet = statement.executeQuery(sql);
+					if (!resultSet.next()) {
+						sql = "INSERT INTO " + "EnrollmentTable" + " VALUES (" + id + ", " + enrollment.getStudentID() + ", " + enrollment.getCourseID() + ");";
+						statement.executeUpdate(sql);
+						enrollmentStatus = true;
+					}
+					break;
+				} catch (SQLIntegrityConstraintViolationException e) {
+					id++;
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-			} catch (SQLIntegrityConstraintViolationException e) {
-				enrollment.setID(generateID());
-				enrollmentStatus = changeEnrollment(enrollment);
-			} catch (SQLException e) {
-				e.printStackTrace();
 			}
 		} else { // Unenroll student
 			try {
@@ -456,7 +467,7 @@ public class DatabaseHelper implements ConnectionConstants {
 	 * @param selectedCourse - the course
 	 * @return - the array list of assignments
 	 */
-	public ArrayList<Assignment> getAssignmentList(Course selectedCourse) {
+	public ArrayList<Assignment> getAssignmentList(Course selectedCourse, User user) {
 		ArrayList<Assignment> assignments = new ArrayList<Assignment>();
 		try {
 			statement = connection.createStatement();
@@ -464,14 +475,27 @@ public class DatabaseHelper implements ConnectionConstants {
 			resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
 				String path = resultSet.getString("path").replaceAll(";", "\\\\");
-				Assignment fetchedAssignment = new Assignment(resultSet.getInt("id"), resultSet.getInt("course_id"),
+				Assignment fetchedAssignment = new Assignment(resultSet.getInt("course_id"),
 						resultSet.getString("title"), path, resultSet.getInt("active") == 1,
 						resultSet.getString("due_date"));
-
+				fetchedAssignment.setID(resultSet.getInt("id"));
 				assignments.add(fetchedAssignment);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+		if (user.getClass().getSimpleName().equalsIgnoreCase("Student")) {
+			assignments = removeInactiveAssignments(assignments);
+		}
+		return assignments;
+	}
+
+	private ArrayList<Assignment> removeInactiveAssignments(ArrayList<Assignment> a) {
+		ArrayList<Assignment> assignments = new ArrayList<Assignment>();
+		for (int i = 0; i < a.size(); i++) {
+			if (a.get(i).getActive() == true) {
+				assignments.add(a.get(i));
+			}
 		}
 		return assignments;
 	}
@@ -504,42 +528,37 @@ public class DatabaseHelper implements ConnectionConstants {
 	 */
 	public boolean addAssignment(Assignment currentAssignment) {
 		boolean result = false;
-		try {
-			statement = connection.createStatement();
-			String sql = "SELECT * FROM " + "AssignmentTable" + " WHERE course_id = " + currentAssignment.getCourseID()
-					+ " and title = '" + currentAssignment.getTitle() + "'";
-			resultSet = statement.executeQuery(sql);
-			if (!resultSet.next()) {
-				String path = currentAssignment.getPath().replaceAll("\\\\", ";");
-				String bit = "";
-				if (currentAssignment.getActive() == true) {
-					bit = "b'1'";
-				} else {
-					bit = "b'0'";
+		int id = 0;
+		while (true) {
+	 		try {
+				statement = connection.createStatement();
+				String sql = "SELECT * FROM " + "AssignmentTable" + " WHERE course_id = " + currentAssignment.getCourseID()
+						+ " and title = '" + currentAssignment.getTitle() + "'";
+				resultSet = statement.executeQuery(sql);
+				if (!resultSet.next()) {
+					String path = currentAssignment.getPath().replaceAll("\\\\", ";");
+					String bit = "";
+					if (currentAssignment.getActive() == true) {
+						bit = "b'1'";
+					} else {
+						bit = "b'0'";
+					}
+					sql = "INSERT INTO " + "AssignmentTable" + " VALUES (" + id + ", "
+							+ currentAssignment.getCourseID() + ", '" + currentAssignment.getTitle() + "', '"
+							+ path + "', " + bit + ", '" + currentAssignment.getDueDate() + "');";
+					statement.executeUpdate(sql);
+					result = true;
 				}
-				sql = "INSERT INTO " + "AssignmentTable" + " VALUES (" + currentAssignment.getID() + ", "
-						+ currentAssignment.getCourseID() + ", '" + currentAssignment.getTitle() + "', '"
-						+ path + "', " + bit + ", '" + currentAssignment.getDueDate() + "');";
-				statement.executeUpdate(sql);
-				result = true;
+				break;
+			} catch (SQLIntegrityConstraintViolationException e) {
+				id++;
+			} catch (SQLException e) {
+				return false;
 			}
-		} catch (SQLIntegrityConstraintViolationException e) {
-			currentAssignment.setID(generateID());
-			result = addAssignment(currentAssignment);
-		} catch (SQLException e) {
-			return false;
 		}
 		return result;
 	}
-	/**
-	 * Generates a random 8-digit id.
-	 * @return - the id
-	 */
-	private int generateID() {
-		Random random = new Random();
-		int newId = 10000000 + random.nextInt(90000000);
-		return newId;
-	}
+
 	/**
 	 * Deletes an assignment from the database.
 	 * @param currentAssignment - the assignment to be deleted
@@ -569,12 +588,12 @@ public class DatabaseHelper implements ConnectionConstants {
 			if (temp.next())
 			{
 				String path = resultSet.getString("path").replaceAll(";", "\\\\");
-				assignment = new Assignment(assignment_id,
-											temp.getInt("course_id"),
+				assignment = new Assignment(temp.getInt("course_id"),
 											temp.getString("title"),
 											temp.getString("path"),
 											temp.getInt("active")==1,
 											temp.getString("due_date"));
+				assignment.setID(assignment_id);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -644,6 +663,83 @@ public class DatabaseHelper implements ConnectionConstants {
 			e.printStackTrace();
 		}
 		return emails;
+	}
+
+	// SUBMISSION METHODS
+	public ArrayList<Submission> getSubmissionList(Assignment selectedAssignment, User user) {
+		ArrayList<Submission> submissions = new ArrayList<Submission>();
+		try {
+			statement = connection.createStatement();
+			String sql = "";
+			if (user.getClass().getSimpleName().equalsIgnoreCase("Professor")) {
+				sql = "SELECT * FROM SubmissionTable WHERE assign_id = " + selectedAssignment.getID();
+			} else {
+				sql = "SELECT * FROM SubmissionTable WHERE assign_id = " + selectedAssignment.getID() + " and student_id = " + user.getId();
+			}
+			resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				Submission fetchedSubmission = new Submission(resultSet.getInt("course_id"), resultSet.getInt("assign_id"), resultSet.getInt("student_id"), resultSet.getString("path"), resultSet.getString("title"), resultSet.getInt("submission_grade"), resultSet.getString("comments"), resultSet.getString("timestamp"));
+				fetchedSubmission.setId(resultSet.getInt("id"));
+				submissions.add(fetchedSubmission);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return submissions;
+	}
+
+	public boolean addSubmission(Submission currentSubmission, Assignment a) {
+		boolean result = false;
+		int id = 0;
+		while (true) {
+			try {
+				statement = connection.createStatement();
+				String sql = "SELECT * FROM " + "SubmissionTable" + " WHERE course_id = " + currentSubmission.getCourseId() + " and title = '" + currentSubmission.getTitle() + "'";
+				resultSet = statement.executeQuery(sql);
+				if (!resultSet.next()) {
+					Calendar cal = Calendar.getInstance();
+					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+					sql = "INSERT INTO " + "SubmissionTable" + " VALUES (" + id + ", " + currentSubmission.getCourseId() + ", "+ a.getID() + ", " + currentSubmission.getStudentId() + ", '" + currentSubmission.getPath() + "', '" + currentSubmission.getTitle() + "', " + currentSubmission.getGrade() + ", '" + currentSubmission.getComments() + "', '" + sdf.format(cal.getTime()) + "');";
+					statement.executeUpdate(sql);
+					result = true;
+				}
+				break;
+			} catch (SQLIntegrityConstraintViolationException e) {
+				id++;
+			} catch (SQLException e) {
+				return false;
+			}
+		}
+		return result;
+	}
+
+	public boolean deleteSubmission(Submission currentSubmission) {
+		boolean result = false;
+		try {
+			statement = connection.createStatement();
+			String delete = "DELETE FROM SubmissionTable WHERE course_id = " + currentSubmission.getCourseId() + " and id = " + currentSubmission.getId();
+			statement.executeUpdate(delete);
+			result = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public Submission getSubmission(int submission_id) {
+		Submission submission = null;
+		try {
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM SubmissionTable WHERE id = " + submission_id;
+			ResultSet temp = statement.executeQuery(sql);
+			if (temp.next()) {
+				submission = new Submission(temp.getInt("course_id"), temp.getInt("assign_id"), temp.getInt("student_id"), temp.getString("path"), temp.getString("title"), temp.getInt("submission_grade"), temp.getString("comments"), temp.getString("timestamp"));
+				submission.setId(submission_id);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return submission;
 	}
 //	/**
 //	 * Sets up the database.

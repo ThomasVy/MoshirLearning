@@ -151,7 +151,7 @@ public abstract class Page extends JFrame {
 		try {
 			Iterator<Course> it = courses.iterator();
 			dropCourses = new Course [courses.size() + 1];
-			dropCourses[0] = new Course(-1, -1, "Select a course...", false);
+			dropCourses[0] = new Course(-1, "Select a course...", false);
 			int i = 1;
 			while(it.hasNext()) {
 				dropCourses[i++] = it.next();

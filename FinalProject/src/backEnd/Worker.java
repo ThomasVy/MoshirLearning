@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-
 import sharedElements.*;
+
 
 /**
  * 
@@ -73,6 +73,10 @@ public class Worker implements Runnable {
 			Assignment assignment = (Assignment) fromClient;
 			objectToSend = processAssignmentRequest(assignment);
 		}
+		else if (classFromClient.equals("Submission")) {
+			Submission submission = (Submission) fromClient;
+			objectToSend = processSubmissionRequest(submission);
+		}
 		else if (fromClient.equals("GetCourses")) // Getting list of courses that the user is taking
 		{
 			objectToSend = dbHelper.getCourses(userLoggedIn);
@@ -97,6 +101,25 @@ public class Worker implements Runnable {
 			dbHelper.changeStateOfAssignment(selectedAssignment);
 		}else if(typeOfRequest.equalsIgnoreCase("DownloadAssignment")){
 			toSend = fileHelper.getFileContent(selectedAssignment.getPath());
+		} else if (typeOfRequest.equalsIgnoreCase("GetSubmissionList")) {
+			User user = (User) readRequest();
+			toSend = dbHelper.getSubmissionList(selectedAssignment, user);
+		}
+		return toSend;
+	}
+
+	private Object processSubmissionRequest(Submission selectedSubmission) throws ClassNotFoundException, IOException {
+		String typeOfRequest = (String) readRequest();
+		Object toSend = null;
+		if (typeOfRequest.equalsIgnoreCase("AddSubmission")) {
+			byte[] file = (byte[]) readRequest();
+			Assignment a = (Assignment) readRequest();
+			fileHelper.writeFileContent(selectedSubmission, file);
+			toSend = dbHelper.addSubmission(selectedSubmission, a);
+		} else if (typeOfRequest.equalsIgnoreCase("DeleteSubmission")) {
+			toSend = dbHelper.deleteSubmission(selectedSubmission);
+		} else if (typeOfRequest.equalsIgnoreCase("DownloadSubmission")) {
+			toSend = fileHelper.getFileContent(selectedSubmission.getPath());
 		}
 		return toSend;
 	}
@@ -105,13 +128,14 @@ public class Worker implements Runnable {
 		String typeOfRequest = (String) readRequest(); // Waits for client to be more specific.
 		Object toSend = null;
 		if (typeOfRequest.equalsIgnoreCase("CreateNewCourse")) {
-			toSend = dbHelper.addCourse(courseFromClient.getId(), courseFromClient.getProfId(), courseFromClient.getName(), courseFromClient.getActive());
+			toSend = dbHelper.addCourse(courseFromClient.getProfId(), courseFromClient.getName(), courseFromClient.getActive());
 		} else if (typeOfRequest.equalsIgnoreCase("ChangeActiveState")) {
 			dbHelper.changeStateOfCourse(courseFromClient);
 		} else if (typeOfRequest.equalsIgnoreCase("GetEnrollmentList")) {
 			toSend = dbHelper.getEnrollmentList(courseFromClient);
 		} else if (typeOfRequest.equalsIgnoreCase("GetAssignmentList")) {
-			toSend = dbHelper.getAssignmentList(courseFromClient);
+			User user = (User) readRequest();
+			toSend = dbHelper.getAssignmentList(courseFromClient, user);
 		} else if (typeOfRequest.equalsIgnoreCase("GetGrades")) {
 			toSend = dbHelper.getGradeList(courseFromClient);
 		} else if (typeOfRequest.equalsIgnoreCase("GetSubmissions")){
