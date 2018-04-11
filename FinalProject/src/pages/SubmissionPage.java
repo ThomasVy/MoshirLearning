@@ -11,6 +11,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -18,6 +19,8 @@ import javax.swing.JTextField;
 import sharedElements.Assignment;
 import sharedElements.Course;
 import sharedElements.Submission;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
 /**
  * 
  * @author Rainer Lim & Thomas Vy
@@ -33,8 +36,10 @@ public class SubmissionPage extends PagesInACourse {
 	private JTextField assignmentIdField;
 	private JButton uploadButton;
 	private JButton deleteButton;
+	private JButton downloadButton;
+	private JButton assessButton;
 
-	public SubmissionPage(ArrayList<Course> courses, boolean isProfessor, Course selectedCourse) {
+	public SubmissionPage(ArrayList<Course> courses, boolean isProfessor, Course selectedCourse, Assignment a) {
 		super(courses, isProfessor, selectedCourse);
 
 		JPanel panel = new JPanel();
@@ -44,7 +49,7 @@ public class SubmissionPage extends PagesInACourse {
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1);
 
-		JLabel lblSubmissionsPage = new JLabel("Submissions Page");
+		JLabel lblSubmissionsPage = new JLabel(a.getTitle());
 		lblSubmissionsPage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		panel_1.add(lblSubmissionsPage);
 
@@ -64,14 +69,33 @@ public class SubmissionPage extends PagesInACourse {
 
 		JPanel panel_4 = new JPanel();
 		panel_3.add(panel_4);
+		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.Y_AXIS));
 
 		JLabel lblNewLabel = new JLabel("Submission Options:");
+		lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lblNewLabel.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
 		panel_4.add(lblNewLabel);
+		
+		JPanel panel_7 = new JPanel();
+		panel_4.add(panel_7);
+		
+		if (isProfessor) {
+			downloadButton = new JButton("Download");
+			downloadButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			downloadButton.setForeground(Color.WHITE);
+			downloadButton.setBackground(new Color(135, 206, 235));
+			panel_7.add(downloadButton);
+
+			assessButton = new JButton("Assess");
+			assessButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			assessButton.setForeground(Color.WHITE);
+			assessButton.setBackground(new Color(135, 206, 235));
+			panel_7.add(assessButton);
+		}
 
 		JPanel panel_6 = new JPanel();
 		panel_3.add(panel_6);
-		if(isProfessor == false)
+		if (isProfessor == false)
 		{
 			JLabel lblSubmissionTitle = new JLabel("Title");
 			lblSubmissionTitle.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
@@ -80,15 +104,6 @@ public class SubmissionPage extends PagesInACourse {
 			titleField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 			panel_6.add(titleField);
 			titleField.setColumns(10);
-			
-			JLabel lblAssignmentId = new JLabel("Assignment ID");
-			lblAssignmentId.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			panel_6.add(lblAssignmentId);
-
-			assignmentIdField = new JTextField();
-			assignmentIdField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			panel_6.add(assignmentIdField);
-			assignmentIdField.setColumns(10);
 			
 			JPanel panel_5 = new JPanel();
 			panel_3.add(panel_5);
@@ -113,6 +128,10 @@ public class SubmissionPage extends PagesInACourse {
 	{
 		deleteButton.addActionListener(e);
 	}
+	public void setupAssessButton (ActionListener e)
+	{
+		assessButton.addActionListener(e);
+	}
 	public void setSubmissionList (ArrayList<Submission> submissionList)
 	{
 		model.clear();
@@ -123,9 +142,6 @@ public class SubmissionPage extends PagesInACourse {
 	public String getSubmissionTitle ()
 	{
 		return titleField.getText();
-	}
-	public String getSubmissionAssignmentId() {
-		return assignmentIdField.getText();
 	}
 	public JList<Submission> getList ()
 	{

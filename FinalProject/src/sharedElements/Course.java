@@ -30,8 +30,7 @@ public class Course implements Serializable {
 	 * @param active
 	 *            - the course activity
 	 */
-	public Course(int id, int profId, String name, boolean active) {
-		this.id = id;
+	public Course(int profId, String name, boolean active) {
 		this.profId = profId;
 		this.name = name;
 		this.active = active;

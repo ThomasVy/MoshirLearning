@@ -20,8 +20,7 @@ public class Submission implements Serializable {
 	private String comments;
 	private String timestamp;
 
-	public Submission(int id, int course_id, int assign_id, int student_id, String path, String title, int grade, String comments, String timestamp) {
-		this.id = id;
+	public Submission(int course_id, int assign_id, int student_id, String path, String title, int grade, String comments, String timestamp) {
 		this.course_id = course_id;
 		this.assign_id = assign_id;
 		this.student_id = student_id;
@@ -108,7 +107,7 @@ public class Submission implements Serializable {
 
 	@Override
 	public String toString() {
-		return id + "   " + title +  "   " + student_id + "   " + timestamp;
+		return title +  "    " + student_id + "    " + timestamp;
 	}
 
 }

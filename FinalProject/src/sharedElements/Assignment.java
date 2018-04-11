@@ -17,8 +17,7 @@ public class Assignment implements Serializable {
 	private boolean active;
 	private String due_date;
 
-	public Assignment(int id, int course_id, String title, String path, boolean active, String due_date) {
-		this.id = id;
+	public Assignment(int course_id, String title, String path, boolean active, String due_date) {
 		this.course_id = course_id;
 		this.title = title;
 		this.path = path; // path will include the file name and file extension.
@@ -40,12 +39,12 @@ public class Assignment implements Serializable {
 	public void setID (int id) {
 		this.id =id;
 	}
-	public void setActiveToOpposite ()
+	public void setActiveToOpposite()
 	{
 		if(active == false)
-			active =true;
+			active = true;
 		else
-			active =false;
+			active = false;
 	}
 	public boolean getActive() {
 		return active;
@@ -68,7 +67,7 @@ public class Assignment implements Serializable {
 		String state = "Active";
 		if (active == false)
 			state = "Inactive";
-		return id + "   " + title + "   " + due_date + "   " + state;
+		return title + "    " + due_date + "    " + state;
 	}
 
 }

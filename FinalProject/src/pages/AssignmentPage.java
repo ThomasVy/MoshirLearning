@@ -34,6 +34,7 @@ public class AssignmentPage extends PagesInACourse {
 
 	public AssignmentPage(ArrayList<Course> courses, boolean isProfessor,  Course courseOfThisPage) {
 		super(courses, isProfessor, courseOfThisPage);
+
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -107,19 +108,19 @@ public class AssignmentPage extends PagesInACourse {
 			panel_5.add(changeStateButton);
 		}
 	}
-	public void setupUploadButton (ActionListener e)
+	public void setupUploadButton(ActionListener e)
 	{
 		uploadButton.addActionListener(e);
 	}
-	public void setupDeleteButton (ActionListener e)
+	public void setupDeleteButton(ActionListener e)
 	{
 		deleteButton.addActionListener(e);
 	}
-	public void setupChangeActionButton (ActionListener e)
+	public void setupChangeActionButton(ActionListener e)
 	{
 		changeStateButton.addActionListener(e);
 	}
-	public void setAssignmentList (ArrayList<Assignment> assignmentList)
+	public void setAssignmentList(ArrayList<Assignment> assignmentList)
 	{
 		model.clear();
 		for (int i = 0; i < assignmentList.size(); i++) {

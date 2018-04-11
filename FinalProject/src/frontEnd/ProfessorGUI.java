@@ -75,9 +75,7 @@ public class ProfessorGUI extends PageNavigator {
 			public void actionPerformed(ActionEvent e) {
 				String courseName = createCoursePage.getCourseName();
 				if (courseName.length() != 0) {
-					Random random = new Random();
-					int newId = 10000000 + random.nextInt(90000000); // Need to fix id generator
-					Course newCourse = new Course(newId, user.getId(), courseName, false);
+					Course newCourse = new Course(user.getId(), courseName, false);
 					boolean approved = (boolean) client.communicateWithServer(newCourse, "CreateNewCourse");
 					if (approved == false) {
 						createCoursePage.showError("Invalid input for new course.");
