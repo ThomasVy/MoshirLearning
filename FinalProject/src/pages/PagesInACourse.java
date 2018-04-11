@@ -28,11 +28,13 @@ public class PagesInACourse extends Page{
 		btnNewButton_2.setBackground(new Color(135, 206, 235));
 		panel_1.add(btnNewButton_2);
 	
-		btnNewButton_3 = new JButton("Grades");
-		btnNewButton_3.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_3.setForeground(Color.WHITE);
-		btnNewButton_3.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_3);
+		if (!isProfessor) {
+			btnNewButton_3 = new JButton("Grades");
+			btnNewButton_3.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			btnNewButton_3.setForeground(Color.WHITE);
+			btnNewButton_3.setBackground(new Color(135, 206, 235));
+			panel_1.add(btnNewButton_3);
+		}
 	
 		btnNewButton_4 = new JButton("Submissions");
 		btnNewButton_4.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
@@ -57,7 +59,9 @@ public class PagesInACourse extends Page{
 	}
 	public void addGradesButtonListener(ActionListener e)
 	{
-		btnNewButton_3.addActionListener(e);
+		if (!isProfessor) {
+			btnNewButton_3.addActionListener(e);
+		}
 	}
 	public void addSubmissionsButtonListener(ActionListener e)
 	{

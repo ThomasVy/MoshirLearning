@@ -111,7 +111,7 @@ public class CourseHandler {
 		pageNavigator.addHomeButtonListener(gradePage);
 		addPageListeners(gradePage);
 		addGradeButtonListeners();
-		gradePage.setVisible(true);	
+		gradePage.setVisible(true);
 	}
 	private void addPageListeners(PagesInACourse page)
 	{
@@ -369,17 +369,21 @@ public class CourseHandler {
 						return;
 					}
 					String comments = JOptionPane.showInputDialog(null, "Comments:", "Comments", JOptionPane.PLAIN_MESSAGE);
-					double grade = -1;
+					int grade = -1;
 					while (true) {
-						grade = Double.parseDouble(JOptionPane.showInputDialog(null, "Grade:", "Grade", JOptionPane.PLAIN_MESSAGE));
+						grade = Integer.parseInt(JOptionPane.showInputDialog(null, "Grade:", "Grade", JOptionPane.PLAIN_MESSAGE));
 						if (grade < 0 || grade > 100) {
 							JOptionPane.showMessageDialog(null, "Please enter a number between 0 and 100", "Invalid Input", JOptionPane.ERROR_MESSAGE);
 						} else {
 							break;
 						}
 					}
+					Submission temp = submissionPage.getList().getSelectedValue();
 					Assignment a = submissionHomePage.getModel().get(submissionHomePage.getList().getSelectedIndex());
-					
+					temp.setComments(comments);
+					temp.setGrade(grade);
+					pageNavigator.getClient().communicateWithServer(temp, "UpdateSubmission", a);
+					System.out.println("HELLO");
 				} catch (Exception ex) {
 					return;
 				}

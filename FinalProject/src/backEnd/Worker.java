@@ -117,6 +117,10 @@ public class Worker implements Runnable {
 			Assignment a = (Assignment) readRequest();
 			fileHelper.writeFileContent(selectedSubmission, file);
 			toSend = dbHelper.addSubmission(selectedSubmission, a);
+			System.out.println(toSend.getClass().getSimpleName());
+		} else if (typeOfRequest.equalsIgnoreCase("UpdateSubmission")) {
+			Assignment a = (Assignment) readRequest();
+			toSend = dbHelper.updateSubmission(selectedSubmission, a);
 		} else if (typeOfRequest.equalsIgnoreCase("DeleteSubmission")) {
 			toSend = dbHelper.deleteSubmission(selectedSubmission);
 		} else if (typeOfRequest.equalsIgnoreCase("DownloadSubmission")) {

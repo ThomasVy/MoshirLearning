@@ -665,6 +665,21 @@ public class DatabaseHelper implements ConnectionConstants {
 		return result;
 	}
 
+	public boolean updateSubmission(Submission currentSubmission, Assignment a) {
+		boolean result = false;
+		int id = 0;
+		try { 
+			statement = connection.createStatement();
+			deleteSubmission(currentSubmission);
+			String sql = "INSERT INTO " + "SubmissionTable" + " VALUES (" + currentSubmission.getId() + ", " + currentSubmission.getCourseId() + ", "+ a.getID() + ", " + currentSubmission.getStudentId() + ", '" + currentSubmission.getPath() + "', '" + currentSubmission.getTitle() + "', " + currentSubmission.getGrade() + ", '" + currentSubmission.getComments() + "', '" + currentSubmission.getTimestamp() + "');";
+			statement.execute(sql);
+			result = true;
+		} catch (SQLException e) {
+			return false;
+		}
+		return result;
+	}
+
 	public boolean deleteSubmission(Submission currentSubmission) {
 		boolean result = false;
 		try {
