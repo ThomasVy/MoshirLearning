@@ -40,9 +40,9 @@ public class PagesInACourse extends Page{
 		btnNewButton_4.setBackground(new Color(135, 206, 235));
 		panel_1.add(btnNewButton_4);
 	
-//		lbl = new JLabel(courseOfThePage.getName());
-//		lbl.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-//		panel_4.add(lbl);
+		lbl = new JLabel(courseOfThePage.getName());
+		lbl.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
+		panel_4.add(lbl);
 	
 		btnNewButton_5 = new JButton("Enrollment");
 		btnNewButton_5.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));

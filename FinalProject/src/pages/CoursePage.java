@@ -18,6 +18,7 @@ import sharedElements.Course;
  */
 public class CoursePage extends PagesInACourse {
 	private JButton btnActivity;
+	private JButton btnEmail;
 	/**
 	 * 
 	 */
@@ -53,7 +54,7 @@ public class CoursePage extends PagesInACourse {
 		lblSendEmailTo.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		panel_4.add(lblSendEmailTo);
 		
-		JButton btnEmail = new JButton("Email");
+		btnEmail = new JButton("Email");
 		btnEmail.setForeground(Color.WHITE);
 		btnEmail.setBackground(new Color(135, 206, 235));
 		btnEmail.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
@@ -81,6 +82,10 @@ public class CoursePage extends PagesInACourse {
 			btnActivity.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 			panel_2.add(btnActivity);
 		}
+	}
+	public void setupSendEmail(ActionListener e)
+	{
+		btnEmail.addActionListener(e);
 	}
 	public void setupCourseActiveButton(ActionListener e)
 	{

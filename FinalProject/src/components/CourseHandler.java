@@ -4,16 +4,20 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JFileChooser;
 import javax.swing.JList;
-
+import javax.swing.JOptionPane;
 
 import frontEnd.ProfessorGUI;
 import pages.*;
@@ -28,7 +32,7 @@ public class CourseHandler {
 	private GradePage gradePage;
 	private SubmissionPage submissionPage;
 	private AssignmentPage assignmentPage;
-	
+	private EmailPage emailPage;
 	private ArrayList<Course> courses;
 	public CourseHandler (PageNavigator pageNavigator, Course course)
 	{
@@ -88,6 +92,16 @@ public class CourseHandler {
 		addGradeButtonListeners();
 		gradePage.setVisible(true);	
 	}
+	public void createEmailPage()
+	{
+		courses = pageNavigator.getCourses();
+		emailPage = new EmailPage(courses, pageNavigator.getIsProfessor(), currentCourse);
+		pageNavigator.addComboBoxListener(emailPage);
+		pageNavigator.addHomeButtonListener(emailPage);
+		addPageListeners(emailPage);
+		addEmailPageButtonListeners();
+		emailPage.setVisible(true);
+	}
 	private void addPageListeners(PagesInACourse page)
 	{
 		page.addAssignmentButtonListener(new ActionListener() {
@@ -138,6 +152,48 @@ public class CourseHandler {
 				}
 			});
 		}
+		courseHomePage.setupSendEmail(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				courseHomePage.dispose();
+				createEmailPage();
+			}
+		});;
+	}
+	private void addEmailPageButtonListeners()
+	{
+		emailPage.setupSendButtonListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String password = JOptionPane.showInputDialog("Please input your password for your email");
+				if(password != null)
+				{
+					Email email = new Email(emailPage.getSubject(), emailPage.getMessage());
+					email.setPassword(password);
+					boolean state = (boolean)pageNavigator.getClient().communicateWithServer(currentCourse, "SendEmail", email);
+					if(state == true)
+					{
+						emailPage.showSuccess("Successfully sent email");
+					}
+					else
+						emailPage.showError("Could not send email.");
+				}
+			}
+			
+		});
+		emailPage.setupCancelButtonListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg1)
+			{
+				int result = JOptionPane.showConfirmDialog(null,
+						"Are you sure you want to go back to the course home page?", "Go Back to Course Home Page", JOptionPane.YES_NO_OPTION);
+				if(result == JOptionPane.YES_OPTION)
+				{
+					emailPage.dispose();
+					createCourseHomePage();
+				}
+			}
+		});
 	}
 	private void addAssignmentButtonListeners()
 	{
@@ -146,6 +202,9 @@ public class CourseHandler {
 			initUploadAssignmentButton();
 			initDeleteAssignmentButton();
 			initChangeStateButton();
+		}
+		else {
+			initDownloadButton();
 		}
 	}
 	private void addSubmissionButtonListeners()
@@ -164,6 +223,28 @@ public class CourseHandler {
 			initEnrollButton();
 			initUnenrollButton();
 		}
+	}
+	private void initDownloadButton()
+	{
+		assignmentPage.setupDownloadButton(new ActionListener () {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JList<Assignment> assignmentList = assignmentPage.getList();
+				if(assignmentList.getSelectedIndex() != -1)
+				{
+					Assignment currentlySelected = assignmentList.getSelectedValue();
+					byte[] fileInBytes =(byte [])pageNavigator.getClient().communicateWithServer(currentlySelected, "DownloadAssignment");
+					writeToSystem(currentlySelected, fileInBytes);
+				}
+				else 
+				{
+					assignmentPage.showError("Please select an assignment to download");
+				}
+					
+			}
+			
+		});
 	}
 	private void initSearchEnrollmentButton()
 	{
@@ -319,6 +400,34 @@ public class CourseHandler {
 			e.printStackTrace();
 		}
 		return content;
+	}
+	private void writeToSystem (Assignment a, byte [] fileInBytes)
+	{
+		try {
+			int j = 0;
+			while (true) {
+				String extension = "";
+				int i = a.getPath().lastIndexOf('.');
+				if (i > 0) {
+					extension = a.getPath().substring(i);
+				}
+				extension = a.getTitle().replaceAll(" ", "_") +"_"+ j + extension;
+				Path path = Paths.get(System.getProperty("user.dir"), extension);
+				File newFile = new File(path.toString());
+				if (!newFile.exists()) {
+					newFile.createNewFile();
+					FileOutputStream writer = new FileOutputStream(newFile);
+					BufferedOutputStream bos = new BufferedOutputStream(writer);
+					bos.write(fileInBytes);
+					bos.close();
+					break;
+				}
+				j++;
+			}
+			assignmentPage.showSuccess("Successfully downloaded item");
+		}  catch (Exception e) {
+			assignmentPage.showError("Could not download item");
+		}
 	}
 	public int randomIntGenerator ()
 	{

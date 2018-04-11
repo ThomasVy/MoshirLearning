@@ -5,11 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import sharedElements.Assignment;
-import sharedElements.Course;
-import sharedElements.LoginInfo;
-import sharedElements.StudentEnrollment;
-import sharedElements.User;
+import sharedElements.*;
 
 /**
  * 
@@ -89,8 +85,12 @@ public class Worker implements Runnable {
 		Object toSend = null;
 		if (typeOfRequest.equalsIgnoreCase("AddAssignment")) {
 			byte[] file = (byte[]) readRequest();
-			fileHelper.writeFileContent(selectedAssignment, file);
+			fileHelper.findUnqiuePath(selectedAssignment);
 			toSend = dbHelper.addAssignment(selectedAssignment);
+			if((boolean)toSend == true)
+			{
+				fileHelper.writeFileContent(selectedAssignment, file);
+			}
 		} else if (typeOfRequest.equalsIgnoreCase("DeleteAssignment")) {
 			toSend = dbHelper.deleteAssignment(selectedAssignment);
 		} else if (typeOfRequest.equalsIgnoreCase("ChangeActiveState")) {
@@ -116,6 +116,18 @@ public class Worker implements Runnable {
 			toSend = dbHelper.getGradeList(courseFromClient);
 		} else if (typeOfRequest.equalsIgnoreCase("GetSubmissions")){
 			
+		}else if (typeOfRequest.equalsIgnoreCase("SendEmail"))
+		{
+			Email email =(Email)readRequest();
+			if(userLoggedIn.getClass().getSimpleName().equals("Professor"))
+			{
+				email.setReceiver(dbHelper.getAllEmail(courseFromClient));
+			}
+			else if (userLoggedIn.getClass().getSimpleName().equals("Student")){
+				email.setReceiver(dbHelper.getProfEmail(courseFromClient));
+			}
+			email.setSender(dbHelper.getUserEmail(userLoggedIn.getId()));
+			toSend = emailService.sendEmail(email, email.getPassword());
 		}
 		return toSend;
 	}

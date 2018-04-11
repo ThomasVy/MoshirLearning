@@ -9,11 +9,10 @@ public class Email implements Serializable {
 	private ArrayList<String> to;
 	private String subject;
 	private String content;
+	private String password;
 	
-	public Email (String from, ArrayList<String> to, String subject, String content)
+	public Email (String subject, String content)
 	{
-		this.from = from;
-		this.to=to;
 		this.subject =subject;
 		this.content = content;
 	}
@@ -21,9 +20,25 @@ public class Email implements Serializable {
 	{
 		return from;
 	}
+	public String getPassword()
+	{
+		return password;
+	}
+	public void setPassword(String password)
+	{
+		this.password =password;
+	}
 	public ArrayList<String> getReceiver ()
 	{
 		return to;
+	}
+	public void setReceiver(ArrayList<String> to)
+	{
+		this.to =to;
+	}
+	public void setSender (String sender)
+	{
+		this.from = sender;
 	}
 	public String getSubject ()
 	{

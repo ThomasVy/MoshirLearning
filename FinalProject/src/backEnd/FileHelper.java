@@ -49,8 +49,7 @@ public class FileHelper {
 	}
 
 	// Assignments will be stored in "absPath"/Assignment/"File name with extension"
-	public void writeFileContent(Assignment a, byte[] content) {
-		try {
+	public void findUnqiuePath (Assignment a) {
 			int j = 0;
 			while (true) {
 				String extension = "";
@@ -58,22 +57,26 @@ public class FileHelper {
 				if (i > 0) {
 					extension = a.getPath().substring(i);
 				}
-				extension = a.getCourseID() +"_"+ j + extension;
+				extension = a.getTitle().replaceAll(" ", "_")+"_"+ j + extension;
 				Path filePath = Paths.get(absPath, "Assignments", extension); // A folder titled "Assignments" must exist in project directory
-				a.setPath(filePath.toString());
 				File newFile = new File(filePath.toString());
 				if (!newFile.exists()) {
-					newFile.createNewFile();
-					FileOutputStream writer = new FileOutputStream(newFile);
-					BufferedOutputStream bos = new BufferedOutputStream(writer);
-					bos.write(content);
-					bos.close();
+					a.setPath(filePath.toString());
 					break;
 				}
 				j++;
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			
+	}
+	public void writeFileContent(Assignment a, byte[] content) {
+		try {
+				File newFile = new File(a.getPath());
+				newFile.createNewFile();
+				FileOutputStream writer = new FileOutputStream(newFile);
+				BufferedOutputStream bos = new BufferedOutputStream(writer);
+				bos.write(content);
+				writer.close();
+				bos.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

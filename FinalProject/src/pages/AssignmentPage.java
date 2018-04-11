@@ -15,6 +15,8 @@ import javax.swing.*;
 import frontEnd.ProfessorGUI;
 import sharedElements.*;
 import javax.swing.JTextField;
+import java.awt.Component;
+import java.awt.FlowLayout;
 /**
  * 
  * @author Rainer Lim & Thomas Vy
@@ -30,6 +32,7 @@ public class AssignmentPage extends PagesInACourse {
 	private JButton uploadButton;
 	private JButton deleteButton;
 	private JButton changeStateButton;
+	private JButton btnDownload;
 	/**
 	 * Launch the application.
 	 */
@@ -63,12 +66,14 @@ public class AssignmentPage extends PagesInACourse {
 
 		JPanel panel_4 = new JPanel();
 		panel_3.add(panel_4);
+		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
 
 		JLabel lblNewLabel = new JLabel("Assignment Options:");
 		lblNewLabel.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
 		panel_4.add(lblNewLabel);
-
+		
 		JPanel panel_6 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_6.getLayout();
 		panel_3.add(panel_6);
 		if(isProfessor == true)
 		{
@@ -108,6 +113,19 @@ public class AssignmentPage extends PagesInACourse {
 			changeStateButton.setBackground(Color.DARK_GRAY);
 			panel_5.add(changeStateButton);
 		}
+		else 
+		{
+			btnDownload = new JButton("Download");
+			btnDownload.setForeground(Color.WHITE);
+			btnDownload.setBackground(new Color(135, 206, 235));
+			btnDownload.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			panel_4.add(btnDownload);
+			panel_3.add(panel_6);
+		}
+	}
+	public void setupDownloadButton (ActionListener e)
+	{
+		btnDownload.addActionListener(e);
 	}
 	public void setupUploadButton (ActionListener e)
 	{
