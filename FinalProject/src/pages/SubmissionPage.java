@@ -38,10 +38,12 @@ public class SubmissionPage extends PagesInACourse {
 	private JButton deleteButton;
 	private JButton downloadButton;
 	private JButton assessButton;
+	private Assignment assignment;
 
 	public SubmissionPage(ArrayList<Course> courses, boolean isProfessor, Course selectedCourse, Assignment a) {
 		super(courses, isProfessor, selectedCourse);
-
+		this.assignment =a;
+		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -49,7 +51,7 @@ public class SubmissionPage extends PagesInACourse {
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1);
 
-		JLabel lblSubmissionsPage = new JLabel(a.getTitle());
+		JLabel lblSubmissionsPage = new JLabel(assignment.getTitle());
 		lblSubmissionsPage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		panel_1.add(lblSubmissionsPage);
 
@@ -112,21 +114,19 @@ public class SubmissionPage extends PagesInACourse {
 			uploadButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 			uploadButton.setBackground(new Color(135, 206, 235));
 			panel_5.add(uploadButton);
-			
-			deleteButton = new JButton("Delete");
-			deleteButton.setForeground(Color.WHITE);
-			deleteButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			deleteButton.setBackground(new Color(135, 206, 235));
-			panel_5.add(deleteButton);	
 		}
+	}
+	public void setupDownloadButton (ActionListener e)
+	{
+		downloadButton.addActionListener(e);
+	}
+	public Assignment getAssignment ()
+	{
+		return assignment;
 	}
 	public void setupUploadButton (ActionListener e)
 	{
 		uploadButton.addActionListener(e);
-	}
-	public void setupDeleteButton (ActionListener e)
-	{
-		deleteButton.addActionListener(e);
 	}
 	public void setupAssessButton (ActionListener e)
 	{

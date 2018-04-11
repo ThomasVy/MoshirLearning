@@ -50,7 +50,7 @@ public class FileHelper {
 	}
 
 	// Assignments will be stored in "absPath"/Assignment/"File name with extension"
-	public void findUnqiuePath (Assignment a) {
+	synchronized public void findUnqiuePath (Assignment a) {
 			int j = 0;
 			while (true) {
 				String extension = "";
@@ -84,7 +84,7 @@ public class FileHelper {
 	}
 
 	// SUBMISSION
-	public void writeFileContent(Submission s, byte[] content) {
+	synchronized public void writeFileContent(Submission s, byte[] content) {
 		try {
 			int j = 0;
 			while (true) {
@@ -93,7 +93,7 @@ public class FileHelper {
 				if (i > 0) {
 					extension = s.getPath().substring(i);
 				}
-				extension = s.getCourseId() + "_" + j + extension;
+				extension = s.getTitle().replaceAll(" ", "_")+"_"+ j + extension;
 				Path filePath = Paths.get(absPath, "Submissions", extension);
 				s.setPath(filePath.toString());
 				File newFile = new File(filePath.toString());

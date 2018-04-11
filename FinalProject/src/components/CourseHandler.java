@@ -220,16 +220,7 @@ public class CourseHandler {
 			initChangeStateButton();
 		}
 		else {
-			initDownloadButton();
-		}
-	}
-
-	private void addSubmissionButtonListeners() {
-		if (pageNavigator.getIsProfessor() == false) {
-			initUploadSubmissionButton();
-			initDeleteSubmissionButton();
-		} else {
-			initAssessSubmissionButton();
+			initDownloadAssignmentButton();
 		}
 	}
 	private void addEnrollmentButtonListeners()
@@ -241,7 +232,16 @@ public class CourseHandler {
 			initUnenrollButton();
 		}
 	}
-	private void initDownloadButton()
+
+	private void addSubmissionButtonListeners() {
+		if (pageNavigator.getIsProfessor() == false) {
+			initUploadSubmissionButton();
+		} else {
+			initAssessSubmissionButton();
+			initDownlodSubmissionButton();
+		}
+	}
+	private void initDownloadAssignmentButton()
 	{
 		assignmentPage.setupDownloadButton(new ActionListener () {
 
@@ -393,39 +393,43 @@ public class CourseHandler {
 					if (submissionHomePage.getList().getSelectedIndex() == -1) {
 						return;
 					}
-					Assignment assignment = submissionHomePage.getModel().get(submissionHomePage.getList().getSelectedIndex());
+					Assignment assignment = submissionHomePage.getList().getSelectedValue();
 					submissionHomePage.dispose();
 					createSubmissionPage(assignment);
 				}
 			}
 		});
 	}
+	private void initDownlodSubmissionButton() {
+		submissionPage.setupDownloadButton(new ActionListener () {
 
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JList<Submission> submissionList = submissionPage.getList();
+				if(submissionList.getSelectedIndex() != -1)
+				{
+					Submission currentlySelected = submissionList.getSelectedValue();
+					byte[] fileInBytes =(byte [])pageNavigator.getClient().communicateWithServer(currentlySelected, "DownloadSubmission");
+					writeToSystem(currentlySelected, fileInBytes);
+				}
+				else 
+				{
+					assignmentPage.showError("Please select an assignment to download");
+				}
+					
+			}
+			
+		});
+	}
 	private void initUploadSubmissionButton() {
 		submissionPage.setupUploadButton(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openFileBrowser("SubmissionFile");
-				Assignment a = submissionHomePage.getModel().get(submissionHomePage.getList().getSelectedIndex());
+				Assignment a = submissionPage.getAssignment();
 				submissionPage.setSubmissionList((ArrayList<Submission>) pageNavigator.getClient().communicateWithServer(a, "GetSubmissionList", pageNavigator.user));
 			}
 		});
 	}
-
-	private void initDeleteSubmissionButton() {
-		submissionPage.setupDeleteButton(new ActionListener () {
-			public void actionPerformed(ActionEvent e) {
-				JList<Submission> list = submissionPage.getList();
-				if(list.getSelectedIndex() != -1) {
-					pageNavigator.getClient().communicateWithServer(list.getSelectedValue(), "DeleteSubmission");
-					Assignment a = submissionHomePage.getModel().get(submissionHomePage.getList().getSelectedIndex());
-					submissionPage.setSubmissionList((ArrayList<Submission>) pageNavigator.getClient().communicateWithServer(a, "GetSubmissionList", pageNavigator.user));
-				}
-				else
-					submissionPage.showError("Please click on a submission to delete.");
-			}
-		});
-	}
-
 	private void initAssessSubmissionButton() {
 		submissionPage.setupAssessButton(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -436,9 +440,14 @@ public class CourseHandler {
 						return;
 					}
 					String comments = JOptionPane.showInputDialog(null, "Comments:", "Comments", JOptionPane.PLAIN_MESSAGE);
+					if(comments == null)
+						return;
 					int grade = -1;
 					while (true) {
-						grade = Integer.parseInt(JOptionPane.showInputDialog(null, "Grade:", "Grade", JOptionPane.PLAIN_MESSAGE));
+						String gradeString = JOptionPane.showInputDialog(null, "Grade:", "Grade", JOptionPane.PLAIN_MESSAGE);
+						if(gradeString == null)
+							return;
+						grade = Integer.parseInt(gradeString);
 						if (grade < 0 || grade > 100) {
 							JOptionPane.showMessageDialog(null, "Please enter a number between 0 and 100", "Invalid Input", JOptionPane.ERROR_MESSAGE);
 						} else {
@@ -446,13 +455,13 @@ public class CourseHandler {
 						}
 					}
 					Submission temp = submissionPage.getList().getSelectedValue();
-					Assignment a = submissionHomePage.getModel().get(submissionHomePage.getList().getSelectedIndex());
+					Assignment a = submissionPage.getAssignment();
 					temp.setComments(comments);
 					temp.setGrade(grade);
 					pageNavigator.getClient().communicateWithServer(temp, "UpdateSubmission", a);
-					System.out.println("HELLO");
+					submissionPage.setSubmissionList((ArrayList<Submission>) pageNavigator.getClient().communicateWithServer(a, "GetSubmissionList", pageNavigator.user));
 				} catch (Exception ex) {
-					return;
+					submissionPage.showError("Please Enter a Number for Grade");
 				}
 			}
 		});
@@ -478,7 +487,7 @@ public class CourseHandler {
 				if (submissionTitle.length() == 0) {
 					submissionPage.showError("Please fill in all data fields.");
 				} else {
-					Assignment a = submissionHomePage.getModel().get(submissionHomePage.getList().getSelectedIndex());
+					Assignment a = submissionPage.getAssignment();
 					Submission submission = new Submission(currentCourse.getId(), a.getID(), pageNavigator.user.getId(), path, submissionTitle, 0, "N/A", "N/A");
 					byte [] fileInBytes = turnFileIntoBytes(selectedFile);
 					pageNavigator.getClient().communicateWithServer(submission, "AddSubmission", fileInBytes, a);
@@ -529,6 +538,33 @@ public class CourseHandler {
 			assignmentPage.showError("Could not download item");
 		}
 	}
-
+	private void writeToSystem (Submission s, byte [] fileInBytes)
+	{
+		try {
+			int j = 0;
+			while (true) {
+				String extension = "";
+				int i = s.getPath().lastIndexOf('.');
+				if (i > 0) {
+					extension = s.getPath().substring(i);
+				}
+				extension = s.getTitle().replaceAll(" ", "_") +"_"+ j + extension;
+				Path path = Paths.get(System.getProperty("user.dir"), extension);
+				File newFile = new File(path.toString());
+				if (!newFile.exists()) {
+					newFile.createNewFile();
+					FileOutputStream writer = new FileOutputStream(newFile);
+					BufferedOutputStream bos = new BufferedOutputStream(writer);
+					bos.write(fileInBytes);
+					bos.close();
+					break;
+				}
+				j++;
+			}
+			submissionPage.showSuccess("Successfully downloaded item");
+		}  catch (Exception e) {
+			submissionPage.showError("Could not download item");
+		}
+	}
 
 }

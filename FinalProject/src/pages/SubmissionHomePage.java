@@ -74,10 +74,6 @@ public class SubmissionHomePage extends PagesInACourse {
 			model.addElement(assignmentList.get(i));
 		}
 	}
-
-	public DefaultListModel<Assignment> getModel() {
-		return model;
-	}
 	public JList<Assignment> getList ()
 	{
 		return list;
