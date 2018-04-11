@@ -9,7 +9,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.swing.JFileChooser;
 import javax.swing.JList;
@@ -26,6 +25,7 @@ import pages.SubmissionHomePage;
 import pages.SubmissionPage;
 import sharedElements.Assignment;
 import sharedElements.Course;
+import sharedElements.Grade;
 import sharedElements.Student;
 import sharedElements.StudentEnrollment;
 import sharedElements.Submission;
@@ -107,10 +107,10 @@ public class CourseHandler {
 	{
 		courses = pageNavigator.getCourses();
 		gradePage = new GradePage(courses, pageNavigator.getIsProfessor(), currentCourse);
+		gradePage.setGradeList((ArrayList<Grade>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetGradeList", pageNavigator.user));
 		pageNavigator.addComboBoxListener(gradePage);
 		pageNavigator.addHomeButtonListener(gradePage);
 		addPageListeners(gradePage);
-		addGradeButtonListeners();
 		gradePage.setVisible(true);
 	}
 	private void addPageListeners(PagesInACourse page)
@@ -181,11 +181,6 @@ public class CourseHandler {
 		} else {
 			initAssessSubmissionButton();
 		}
-	}
-
-	private void addGradeButtonListeners()
-	{
-		
 	}
 	private void addEnrollmentButtonListeners()
 	{

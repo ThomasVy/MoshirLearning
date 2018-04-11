@@ -18,13 +18,8 @@ import sharedElements.Course;
  */
 public class CoursePage extends PagesInACourse {
 	private JButton btnActivity;
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -5422193522154528362L;
-	/**
-	 * Launch the application.
-	 */
 	/**
 	 * Create the frame.
 	 */

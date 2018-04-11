@@ -3,34 +3,62 @@ package sharedElements;
 import java.io.Serializable;
 
 public class Grade implements Serializable{
+
 	private static final long serialVersionUID = 2033804042346144390L;
+	private int id;
+	private int assign_id;
 	private int student_id;
-	private int grade;
-	private String student_name;
-	private String assign_name;
+	private int course_id;
+	private int assignment_grade;
 	
-	public Grade (int student_id, int grade, String student_name, String assign_name)
+	public Grade (int assign_id, int student_id, int course_id, int assignment_grade)
 	{
-		this.student_id=student_id;
-		this.grade =grade;
-		this.student_name =student_name;
-		this.assign_name =assign_name;
+		this.assign_id = assign_id;
+		this.student_id = student_id;
+		this.course_id = course_id;
+		this.assignment_grade = assignment_grade;
 	}
-	public int getStudentID ()
-	{
+
+	// GETTERS
+	public int getId() {
+		return id;
+	}
+
+	public int getAssignId() {
+		return assign_id;
+	}
+
+	public int getStudentId() {
 		return student_id;
+	}
+
+	public int courseId() {
+		return course_id;
+	}
+
+	public int assignmentGrade() {
+		return assignment_grade;
+	}
+
+	// SETTERS
+	public void setId(int id) {
 		
 	}
-	public int getGrade ()
-	{
-		return grade;
+
+	public void setAssignId() {
+		
 	}
-	public String getStudentName ()
-	{
-		return student_name;
+
+	public void setStudentId() {
+		
 	}
-	public String getAssignName ()
-	{
-		return assign_name;
+
+	public void setCourseId() {
+		
 	}
+
+	public void setAssignmentGrade() {
+		
+	}
+
 }

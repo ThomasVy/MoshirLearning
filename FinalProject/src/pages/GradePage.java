@@ -5,16 +5,25 @@ import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import sharedElements.Course;
+import sharedElements.Grade;
 /**
  * 
  * @author Rainer Lim & Thomas Vy
  *
  */
 public class GradePage extends PagesInACourse {
+
+	private static final long serialVersionUID = 1L; // The serial version UID
+	private DefaultListModel<Grade> model;
+	private JList<Grade> list;
+	private JScrollPane scrollPane;
 	/**
 	 * Create the frame.
 	 */
@@ -34,9 +43,31 @@ public class GradePage extends PagesInACourse {
 
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1);
+		model = new DefaultListModel<Grade>();
+		list = new JList<Grade>(model);
+		scrollPane = new JScrollPane(list);
+		list.setFixedCellWidth(500);
+		list.setFixedCellHeight(25);
+		list.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 
+		panel_1.add(scrollPane);
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3);
+	}
+
+	public void setGradeList(ArrayList<Grade> gradeList) {
+		model.clear();
+		for (int i = 0; i < gradeList.size(); i++) {
+			model.addElement(gradeList.get(i));
+		}
+	}
+
+	public DefaultListModel<Grade> getModel() {
+		return model;
+	}
+
+	public JList<Grade> getList() {
+		return list;
 	}
 
 }
