@@ -24,9 +24,6 @@ public class CoursePage extends PagesInACourse {
 	 */
 	private static final long serialVersionUID = -5422193522154528362L;
 	/**
-	 * Launch the application.
-	 */
-	/**
 	 * Create the frame.
 	 */
 	public CoursePage(ArrayList<Course> courses, boolean isProfessor, Course courseOfThePage) {

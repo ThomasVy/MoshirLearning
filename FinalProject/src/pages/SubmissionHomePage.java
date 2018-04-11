@@ -61,9 +61,6 @@ public class SubmissionHomePage extends PagesInACourse {
 
 		JPanel panel_4 = new JPanel();
 		panel_3.add(panel_4);
-
-		JPanel panel_6 = new JPanel();
-		panel_3.add(panel_6);
 	}
 
 	public void setupListListener(ListSelectionListener e) {
