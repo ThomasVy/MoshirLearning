@@ -53,6 +53,14 @@ public class EnrollmentPage extends PagesInACourse {
 		JLabel lblEnrollmentPage = new JLabel("Enrollment Page");
 		lblEnrollmentPage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		panel_1.add(lblEnrollmentPage);
+		
+		JPanel panel_13 = new JPanel();
+		panel.add(panel_13);
+		panel_13.setLayout(new BoxLayout(panel_13, BoxLayout.X_AXIS));
+		
+		JLabel lblNewLabel = new JLabel("Student ID  First Name  Last Name                                                                                                   ");
+		lblNewLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_13.add(lblNewLabel);
 
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);

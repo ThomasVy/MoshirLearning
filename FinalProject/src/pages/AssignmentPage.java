@@ -50,6 +50,14 @@ public class AssignmentPage extends PagesInACourse {
 		JLabel lblAssignmentsPage = new JLabel("Assignments Page");
 		lblAssignmentsPage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		panel_1.add(lblAssignmentsPage);
+		
+		JPanel panel_7 = new JPanel();
+		panel.add(panel_7);
+		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.X_AXIS));
+		
+		JLabel lblNewLabel_1 = new JLabel("Title              Due Date         State                                                                                       ");
+		lblNewLabel_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_7.add(lblNewLabel_1);
 
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);

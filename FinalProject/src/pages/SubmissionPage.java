@@ -54,6 +54,14 @@ public class SubmissionPage extends PagesInACourse {
 		JLabel lblSubmissionsPage = new JLabel(assignment.getTitle());
 		lblSubmissionsPage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		panel_1.add(lblSubmissionsPage);
+		
+		JPanel panel_8 = new JPanel();
+		panel.add(panel_8);
+		panel_8.setLayout(new BoxLayout(panel_8, BoxLayout.X_AXIS));
+		
+		JLabel lblNewLabel_1 = new JLabel("Title     Student ID    Timestamp  Grade  Comments                                                                              ");
+		lblNewLabel_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_8.add(lblNewLabel_1);
 
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);

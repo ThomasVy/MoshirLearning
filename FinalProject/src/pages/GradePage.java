@@ -40,6 +40,14 @@ public class GradePage extends PagesInACourse {
 		JLabel lblNewLabel = new JLabel("Grades Page");
 		lblNewLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		panel_2.add(lblNewLabel);
+		
+		JPanel panel_4 = new JPanel();
+		panel.add(panel_4);
+		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
+		
+		JLabel lblNewLabel_1 = new JLabel("Title           Student ID   Grade                                                                                             ");
+		lblNewLabel_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_4.add(lblNewLabel_1);
 
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1);

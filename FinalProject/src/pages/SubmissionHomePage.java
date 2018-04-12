@@ -44,6 +44,14 @@ public class SubmissionHomePage extends PagesInACourse {
 		JLabel lblSubmissionsPage = new JLabel("Submissions Page");
 		lblSubmissionsPage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
 		panel_1.add(lblSubmissionsPage);
+		
+		JPanel panel_5 = new JPanel();
+		panel.add(panel_5);
+		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.X_AXIS));
+		
+		JLabel lblNewLabel = new JLabel("Title              Due Date         State                                                                                       ");
+		lblNewLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		panel_5.add(lblNewLabel);
 
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);
