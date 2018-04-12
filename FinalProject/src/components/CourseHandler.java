@@ -47,6 +47,7 @@ public class CourseHandler {
 		courseHomePage = new CoursePage(courses, pageNavigator.getIsProfessor(), currentCourse); //start off with home page at first
 		pageNavigator.addComboBoxListener(courseHomePage);
 		pageNavigator.addHomeButtonListener(courseHomePage);
+		pageNavigator.addLogoutButtonListener(courseHomePage);
 		addPageListeners(courseHomePage);
 		addCourseHomePageListener();
 		courseHomePage.setVisible(true);
@@ -58,6 +59,7 @@ public class CourseHandler {
 		assignmentPage.setAssignmentList((ArrayList<Assignment>)pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList"));
 		pageNavigator.addComboBoxListener(assignmentPage);
 		pageNavigator.addHomeButtonListener(assignmentPage);
+		pageNavigator.addLogoutButtonListener(assignmentPage);
 		addPageListeners(assignmentPage);
 		addAssignmentButtonListeners();
 		assignmentPage.setVisible(true);
@@ -69,6 +71,7 @@ public class CourseHandler {
 		submissionHomePage.setAssignmentList((ArrayList<Assignment>)pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList"));
 		pageNavigator.addComboBoxListener(submissionHomePage);
 		pageNavigator.addHomeButtonListener(submissionHomePage);
+		pageNavigator.addLogoutButtonListener(submissionHomePage);
 		addPageListeners(submissionHomePage);
 		addSubmissionHomeListListener();
 		submissionHomePage.setVisible(true);
@@ -80,6 +83,7 @@ public class CourseHandler {
 		submissionPage.setSubmissionList((ArrayList<Submission>) pageNavigator.getClient().communicateWithServer(a, "GetSubmissionList"));
 		pageNavigator.addComboBoxListener(submissionPage);
 		pageNavigator.addHomeButtonListener(submissionPage);
+		pageNavigator.addLogoutButtonListener(submissionPage);
 		addPageListeners(submissionPage);
 		addSubmissionButtonListeners();
 		submissionPage.setVisible(true);
@@ -92,6 +96,7 @@ public class CourseHandler {
 		enrollmentPage.setEnrollList((ArrayList<Student>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetEnrollmentList"));
 		pageNavigator.addComboBoxListener(enrollmentPage);
 		pageNavigator.addHomeButtonListener(enrollmentPage);
+		pageNavigator.addLogoutButtonListener(enrollmentPage);
 		addPageListeners(enrollmentPage);
 		addEnrollmentButtonListeners();
 		enrollmentPage.setVisible(true);
@@ -103,6 +108,7 @@ public class CourseHandler {
 		gradePage.setGradeList((ArrayList<Grade>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetGradeList"));
 		pageNavigator.addComboBoxListener(gradePage);
 		pageNavigator.addHomeButtonListener(gradePage);
+		pageNavigator.addLogoutButtonListener(gradePage);
 		addPageListeners(gradePage);
 		gradePage.setVisible(true);
 	}
@@ -112,6 +118,7 @@ public class CourseHandler {
 		emailPage = new EmailPage(courses, pageNavigator.getIsProfessor(), currentCourse);
 		pageNavigator.addComboBoxListener(emailPage);
 		pageNavigator.addHomeButtonListener(emailPage);
+		pageNavigator.addLogoutButtonListener(emailPage);
 		addPageListeners(emailPage);
 		addEmailPageButtonListeners();
 		emailPage.setVisible(true);

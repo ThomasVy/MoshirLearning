@@ -37,6 +37,7 @@ public class PageNavigator {
 		homePage = new HomePage(courses, isProfessor);
 		addComboBoxListener(homePage);
 		addHomeButtonListener(homePage);
+		addLogoutButtonListener(homePage);
 		homePage.setVisible(true);
 	}
 	public void addComboBoxListener(Page page)
@@ -52,6 +53,20 @@ public class PageNavigator {
 			}
 		});
 		
+	}
+	public void addLogoutButtonListener(Page page)
+	{
+		page.logoutButton(new ActionListener () {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				page.dispose();
+				Client client = new Client("localhost", 9890);
+				LoginWindow login = new LoginWindow("Login Window");
+				LoginWindowController loginWindowController = new LoginWindowController(login, client);
+			}
+			
+		});
 	}
 	public void addHomeButtonListener(Page page)
 	{

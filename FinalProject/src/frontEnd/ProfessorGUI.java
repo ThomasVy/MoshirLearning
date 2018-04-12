@@ -27,6 +27,7 @@ public class ProfessorGUI extends PageNavigator {
 		addComboBoxListener(homePage);
 		addCreateACourseListener();
 		addHomeButtonListener(homePage);
+		addLogoutButtonListener(homePage);
 		homePage.setVisible(true);
 	}
 	public void addCreateACourseListener()
@@ -49,17 +50,10 @@ public class ProfessorGUI extends PageNavigator {
 		setupEnterListener();
 		setupCancelListener();
 		addComboBoxListener(createCoursePage);
-		setupHomePageListener();
+		addLogoutButtonListener(createCoursePage);
+		addHomeButtonListener(createCoursePage);
 	}
-	public void setupHomePageListener()
-	{
-		createCoursePage.setUpHomeButtonListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				createCoursePage.dispose();
-				createHomePage();
-			}
-		});
-	}
+
 	public void setupCancelListener()
 	{
 		createCoursePage.setUpCancel(new ActionListener() {

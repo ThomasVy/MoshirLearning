@@ -21,6 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import frontEnd.Client;
+import frontEnd.LoginWindow;
+import frontEnd.LoginWindowController;
 import sharedElements.Course;
 
 /**
@@ -104,11 +107,6 @@ public abstract class Page extends JFrame {
 		panel_3.add(panel_7);
 
 		btnNewButton_1 = new JButton("Logout");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
 		btnNewButton_1.setForeground(Color.WHITE);
 		btnNewButton_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		btnNewButton_1.setBackground(Color.DARK_GRAY);
@@ -160,6 +158,10 @@ public abstract class Page extends JFrame {
 		} catch (NullPointerException e) {
 			System.out.println("Testing individual pages.");
 		}
+	}
+	public void logoutButton (ActionListener e)
+	{
+		btnNewButton_1.addActionListener(e);
 	}
 	public void showSuccess (String succ)
 	{
