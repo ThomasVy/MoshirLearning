@@ -55,7 +55,7 @@ public class CourseHandler {
 	{
 		courses = pageNavigator.getCourses();
 		assignmentPage = new AssignmentPage(courses, pageNavigator.getIsProfessor(), currentCourse);
-		assignmentPage.setAssignmentList((ArrayList<Assignment>)pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList", pageNavigator.user));
+		assignmentPage.setAssignmentList((ArrayList<Assignment>)pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList"));
 		pageNavigator.addComboBoxListener(assignmentPage);
 		pageNavigator.addHomeButtonListener(assignmentPage);
 		addPageListeners(assignmentPage);
@@ -66,7 +66,7 @@ public class CourseHandler {
 	private void createSubmissionHomePage() {
 		courses = pageNavigator.getCourses();
 		submissionHomePage = new SubmissionHomePage(courses, pageNavigator.getIsProfessor(), currentCourse);
-		submissionHomePage.setAssignmentList((ArrayList<Assignment>)pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList", pageNavigator.user));
+		submissionHomePage.setAssignmentList((ArrayList<Assignment>)pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList"));
 		pageNavigator.addComboBoxListener(submissionHomePage);
 		pageNavigator.addHomeButtonListener(submissionHomePage);
 		addPageListeners(submissionHomePage);
@@ -77,7 +77,7 @@ public class CourseHandler {
 	private void createSubmissionPage(Assignment a) {
 		courses = pageNavigator.getCourses();
 		submissionPage = new SubmissionPage(courses, pageNavigator.getIsProfessor(), currentCourse, a);
-		submissionPage.setSubmissionList((ArrayList<Submission>) pageNavigator.getClient().communicateWithServer(a, "GetSubmissionList", pageNavigator.user));
+		submissionPage.setSubmissionList((ArrayList<Submission>) pageNavigator.getClient().communicateWithServer(a, "GetSubmissionList"));
 		pageNavigator.addComboBoxListener(submissionPage);
 		pageNavigator.addHomeButtonListener(submissionPage);
 		addPageListeners(submissionPage);
@@ -100,7 +100,7 @@ public class CourseHandler {
 	{
 		courses = pageNavigator.getCourses();
 		gradePage = new GradePage(courses, pageNavigator.getIsProfessor(), currentCourse);
-		gradePage.setGradeList((ArrayList<Grade>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetGradeList", pageNavigator.user));
+		gradePage.setGradeList((ArrayList<Grade>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetGradeList"));
 		pageNavigator.addComboBoxListener(gradePage);
 		pageNavigator.addHomeButtonListener(gradePage);
 		addPageListeners(gradePage);
@@ -349,7 +349,7 @@ public class CourseHandler {
 		assignmentPage.setupUploadButton(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openFileBrowser("AssignmentFile");
-				assignmentPage.setAssignmentList((ArrayList<Assignment>)pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList", pageNavigator.user));
+				assignmentPage.setAssignmentList((ArrayList<Assignment>)pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList"));
 			}
 		});
 		
@@ -362,7 +362,7 @@ public class CourseHandler {
 				JList<Assignment> list = assignmentPage.getList();
 				if(list.getSelectedIndex() != -1) {
 					pageNavigator.getClient().communicateWithServer(list.getSelectedValue(), "DeleteAssignment");
-					assignmentPage.setAssignmentList((ArrayList<Assignment>)pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList", pageNavigator.user));
+					assignmentPage.setAssignmentList((ArrayList<Assignment>)pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList"));
 				}
 				else
 					assignmentPage.showError("Please click on an assignment to delete.");
@@ -378,7 +378,7 @@ public class CourseHandler {
 				if(list.getSelectedIndex() != -1) {
 					list.getSelectedValue().setActiveToOpposite();
 					pageNavigator.getClient().communicateWithServer(list.getSelectedValue(), "ChangeActiveState");
-					assignmentPage.setAssignmentList((ArrayList<Assignment>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList", pageNavigator.user));
+					assignmentPage.setAssignmentList((ArrayList<Assignment>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList"));
 				}
 				else
 					assignmentPage.showError("Please click on an assignment to change state.");
@@ -426,7 +426,7 @@ public class CourseHandler {
 			public void actionPerformed(ActionEvent e) {
 				openFileBrowser("SubmissionFile");
 				Assignment a = submissionPage.getAssignment();
-				submissionPage.setSubmissionList((ArrayList<Submission>) pageNavigator.getClient().communicateWithServer(a, "GetSubmissionList", pageNavigator.user));
+				submissionPage.setSubmissionList((ArrayList<Submission>) pageNavigator.getClient().communicateWithServer(a, "GetSubmissionList"));
 			}
 		});
 	}
@@ -459,7 +459,7 @@ public class CourseHandler {
 					temp.setComments(comments);
 					temp.setGrade(grade);
 					pageNavigator.getClient().communicateWithServer(temp, "UpdateSubmission", a);
-					submissionPage.setSubmissionList((ArrayList<Submission>) pageNavigator.getClient().communicateWithServer(a, "GetSubmissionList", pageNavigator.user));
+					submissionPage.setSubmissionList((ArrayList<Submission>) pageNavigator.getClient().communicateWithServer(a, "GetSubmissionList"));
 				} catch (Exception ex) {
 					submissionPage.showError("Please Enter a Number for Grade");
 				}
@@ -488,7 +488,7 @@ public class CourseHandler {
 					submissionPage.showError("Please fill in all data fields.");
 				} else {
 					Assignment a = submissionPage.getAssignment();
-					Submission submission = new Submission(currentCourse.getId(), a.getID(), pageNavigator.user.getId(), path, submissionTitle, 0, "N/A", "N/A");
+					Submission submission = new Submission(currentCourse.getId(), a.getID(), pageNavigator.user.getId(), path, submissionTitle);
 					byte [] fileInBytes = turnFileIntoBytes(selectedFile);
 					pageNavigator.getClient().communicateWithServer(submission, "AddSubmission", fileInBytes, a);
 				}

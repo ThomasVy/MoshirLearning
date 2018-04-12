@@ -102,11 +102,7 @@ public class Worker implements Runnable {
 		}else if(typeOfRequest.equalsIgnoreCase("DownloadAssignment")){
 			toSend = fileHelper.getFileContent(selectedAssignment.getPath());
 		} else if (typeOfRequest.equalsIgnoreCase("GetSubmissionList")) {
-			User user = (User) readRequest();
-			toSend = dbHelper.getSubmissionList(selectedAssignment, user);
-		} else if (typeOfRequest.equalsIgnoreCase("GetGradeList")) {
-			User user = (User) readRequest();
-			//toSend = dbHelper.getGradeList(selectedAssignment, user);
+			toSend = dbHelper.getSubmissionList(selectedAssignment, userLoggedIn);
 		}
 		return toSend;
 	}
@@ -138,10 +134,9 @@ public class Worker implements Runnable {
 		} else if (typeOfRequest.equalsIgnoreCase("GetEnrollmentList")) {
 			toSend = dbHelper.getEnrollmentList(courseFromClient);
 		} else if (typeOfRequest.equalsIgnoreCase("GetAssignmentList")) {
-			User user = (User) readRequest();
-			toSend = dbHelper.getAssignmentList(courseFromClient, user);
-		} else if (typeOfRequest.equalsIgnoreCase("GetGrades")) {
-			//toSend = dbHelper.getGradeList(courseFromClient);
+			toSend = dbHelper.getAssignmentList(courseFromClient, userLoggedIn);
+		}else if (typeOfRequest.equalsIgnoreCase("GetGradeList")) {
+			toSend = dbHelper.getGradeList(courseFromClient, userLoggedIn);
 		}else if (typeOfRequest.equalsIgnoreCase("SendEmail"))
 		{
 			Email email =(Email)readRequest();
@@ -155,7 +150,7 @@ public class Worker implements Runnable {
 			email.setSender(dbHelper.getUserEmail(userLoggedIn.getId()));
 			toSend = emailService.sendEmail(email, email.getPassword());
 
-		}
+		} 
 		return toSend;
 	}
 

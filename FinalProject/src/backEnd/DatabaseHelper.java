@@ -10,10 +10,19 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Random;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Scanner;
 
-import sharedElements.*;
+import sharedElements.Assignment;
+import sharedElements.Course;
+import sharedElements.Grade;
+import sharedElements.Professor;
+import sharedElements.Student;
+import sharedElements.StudentEnrollment;
+import sharedElements.Submission;
+import sharedElements.User;
 
 /**
  * Provides the fields and methods required to create a DatabaseHelper object.
@@ -170,6 +179,7 @@ public class DatabaseHelper implements ConnectionConstants {
 	public void createGradeTable() {
 		String sql = "CREATE TABLE " + "GradeTable" + " (id INT(8) NOT NULL,"
 													+ " assign_id INT(8) NOT NULL,"
+													+ " assign_title VARCHAR(50) NOT NULL,"
 													+ " student_id INT(8) NOT NULL,"
 													+ " course_id INT(8) NOT NULL,"
 													+ " assignment_grade INT(3) NOT NULL,"
@@ -636,7 +646,10 @@ public class DatabaseHelper implements ConnectionConstants {
 			resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
 				String path = resultSet.getString("path").replaceAll(";", "\\\\");
-				Submission fetchedSubmission = new Submission(resultSet.getInt("course_id"), resultSet.getInt("assign_id"), resultSet.getInt("student_id"), path, resultSet.getString("title"), resultSet.getInt("submission_grade"), resultSet.getString("comments"), resultSet.getString("timestamp"));
+				Submission fetchedSubmission = new Submission(resultSet.getInt("course_id"), resultSet.getInt("assign_id"), resultSet.getInt("student_id"), path, resultSet.getString("title"));
+				fetchedSubmission.setGrade(resultSet.getInt("submission_grade"));
+				fetchedSubmission.setComments(resultSet.getString("comments"));
+				fetchedSubmission.setTimestamp(resultSet.getString("timestamp"));
 				fetchedSubmission.setId(resultSet.getInt("id"));
 				submissions.add(fetchedSubmission);
 			}
@@ -657,6 +670,8 @@ public class DatabaseHelper implements ConnectionConstants {
 				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 				String sql = "INSERT INTO " + "SubmissionTable" + " VALUES (" + id + ", " + currentSubmission.getCourseId() + ", "+ a.getID() + ", " + currentSubmission.getStudentId() + ", '" + path + "', '" + currentSubmission.getTitle() + "', " + currentSubmission.getGrade() + ", '" + currentSubmission.getComments() + "', '" + sdf.format(cal.getTime()) + "');";
 				statement.executeUpdate(sql);
+				sql = "INSERT INTO " + "GradeTable" + " VALUES (" + id + ", " + currentSubmission.getAssignId() + ", '" + a.getTitle() + "', " + currentSubmission.getStudentId() + ", " + currentSubmission.getCourseId() + ", " + currentSubmission.getGrade() + ");";
+				statement.executeUpdate(sql);
 				result = true;
 				break;
 			} catch (SQLIntegrityConstraintViolationException e) {
@@ -676,7 +691,7 @@ public class DatabaseHelper implements ConnectionConstants {
 				statement = connection.createStatement();
 				String sql = "UPDATE SubmissionTable SET submission_grade = " + currentSubmission.getGrade()+", comments = '"+ currentSubmission.getComments() +"' WHERE id = "+currentSubmission.getId();
 				statement.executeUpdate(sql);
-				sql = "INSERT INTO " + "GradeTable" + " VALUES (" + id + ", " + currentSubmission.getAssignId() + ", " + currentSubmission.getStudentId() + ", " + currentSubmission.getCourseId() + ", " + currentSubmission.getGrade() + "');";
+				sql = "UPDATE GradeTable SET assignment_grade = " + currentSubmission.getGrade() + " WHERE id = "+ currentSubmission.getId();
 				statement.executeUpdate(sql);
 				result = true;
 				break;
@@ -691,24 +706,63 @@ public class DatabaseHelper implements ConnectionConstants {
 
 
 	// GRADE METHODS
-//	public ArrayList<Grade> getGradeList(Assignment selectedAssignment, User user) {
-//		ArrayList<Grade> grades = new ArrayList<Grade>();
-//		try {
-//			statement = connection.createStatement();
-//			String sql = "";
-//			sql = "SELECT * FROM GradeTable WHERE assign_id = " + selectedAssignment.getID() + " and student_id = " + user.getId();
-//			resultSet = statement.executeQuery(sql);
-//			while (resultSet.next()) {
-//				Grade fetchedGrade = new Grade(resultSet.getInt("assign_id"), resultSet.getInt("student_id"), resultSet.getInt("course_id"), resultSet.getInt("assignment_grade"));
-//				fetchedGrade.setId(resultSet.getInt("id"));
-//				grades.add(fetchedGrade);
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return submissions;
-//	guideoblea@gmail.com limrainer.ph@gmail.com
-//	}
+	public ArrayList<Grade> getGradeList(Course selectedCourse, User user) {
+		ArrayList<Grade> grades = new ArrayList<Grade>();
+		try {
+			statement = connection.createStatement();
+			String sql = "";
+			sql = "SELECT * FROM GradeTable WHERE course_id = " + selectedCourse.getId() + " and student_id = " + user.getId();
+			resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				Grade fetchedGrade = new Grade(resultSet.getInt("assign_id"), resultSet.getString("assign_title"), resultSet.getInt("student_id"), resultSet.getInt("course_id"), resultSet.getInt("assignment_grade"));
+				fetchedGrade.setId(resultSet.getInt("id"));
+				grades.add(fetchedGrade);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		HashSet<Grade> temp = new HashSet<Grade>();
+		int i = 0;
+		int max = -1;
+		while (i < grades.size()) {
+			int j = 0;
+			max = grades.get(i).getAssignmentGrade();
+			int maxIndex = i;
+			boolean add = true;
+			while (true) {
+				if (grades.get(i).getAssignId() == grades.get(j).getAssignId() && grades.get(j).getAssignmentGrade() > max) {
+					max = grades.get(j).getAssignmentGrade();
+					maxIndex = j;
+				}
+				j++;
+				if (j == grades.size()) {
+					break;
+				}
+			}
+				if (grades.get(maxIndex).getAssignmentGrade() != -1) {
+					temp.add(grades.get(maxIndex));
+			}
+			i++;
+		}
+		ArrayList<Grade> newGrades = new ArrayList<Grade>();
+		newGrades.addAll(temp);
+		Collections.sort(newGrades);
+		return newGrades;
+	}
+
+	public boolean deleteGrade(int id, int assignId) {
+		boolean result = false;
+		try {
+			statement = connection.createStatement();
+			String delete = "DELETE FROM GradeTable WHERE assign_id = " + assignId + " and id = " + id;
+			statement.executeUpdate(delete);
+			result = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 //	/**
 //	 * Sets up the database.
 //	 * @param args - command-line arguments
@@ -716,8 +770,8 @@ public class DatabaseHelper implements ConnectionConstants {
 //	public static void main(String[] args) {
 //		DatabaseHelper dbh = new DatabaseHelper();
 //		dbh.createDB();
-//		dbh.createAllTables();
 //		dbh.removeAllTables();
+//		dbh.createAllTables();
 //	}
 
 }

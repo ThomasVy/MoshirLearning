@@ -20,15 +20,15 @@ public class Submission implements Serializable {
 	private String comments;
 	private String timestamp;
 
-	public Submission(int course_id, int assign_id, int student_id, String path, String title, int grade, String comments, String timestamp) {
+	public Submission(int course_id, int assign_id, int student_id, String path, String title) {
 		this.course_id = course_id;
 		this.assign_id = assign_id;
 		this.student_id = student_id;
 		this.path = path;
 		this.title = title;
-		this.grade = grade;
-		this.comments = comments;
-		this.timestamp = timestamp;
+		this.grade = -1;
+		this.comments = "N/A";
+		this.timestamp = "N/A";
 	}
 
 	// GETTERS
