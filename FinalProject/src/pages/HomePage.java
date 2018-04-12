@@ -15,7 +15,7 @@ import sharedElements.Course;
 
 /**
  * Provides the fields and methods required to create a HomePage object.
- * @author Rainer Lim & Thomas Vy
+ * @author Rainer Lim and Thomas Vy
  * @version 1.0
  * @since April 12, 2018
  */

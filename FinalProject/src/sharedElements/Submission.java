@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Provides the fields and methods required to create a Submission object.
- * @author Rainer Lim & Thomas Vy
+ * @author Rainer Lim and Thomas Vy
  * @version 1.0
  * @since April 12, 2018
  */
@@ -218,6 +218,9 @@ public class Submission implements Serializable {
 		this.timestamp = timestamp;
 	}
 
+	/**
+	 * Converts fields into a String.
+	 */
 	@Override
 	public String toString() {
 		return title +  "    " + student_id + "    " + timestamp + "    " + grade + "%    " + comments;

@@ -9,7 +9,7 @@ import sharedElements.*;
 
 /**
  * The thread for each client for communication.
- * @author Rainer Lim & Thomas Vy
+ * @author Rainer Lim and Thomas Vy
  * @since April 12, 2018
  * @version 1.0
  *
@@ -147,7 +147,13 @@ public class Worker implements Runnable {
 		}
 		return toSend;
 	}
-	
+	/**
+	 * Processes the submission request of the user.
+	 * @param selectedSubmission - the submission that was send to the server
+	 * @return - the object to be send back to the client
+	 * @throws ClassNotFoundException - Could not find class to convert
+	 * @throws IOException - interruption occurred when reading the object
+	 */
 	private Object processSubmissionRequest(Submission selectedSubmission) throws ClassNotFoundException, IOException {
 		String typeOfRequest = (String) readRequest();
 		Object toSend = null;

@@ -16,7 +16,7 @@ import sharedElements.Course;
 
 /**
  * Provides the fields and methods required to create a CoursePage.
- * @author Rainer Lim & Thomas Vy
+ * @author Rainer Lim and Thomas Vy
  * @version 1.0
  * @since April 12, 2018
  */
@@ -37,6 +37,9 @@ public class CoursePage extends PagesInACourse {
 
 	/**
 	 * Constructs a CoursePage.
+	 * @param courses - the courses of the user
+	 * @param isProfessor - true if user is a professor, false otherwise
+	 * @param courseOfThePage - the current course
 	 */
 	public CoursePage(ArrayList<Course> courses, boolean isProfessor, Course courseOfThePage) {
 		super(courses, isProfessor, courseOfThePage);

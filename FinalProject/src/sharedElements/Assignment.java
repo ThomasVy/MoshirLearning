@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Provides the fields and methods required to create an Assignment object.
- * @author Rainer Lim & Thomas Vy
+ * @author Rainer Lim and Thomas Vy
  * @version 1.0
  * @since April 12, 2018
  */
@@ -134,6 +134,9 @@ public class Assignment implements Serializable, Comparable<Assignment> {
 		}
 	}
 
+	/**
+	 * Converts fields into a String.
+	 */
 	@Override
 	public String toString() {
 		String state = "Active";
@@ -143,6 +146,9 @@ public class Assignment implements Serializable, Comparable<Assignment> {
 		return title + "    " + due_date + "    " + state;
 	}
 
+	/**
+	 * Compares Assignments using titles.
+	 */
 	@Override
 	public int compareTo(Assignment otherAssignment) {
 		return this.title.compareTo(otherAssignment.title);

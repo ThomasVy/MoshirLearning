@@ -11,7 +11,7 @@ import sharedElements.Professor;
 
 /**
  * The professor controller of the pages
- * @author Rainer Lim & Thomas Vy
+ * @author Rainer Lim and Thomas Vy
  *
  */
 public class ProfessorGUI extends PageNavigator {

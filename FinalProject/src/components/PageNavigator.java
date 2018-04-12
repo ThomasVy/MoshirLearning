@@ -10,7 +10,7 @@ import pages.*;
 import sharedElements.*;
 /**
  * The page organizer of the client
- * @author Rainer Lim & Thomas Vy
+ * @author Rainer Lim and Thomas Vy
  * @since April 12, 2018
  * @version 1.0
  *

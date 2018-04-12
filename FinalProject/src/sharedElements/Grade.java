@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Provides the fields and methods required to create a Grade object.
- * @author Rainer Lim & Thomas Vy
+ * @author Rainer Lim and Thomas Vy
  * @version 1.0
  * @since April 12, 2018
  */
@@ -139,11 +139,17 @@ public class Grade implements Serializable, Comparable<Grade> {
 		this.assignment_grade = assignment_grade;
 	}
 
+	/**
+	 * Converts fields into a String.
+	 */
 	@Override
 	public String toString() {
 		return assign_title + "    " + student_id + "    " + assignment_grade + "%";
 	}
 
+	/**
+	 * Compares Grades using assignment ids.
+	 */
 	@Override
 	public int compareTo(Grade otherGrade) {
 		int otherGradeAssignId = otherGrade.assign_id;

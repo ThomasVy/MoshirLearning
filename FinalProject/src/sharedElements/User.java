@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Provides the fields and methods required to create a User object.
- * @author Rainer Lim & Thomas Vy
+ * @author Rainer Lim and Thomas Vy
  * @version 1.0
  * @since April 12, 2018
  */
@@ -91,11 +91,17 @@ public class User implements Serializable, Comparable<User> {
 		this.lastName = lastName;
 	}
 
+	/**
+	 * Converts fields into a String.
+	 */
 	@Override
 	public String toString() {
 		return id + "    " + firstName + "    " + lastName;
 	}
 
+	/**
+	 * Compares Users using last names.
+	 */
 	@Override
 	public int compareTo(User otherUser) {
 		return this.lastName.compareTo(((User) otherUser).lastName);

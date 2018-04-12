@@ -21,7 +21,7 @@ import sharedElements.Course;
 
 /**
  * Provides the fields and methods required to create an AssignmentPage object.
- * @author Rainer Lim & Thomas Vy
+ * @author Rainer Lim and Thomas Vy
  * @version 1.0
  * @since April 12, 2018
  */
@@ -31,18 +31,48 @@ public class AssignmentPage extends PagesInACourse {
 	 * The serial version UID.
 	 */
 	private static final long serialVersionUID = 3796826414520152234L;
+	/**
+	 * The model of the AssignmentPage.
+	 */
 	private DefaultListModel<Assignment> model;
+	/**
+	 * The list of the AssignmentPage.
+	 */
 	private JList<Assignment> assignmentsList;
+	/**
+	 * The scroll pane of the AssignmentPage.
+	 */
 	private JScrollPane assignmentsListScrollPane;
+	/**
+	 * The title of the AssignmentPage.
+	 */
 	private JTextField titleField;
+	/**
+	 * The due date of the AssignmentPage.
+	 */
 	private JTextField dueDateField;
+	/**
+	 * The upload button of the AssignmentPage.
+	 */
 	private JButton assignmentUpload;
+	/**
+	 * The delete button of the AssignmentPage.
+	 */
 	private JButton assignmentDelete;
+	/**
+	 * The changes state button of the AssignmentPage.
+	 */
 	private JButton assignmentChangeState;
+	/**
+	 * The download button of the AssignmentPage.
+	 */
 	private JButton assignmentDownload;
 
 	/**
 	 * Constructs an AssignmentPage object.
+	 * @param courses - the courses of the user
+	 * @param isProfessor - true if user is a professor, false otherwise
+	 * @param courseOfThisPage - the current course
 	 */
 	public AssignmentPage(ArrayList<Course> courses, boolean isProfessor, Course courseOfThisPage) {
 		super(courses, isProfessor, courseOfThisPage);

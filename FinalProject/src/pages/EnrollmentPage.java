@@ -23,7 +23,7 @@ import sharedElements.Student;
 
 /**
  * Provides the fields and methods required to create an EnrollmentPage object.
- * @author Rainer Lim & Thomas Vy
+ * @author Rainer Lim and Thomas Vy
  * @version 1.0
  * @since April 12, 2018
  */
@@ -75,7 +75,10 @@ public class EnrollmentPage extends PagesInACourse {
 	private JRadioButton lastNameRadioButton;
 
 	/**
-	 * Constructs an EnrollmentPage object.
+	 * Constructs an EnrollmentPage.
+	 * @param courses - the courses of the user
+	 * @param isProfessor - true if user is a professor, false otherwise
+	 * @param courseOfThisPage - the current course
 	 */
 	public EnrollmentPage(ArrayList<Course> courses, boolean isProfessor, Course courseOfThisPage) {
 		super(courses, isProfessor, courseOfThisPage);

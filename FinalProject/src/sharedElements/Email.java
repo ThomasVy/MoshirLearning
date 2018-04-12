@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 /**
  * Provides the fields and methods required to create an Email object.
- * @author Rainer Lim & Thomas Vy
+ * @author Rainer Lim and Thomas Vy
  * @version 1.0
  * @since April 12, 2018
  */
@@ -92,7 +92,7 @@ public class Email implements Serializable {
 
 	/**
 	 * Sets the email address of the sender.
-	 * @param sender - the email address to which it will set
+	 * @param from - the email address to which it will set
 	 */
 	public void setSender(String from) {
 		this.from = from;

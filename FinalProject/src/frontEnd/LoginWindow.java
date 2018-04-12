@@ -19,7 +19,7 @@ import javax.swing.border.EmptyBorder;
 
 /**
  * The login gui 
- * @author Rainer Lim & Thomas Vy
+ * @author Rainer Lim and Thomas Vy
  * @since April 12, 2018
  * @version 1.0
  */

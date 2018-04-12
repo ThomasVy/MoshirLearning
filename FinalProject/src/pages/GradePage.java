@@ -16,7 +16,7 @@ import sharedElements.Grade;
 
 /**
  * Provides the fields and methods required to create a GradePage object.
- * @author Rainer Lim & Thomas Vy
+ * @author Rainer Lim and Thomas Vy
  * @version 1.0
  * @since April 12, 2018
  */
@@ -41,6 +41,9 @@ public class GradePage extends PagesInACourse {
 
 	/**
 	 * Constructs a GradePage object.
+	 * @param courses - the courses of the user
+	 * @param isProfessor - true if user is a professor, false otherwise
+	 * @param selectedCourse - the current course
 	 */
 	public GradePage(ArrayList<Course> courses, boolean isProfessor, Course selectedCourse) {
 		super(courses, isProfessor, selectedCourse);
@@ -101,7 +104,7 @@ public class GradePage extends PagesInACourse {
 
 	/**
 	 * Sets the list of the GradePage.
-	 * @param gradeList - the list to which it will set
+	 * @param gradesList - the list to which it will set
 	 */
 	public void setGradesList(ArrayList<Grade> gradesList) {
 		model.clear();

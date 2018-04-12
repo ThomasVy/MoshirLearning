@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Provides the fields and methods required to create a Course object.
- * @author Rainer Lim & Thomas Vy
+ * @author Rainer Lim and Thomas Vy
  * @version 1.0
  * @since April 12, 2018
  */
@@ -33,7 +33,6 @@ public class Course implements Serializable, Comparable<Course> {
 
 	/**
 	 * Constructs a Course object.
-	 * @param id - the id of the Course
 	 * @param profId - the id of the professor of the Course
 	 * @param name - the name of the Course
 	 * @param active - the state of the Course
@@ -112,11 +111,17 @@ public class Course implements Serializable, Comparable<Course> {
 		this.active = active;
 	}
 
+	/**
+	 * Converts fields into a String.
+	 */
 	@Override
 	public String toString() {
 		return name;
 	}
 
+	/**
+	 * Compares Courses using names.
+	 */
 	@Override
 	public int compareTo(Course otherCourse) {
 		return this.name.compareTo(otherCourse.name);

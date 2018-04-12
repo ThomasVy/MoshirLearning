@@ -18,7 +18,7 @@ import sharedElements.*;
 /**
  * Provides the fields and methods required to create a DatabaseHelper object.
  * 
- * @author Rainer Lim & Thomas Vy
+ * @author Rainer Lim and Thomas Vy
  * @version 1.0
  * @since April 12, 2018
  *
@@ -279,8 +279,7 @@ public class DatabaseHelper implements ConnectionConstants {
 
 	/**
 	 * A helper method used by the getCourses method.
-	 * @param id - the prof's id
-	 * @param table - the table's name
+	 * @param prof_id - the prof's id
 	 * @return - the prof's courses
 	 */
 	private ArrayList<Course> selectProfCoursesFromDB(int prof_id) {
@@ -332,7 +331,6 @@ public class DatabaseHelper implements ConnectionConstants {
 	}
 	/**
 	 * Adds a course into the database with a unique name
-	 * @param id - the course id
 	 * @param prof_id - the prof's id
 	 * @param name - the course name
 	 * @param active - the course activity
@@ -482,6 +480,7 @@ public class DatabaseHelper implements ConnectionConstants {
 	/**
 	 * Gets the assignments from the database.
 	 * @param selectedCourse - the course
+	 * @param user - the user
 	 * @return - the array list of assignments
 	 */
 	public ArrayList<Assignment> getAssignmentList(Course selectedCourse, User user) {
@@ -797,10 +796,10 @@ public class DatabaseHelper implements ConnectionConstants {
 		return newGrades;
 	}
 	
-	/**
-	 * Sets up the database.
-	 * @param args - command-line arguments
-	 */
+//	/**
+//	 * Sets up the database.
+//	 * @param args - command-line arguments
+//	 */
 //	public static void main(String[] args) {
 //		DatabaseHelper dbh = new DatabaseHelper();
 //		dbh.createDB();
