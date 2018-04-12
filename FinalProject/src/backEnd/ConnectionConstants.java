@@ -9,8 +9,13 @@ package backEnd;
  *
  */
 public interface ConnectionConstants {
-
-	public final String connectionInfo = "jdbc:mysql://localhost:3306/MoshirBase"; // The connection information
-	public final String databaseName = "MoshirBase"; // The database name
+	/**
+	 * Connection information for the database.
+	 */
+	public final String connectionInfo = "jdbc:mysql://localhost:3306/MoshirBase";
+	/**
+	 * The Data base name.
+	 */
+	public final String databaseName = "MoshirBase";
 
 }

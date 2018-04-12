@@ -40,10 +40,9 @@ public class FileHelper {
 			bos.read(content, 0, (int)length);
 			bos.close();
 			fis.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e)
+		{
+			
 		}
 		return content;
 		// for writing to socket
@@ -79,7 +78,7 @@ public class FileHelper {
 				writer.close();
 				bos.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			return;
 		}
 	}
 
@@ -107,10 +106,9 @@ public class FileHelper {
 				}
 				j++;
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception e)
+		{
+			return;
 		}
 	}
 

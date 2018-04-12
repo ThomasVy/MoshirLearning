@@ -45,6 +45,10 @@ public class HomePage extends Page {
 
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);
+		
+		JLabel lblHello = new JLabel("Hello Everybody");
+		lblHello.setFont(new Font("Tw Cen MT", Font.BOLD, 26));
+		panel_2.add(lblHello);
 
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3);

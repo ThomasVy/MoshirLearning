@@ -300,6 +300,11 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 		return courses;
 	}
+	/**
+	 * Selects the student courses from the database
+	 * @param student_id - the student's id
+	 * @return - the courses the student is taking
+	 */
 	private ArrayList<Course> selectStudentCoursesFromDB(int student_id)
 	{
 		ArrayList<Course> courses = new ArrayList<Course>();
@@ -326,7 +331,7 @@ public class DatabaseHelper implements ConnectionConstants {
 		return courses;
 	}
 	/**
-	 * Adds a course into the database.
+	 * Adds a course into the database with a unique name
 	 * @param id - the course id
 	 * @param prof_id - the prof's id
 	 * @param name - the course name
@@ -744,7 +749,7 @@ public class DatabaseHelper implements ConnectionConstants {
 			}
 				if (grades.get(maxIndex).getAssignmentGrade() != -1) {
 					temp.add(grades.get(maxIndex));
-			}
+				}
 			i++;
 		}
 		ArrayList<Grade> newGrades = new ArrayList<Grade>();
