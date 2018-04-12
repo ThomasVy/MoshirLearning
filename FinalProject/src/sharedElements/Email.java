@@ -3,49 +3,115 @@ package sharedElements;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Provides the fields and methods required to create an Email object.
+ * @author Rainer Lim & Thomas Vy
+ * @version 1.0
+ * @since April 12, 2018
+ */
 public class Email implements Serializable {
-	private static final long serialVersionUID = 9195987129315419416L;
+
+	/**
+	 * The serial version UID.
+	 */
+	private static final long serialVersionUID = 2009816020947673580L;
+	/**
+	 * The email address of the sender.
+	 */
 	private String from;
+	/**
+	 * The email addresses of the receivers.
+	 */
 	private ArrayList<String> to;
+	/**
+	 * The subject of the Email.
+	 */
 	private String subject;
+	/**
+	 * The content of the Email.
+	 */
 	private String content;
+	/**
+	 * The password of the sender.
+	 */
 	private String password;
-	
-	public Email (String subject, String content)
-	{
-		this.subject =subject;
+
+	/**
+	 * Constructs an Email object.
+	 * @param subject - the subject of the Email.
+	 * @param content - the content of the Email.
+	 */
+	public Email(String subject, String content) {
+		this.subject = subject;
 		this.content = content;
 	}
-	public String getSender ()
-	{
+
+	// Getters:
+
+	/**
+	 * Gets the email address of the sender.
+	 * @return from - the email address of the sender
+	 */
+	public String getSender() {
 		return from;
 	}
-	public String getPassword()
-	{
-		return password;
-	}
-	public void setPassword(String password)
-	{
-		this.password =password;
-	}
-	public ArrayList<String> getReceiver ()
-	{
+
+	/**
+	 * Gets the email address of the receivers.
+	 * @return to - the email addresses of the receivers
+	 */
+	public ArrayList<String> getReceiver() {
 		return to;
 	}
-	public void setReceiver(ArrayList<String> to)
-	{
-		this.to =to;
-	}
-	public void setSender (String sender)
-	{
-		this.from = sender;
-	}
-	public String getSubject ()
-	{
+
+	/**
+	 * Gets the subject of the Email.
+	 * @return subject - the subject of the Email
+	 */
+	public String getSubject() {
 		return subject;
 	}
-	public String getContent ()
-	{
+
+	/**
+	 * Gets the content of the Email.
+	 * @return content - the content of the Email
+	 */
+	public String getContent() {
 		return content;
 	}
+
+	/**
+	 * Gets the password of the sender.
+	 * @return password - the password of the sender
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	// Setters:
+
+	/**
+	 * Sets the email address of the sender.
+	 * @param sender - the email address to which it will set
+	 */
+	public void setSender(String from) {
+		this.from = from;
+	}
+
+	/**
+	 * Sets the email addresses of the receivers.
+	 * @param to - the email addresses to which it will set
+	 */
+	public void setReceiver(ArrayList<String> to) {
+		this.to = to;
+	}
+
+	/**
+	 * Sets the password of the sender.
+	 * @param password - the password to which it will set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 }

@@ -19,195 +19,269 @@ import javax.swing.JTextField;
 
 import sharedElements.Course;
 import sharedElements.Student;
+
+
 /**
- * 
+ * Provides the fields and methods required to create an EnrollmentPage object.
  * @author Rainer Lim & Thomas Vy
- *
+ * @version 1.0
+ * @since April 12, 2018
  */
 public class EnrollmentPage extends PagesInACourse {
 
-	private static final long serialVersionUID = 1L; // The serial version UID
-	private JTextField searchField;
-	private JTextField studentIDField;
-	private DefaultListModel<Student> model;
-	private JList<Student> list;
-	private JScrollPane scrollPane;
-	private JButton btnNewButton_7;
-	private JButton btnNewButton_8;
-	private JButton btnSearch;
-	private JRadioButton rdbtnId;
-	private JRadioButton rdbtnLastName;
 	/**
-	 * Create the frame.
+	 * The serial version UID.
+	 */
+	private static final long serialVersionUID = 3731092531537036971L;
+	/**
+	 * The search field of the EnrollmentPage.
+	 */
+	private JTextField searchField;
+	/**
+	 * The student id field of the EnrollmentPage.
+	 */
+	private JTextField studentIdField;
+	/**
+	 * The model of the EnrollmentPage.
+	 */
+	private DefaultListModel<Student> model;
+	/**
+	 * The enrollment list of the EnrollmentPage.
+	 */
+	private JList<Student> enrollmentList;
+	/**
+	 * The enrollment list scroll pane of the EnrollmentPage.
+	 */
+	private JScrollPane enrollmentListScrollPane;
+	/**
+	 * The enroll button of the EnrollmentPage.
+	 */
+	private JButton enroll;
+	/**
+	 * The unenroll button of the EnrollmentPage.
+	 */
+	private JButton unenroll;
+	/**
+	 * The search button of the EnrollmentPage.
+	 */
+	private JButton search;
+	/**
+	 * The id radio button of the EnrollmentPage.
+	 */
+	private JRadioButton idRadioButton;
+	/**
+	 * The last name radio button of the EnrollmentPage.
+	 */
+	private JRadioButton lastNameRadioButton;
+
+	/**
+	 * Constructs an EnrollmentPage object.
 	 */
 	public EnrollmentPage(ArrayList<Course> courses, boolean isProfessor, Course courseOfThisPage) {
 		super(courses, isProfessor, courseOfThisPage);
-		
-		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.CENTER);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-		JPanel panel_1 = new JPanel();
-		panel.add(panel_1);
+		JPanel contentPanel = new JPanel();
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
-		JLabel lblEnrollmentPage = new JLabel("Enrollment Page");
-		lblEnrollmentPage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-		panel_1.add(lblEnrollmentPage);
-		
-		JPanel panel_13 = new JPanel();
-		panel.add(panel_13);
-		panel_13.setLayout(new BoxLayout(panel_13, BoxLayout.X_AXIS));
-		
-		JLabel lblNewLabel = new JLabel("Student ID  First Name  Last Name                                                                                                   ");
-		lblNewLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_13.add(lblNewLabel);
+		JPanel titlePanel = new JPanel();
+		contentPanel.add(titlePanel);
 
-		JPanel panel_2 = new JPanel();
-		panel.add(panel_2);
+		JLabel enrollmentTitle = new JLabel("Enrollment Page");
+		enrollmentTitle.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
+		titlePanel.add(enrollmentTitle);
 
+		JPanel listLabelsPanel = new JPanel();
+		contentPanel.add(listLabelsPanel);
+		listLabelsPanel.setLayout(new BoxLayout(listLabelsPanel, BoxLayout.X_AXIS));
+
+		JLabel listLabels = new JLabel(
+				"Student ID  First Name  Last Name                                                                                                   ");
+		listLabels.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		listLabelsPanel.add(listLabels);
+
+		JPanel listPanel = new JPanel();
+		contentPanel.add(listPanel);
 
 		model = new DefaultListModel<Student>();
-		list = new JList<Student>(model);
-		scrollPane = new JScrollPane(list);
-		list.setFixedCellWidth(500);
-		list.setFixedCellHeight(25);
-		list.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		
-		panel_2.add(scrollPane);
-		JPanel panel_3 = new JPanel();
-		panel.add(panel_3);
-		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.Y_AXIS));
+		enrollmentList = new JList<Student>(model);
+		enrollmentListScrollPane = new JScrollPane(enrollmentList);
+		enrollmentList.setFixedCellWidth(500);
+		enrollmentList.setFixedCellHeight(25);
+		enrollmentList.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 
-		JPanel panel_4 = new JPanel();
-		panel_3.add(panel_4);
-		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.Y_AXIS));
+		listPanel.add(enrollmentListScrollPane);
+		JPanel bottomPanel = new JPanel();
+		contentPanel.add(bottomPanel);
+		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 
-		JPanel panel_12 = new JPanel();
-		panel_4.add(panel_12);
+		JPanel bottomSearchPanel = new JPanel();
+		bottomPanel.add(bottomSearchPanel);
+		bottomSearchPanel.setLayout(new BoxLayout(bottomSearchPanel, BoxLayout.Y_AXIS));
 
-		JLabel lblSearchForStudents = new JLabel("Search for Student:");
-		lblSearchForStudents.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
-		panel_12.add(lblSearchForStudents);
+		JPanel searchTitlePanel = new JPanel();
+		bottomSearchPanel.add(searchTitlePanel);
 
-		JPanel panel_7 = new JPanel();
-		panel_4.add(panel_7);
+		JLabel searchTitle = new JLabel("Search for Student:");
+		searchTitle.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
+		searchTitlePanel.add(searchTitle);
 
-		JLabel lblNameOfStudent = new JLabel("Name of Student");
-		lblNameOfStudent.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_7.add(lblNameOfStudent);
+		JPanel searchPanel = new JPanel();
+		bottomSearchPanel.add(searchPanel);
+
+		JLabel nameOfStudent = new JLabel("Search Field");
+		nameOfStudent.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		searchPanel.add(nameOfStudent);
 
 		searchField = new JTextField();
 		searchField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_7.add(searchField);
+		searchPanel.add(searchField);
 		searchField.setColumns(10);
 
-		rdbtnId = new JRadioButton("ID");
-		rdbtnId.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		idRadioButton = new JRadioButton("ID");
+		idRadioButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 
-		rdbtnLastName = new JRadioButton("Last Name");
-		rdbtnLastName.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		lastNameRadioButton = new JRadioButton("Last Name");
+		lastNameRadioButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 
-		btnSearch = new JButton("Search");
-		JPanel panel_6 = new JPanel();
-		panel_7.add(panel_6);
-		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.Y_AXIS));
+		search = new JButton("Search");
+		JPanel searchOptionsPanel = new JPanel();
+		searchPanel.add(searchOptionsPanel);
+		searchOptionsPanel.setLayout(new BoxLayout(searchOptionsPanel, BoxLayout.Y_AXIS));
 
-		panel_6.add(rdbtnId);
-		panel_6.add(rdbtnLastName);
+		searchOptionsPanel.add(idRadioButton);
+		searchOptionsPanel.add(lastNameRadioButton);
 
-		btnSearch.setBackground(new Color(135, 206, 235));
-		btnSearch.setForeground(Color.WHITE);
-		btnSearch.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_7.add(btnSearch);
+		search.setBackground(new Color(135, 206, 235));
+		search.setForeground(Color.WHITE);
+		search.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		searchPanel.add(search);
 
 		ButtonGroup bg = new ButtonGroup();
-		bg.add(rdbtnId);
-		bg.add(rdbtnLastName);
-		if(isProfessor ==true)
-		{
-			JPanel panel_5 = new JPanel();
-			panel_3.add(panel_5);
-			panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.Y_AXIS));
-	
-			JPanel panel_8 = new JPanel();
-			panel_5.add(panel_8);
-			panel_8.setLayout(new BoxLayout(panel_8, BoxLayout.Y_AXIS));
-	
-			JPanel panel_10 = new JPanel();
-			panel_8.add(panel_10);
-	
-			JLabel lblAddNewStudent = new JLabel("Add New Student:");
-			lblAddNewStudent.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
-			panel_10.add(lblAddNewStudent);
-	
-			JPanel panel_11 = new JPanel();
-			panel_8.add(panel_11);
-	
-			JLabel lblNameOfStudent_1 = new JLabel("Student's ID");
-			lblNameOfStudent_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			panel_11.add(lblNameOfStudent_1);
-	
-			studentIDField = new JTextField();
-			studentIDField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			panel_11.add(studentIDField);
-			studentIDField.setColumns(10);
-			
-			JPanel panel_9 = new JPanel();
-			panel_5.add(panel_9);
-		
-			btnNewButton_8 = new JButton("Enroll");
-			btnNewButton_8.setForeground(Color.WHITE);
-			btnNewButton_8.setBackground(new Color(135, 206, 235));
-			btnNewButton_8.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			panel_9.add(btnNewButton_8);
-			
-			btnNewButton_7 = new JButton("Unenroll");
-			btnNewButton_7.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			btnNewButton_7.setForeground(Color.WHITE);
-			btnNewButton_7.setBackground(new Color(135, 206, 235));
-			panel_9.add(btnNewButton_7);
+		bg.add(idRadioButton);
+		bg.add(lastNameRadioButton);
+		if (isProfessor == true) {
+			JPanel bottomAddStudentPanel = new JPanel();
+			bottomPanel.add(bottomAddStudentPanel);
+			bottomAddStudentPanel.setLayout(new BoxLayout(bottomAddStudentPanel, BoxLayout.Y_AXIS));
+
+			JPanel addStudentPanel = new JPanel();
+			bottomAddStudentPanel.add(addStudentPanel);
+			addStudentPanel.setLayout(new BoxLayout(addStudentPanel, BoxLayout.Y_AXIS));
+
+			JPanel addStudentTitlePanel = new JPanel();
+			addStudentPanel.add(addStudentTitlePanel);
+
+			JLabel addStudentTitle = new JLabel("Add New Student:");
+			addStudentTitle.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
+			addStudentTitlePanel.add(addStudentTitle);
+
+			JPanel studentIdPanel = new JPanel();
+			addStudentPanel.add(studentIdPanel);
+
+			JLabel studentId = new JLabel("Student's ID");
+			studentId.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			studentIdPanel.add(studentId);
+
+			studentIdField = new JTextField();
+			studentIdField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			studentIdPanel.add(studentIdField);
+			studentIdField.setColumns(10);
+
+			JPanel addStudentButtonsPanel = new JPanel();
+			bottomAddStudentPanel.add(addStudentButtonsPanel);
+
+			enroll = new JButton("Enroll");
+			enroll.setForeground(Color.WHITE);
+			enroll.setBackground(new Color(135, 206, 235));
+			enroll.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			addStudentButtonsPanel.add(enroll);
+
+			unenroll = new JButton("Unenroll");
+			unenroll.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			unenroll.setForeground(Color.WHITE);
+			unenroll.setBackground(new Color(135, 206, 235));
+			addStudentButtonsPanel.add(unenroll);
 		}
 	}
-	public void setupEnrollButton(ActionListener e)
-	{
-		btnNewButton_8.addActionListener(e);
+
+	// Getters:
+
+	/**
+	 * Gets the search field text.
+	 * @return the search field text.
+	 */
+	public String getSearchField() {
+		return searchField.getText();
 	}
-	public void setupUnenrollButton(ActionListener e)
-	{
-		btnNewButton_7.addActionListener(e);
+
+	/**
+	 * Gets the student id text.
+	 * @return the student id text
+	 */
+	public String getId() {
+		return studentIdField.getText();
 	}
-	public void setupSearch(ActionListener e)
-	{
-		btnSearch.addActionListener(e);
+
+	/**
+	 * Gets the list of the EnrollmentPage.
+	 * @return enrollmentList - the list of the EnrollmentPage
+	 */
+	public JList<Student> getList() {
+		return enrollmentList;
 	}
-	public void setEnrollList (ArrayList<Student> students)
-	{
+
+
+	/**
+	 * Gets the selected radio button.
+	 * @return 'I' if id radio button is selected, 'L' is last name radio button is selected, '0' otherwise
+	 */
+	public char selectedRadioButton() {
+		if (idRadioButton.isSelected()) {
+			return 'I';
+		} else if (lastNameRadioButton.isSelected()) {
+			return 'L';
+		}
+		return '0';
+	}
+
+	// Setters:
+
+	/**
+	 * Sets the list of the EnrollmentPage.
+	 * @param students - the list to which it will set
+	 */
+	public void setEnrollList(ArrayList<Student> students) {
 		model.clear();
 		for (int i = 0; i < students.size(); i++) {
 			model.addElement(students.get(i));
 		}
 	}
-	public String getSearchField ()
-	{
-		return searchField.getText();
+
+	// Listeners:
+
+	/**
+	 * Sets up the enroll button.
+	 * @param e - the action listener to be added
+	 */
+	public void setupEnrollButton(ActionListener e) {
+		enroll.addActionListener(e);
 	}
-	public char selectedRadioButton ()
-	{
-		if (rdbtnId.isSelected()) {
-			return 'I';
-		} 
-		else if (rdbtnLastName.isSelected()) 
-		{
-			return 'L';
-		}
-		return '0';
+
+	/**
+	 * Sets up the unenroll button.
+	 * @param e - the action listener to be added
+	 */
+	public void setupUnenrollButton(ActionListener e) {
+		unenroll.addActionListener(e);
 	}
-	public String getId()
-	{
-		return studentIDField.getText();
+
+	/**
+	 * Sets up the search button.
+	 * @param e - the action listener to be added
+	 */
+	public void setupSearch(ActionListener e) {
+		search.addActionListener(e);
 	}
-	public JList<Student> getList()
-	{
-		return list;
-	}
+
 }

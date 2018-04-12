@@ -160,7 +160,7 @@ public class CourseHandler {
 	{
 		courses = pageNavigator.getCourses();
 		gradePage = new GradePage(courses, pageNavigator.getIsProfessor(), currentCourse);
-		gradePage.setGradeList((ArrayList<Grade>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetGradeList"));
+		gradePage.setGradesList((ArrayList<Grade>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetGradeList"));
 		pageNavigator.addComboBoxListener(gradePage);
 		pageNavigator.addHomeButtonListener(gradePage);
 		pageNavigator.addLogoutButtonListener(gradePage);
@@ -187,7 +187,7 @@ public class CourseHandler {
 	 */
 	private void addPageListeners(PagesInACourse page)
 	{
-		page.addAssignmentButtonListener(new ActionListener() {
+		page.addAssignmentsButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				page.dispose();
 				createAssignmentPage();

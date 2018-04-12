@@ -2,170 +2,213 @@ package pages;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
 import java.util.ArrayList;
-import java.util.Random;
 
-import javax.swing.*;
-
-import frontEnd.ProfessorGUI;
-import sharedElements.*;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import java.awt.Component;
-import java.awt.FlowLayout;
+
+import sharedElements.Assignment;
+import sharedElements.Course;
+
+
 /**
- * 
+ * Provides the fields and methods required to create an AssignmentPage object.
  * @author Rainer Lim & Thomas Vy
- *
+ * @version 1.0
+ * @since April 12, 2018
  */
 public class AssignmentPage extends PagesInACourse {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * The serial version UID.
+	 */
+	private static final long serialVersionUID = 3796826414520152234L;
 	private DefaultListModel<Assignment> model;
-	private JList<Assignment> list;
-	private JScrollPane scrollPane;
+	private JList<Assignment> assignmentsList;
+	private JScrollPane assignmentsListScrollPane;
 	private JTextField titleField;
 	private JTextField dueDateField;
-	private JButton uploadButton;
-	private JButton deleteButton;
-	private JButton changeStateButton;
-	private JButton btnDownload;
+	private JButton assignmentUpload;
+	private JButton assignmentDelete;
+	private JButton assignmentChangeState;
+	private JButton assignmentDownload;
+
 	/**
-	 * Launch the application.
+	 * Constructs an AssignmentPage object.
 	 */
-	public AssignmentPage(ArrayList<Course> courses, boolean isProfessor,  Course courseOfThisPage) {
+	public AssignmentPage(ArrayList<Course> courses, boolean isProfessor, Course courseOfThisPage) {
 		super(courses, isProfessor, courseOfThisPage);
 
-		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.CENTER);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		JPanel contentPanel = new JPanel();
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
-		JPanel panel_1 = new JPanel();
-		panel.add(panel_1);
+		JPanel assignmentsPageTitlePanel = new JPanel();
+		contentPanel.add(assignmentsPageTitlePanel);
 
-		JLabel lblAssignmentsPage = new JLabel("Assignments Page");
-		lblAssignmentsPage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-		panel_1.add(lblAssignmentsPage);
-		
-		JPanel panel_7 = new JPanel();
-		panel.add(panel_7);
-		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.X_AXIS));
-		
-		JLabel lblNewLabel_1 = new JLabel("Title              Due Date         State                                                                                       ");
-		lblNewLabel_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_7.add(lblNewLabel_1);
+		JLabel assignmentsPageTitle = new JLabel("Assignments Page");
+		assignmentsPageTitle.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
+		assignmentsPageTitlePanel.add(assignmentsPageTitle);
 
-		JPanel panel_2 = new JPanel();
-		panel.add(panel_2);
+		JPanel listLabelsPanel = new JPanel();
+		contentPanel.add(listLabelsPanel);
+		listLabelsPanel.setLayout(new BoxLayout(listLabelsPanel, BoxLayout.X_AXIS));
+
+		JLabel listLabels = new JLabel(
+				"Title              Due Date         State                                                                                       ");
+		listLabels.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		listLabelsPanel.add(listLabels);
+
+		JPanel assignmentsListPanel = new JPanel();
+		contentPanel.add(assignmentsListPanel);
 		model = new DefaultListModel<Assignment>();
-		list = new JList<Assignment>(model);
-		scrollPane = new JScrollPane(list);
-		list.setFixedCellWidth(500);
-		list.setFixedCellHeight(25);
-		list.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		assignmentsList = new JList<Assignment>(model);
+		assignmentsListScrollPane = new JScrollPane(assignmentsList);
+		assignmentsList.setFixedCellWidth(500);
+		assignmentsList.setFixedCellHeight(25);
+		assignmentsList.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 
-		panel_2.add(scrollPane);
-		JPanel panel_3 = new JPanel();
-		panel.add(panel_3);
-		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.Y_AXIS));
+		assignmentsListPanel.add(assignmentsListScrollPane);
+		JPanel assignmentOptionsPanel = new JPanel();
+		contentPanel.add(assignmentOptionsPanel);
+		assignmentOptionsPanel.setLayout(new BoxLayout(assignmentOptionsPanel, BoxLayout.Y_AXIS));
 
-		JPanel panel_4 = new JPanel();
-		panel_3.add(panel_4);
-		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
+		JPanel assignmentOptionsTitlePanel = new JPanel();
+		assignmentOptionsPanel.add(assignmentOptionsTitlePanel);
+		assignmentOptionsTitlePanel.setLayout(new BoxLayout(assignmentOptionsTitlePanel, BoxLayout.X_AXIS));
 
-		JLabel lblNewLabel = new JLabel("Assignment Options:");
-		lblNewLabel.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
-		panel_4.add(lblNewLabel);
-		
-		JPanel panel_6 = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel_6.getLayout();
-		panel_3.add(panel_6);
-		if(isProfessor == true)
-		{
-			JLabel lblAssignmentTitle = new JLabel("Title");
-			lblAssignmentTitle.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			panel_6.add(lblAssignmentTitle);
+		JLabel assignmentOptionsTitle = new JLabel("Assignment Options:");
+		assignmentOptionsTitle.setFont(new Font("Tw Cen MT", Font.BOLD, 12));
+		assignmentOptionsTitlePanel.add(assignmentOptionsTitle);
+
+		JPanel assignmentOptionsFields = new JPanel();
+		assignmentOptionsPanel.add(assignmentOptionsFields);
+		if (isProfessor == true) {
+			JLabel assignmentTitleLabel = new JLabel("Title");
+			assignmentTitleLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			assignmentOptionsFields.add(assignmentTitleLabel);
 			titleField = new JTextField();
 			titleField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			panel_6.add(titleField);
+			assignmentOptionsFields.add(titleField);
 			titleField.setColumns(10);
-			
-			JLabel lblDueDate = new JLabel("Due Date");
-			lblDueDate.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			panel_6.add(lblDueDate);
-			
+
+			JLabel assignmentDueDateLabel = new JLabel("Due Date");
+			assignmentDueDateLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			assignmentOptionsFields.add(assignmentDueDateLabel);
+
 			dueDateField = new JTextField();
 			dueDateField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			panel_6.add(dueDateField);
+			assignmentOptionsFields.add(dueDateField);
 			dueDateField.setColumns(10);
-			
-			JPanel panel_5 = new JPanel();
-			panel_3.add(panel_5);
-			uploadButton = new JButton("Upload");
-			uploadButton.setForeground(Color.WHITE);
-			uploadButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			uploadButton.setBackground(new Color(135, 206, 235));
-			panel_5.add(uploadButton);
-			
-			deleteButton = new JButton("Delete");
-			deleteButton.setForeground(Color.WHITE);
-			deleteButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			deleteButton.setBackground(new Color(135, 206, 235));
-			panel_5.add(deleteButton);	
-			changeStateButton = new JButton("Change Active State");
-			changeStateButton.setForeground(Color.WHITE);
-			changeStateButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			changeStateButton.setBackground(Color.DARK_GRAY);
-			panel_5.add(changeStateButton);
-		}
-		else 
-		{
-			JPanel panel_5 = new JPanel();
-			panel_3.add(panel_5);
-			btnDownload = new JButton("Download");
-			btnDownload.setForeground(Color.WHITE);
-			btnDownload.setBackground(new Color(135, 206, 235));
-			btnDownload.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			panel_6.add(btnDownload);
+
+			JPanel assignmentButtonsPanel = new JPanel();
+			assignmentOptionsPanel.add(assignmentButtonsPanel);
+			assignmentUpload = new JButton("Upload");
+			assignmentUpload.setForeground(Color.WHITE);
+			assignmentUpload.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			assignmentUpload.setBackground(new Color(135, 206, 235));
+			assignmentButtonsPanel.add(assignmentUpload);
+
+			assignmentDelete = new JButton("Delete");
+			assignmentDelete.setForeground(Color.WHITE);
+			assignmentDelete.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			assignmentDelete.setBackground(new Color(135, 206, 235));
+			assignmentButtonsPanel.add(assignmentDelete);
+			assignmentChangeState = new JButton("Change Active State");
+			assignmentChangeState.setForeground(Color.WHITE);
+			assignmentChangeState.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			assignmentChangeState.setBackground(Color.DARK_GRAY);
+			assignmentButtonsPanel.add(assignmentChangeState);
+		} else {
+			JPanel assignmentBottomPanel = new JPanel();
+			assignmentOptionsPanel.add(assignmentBottomPanel);
+			assignmentDownload = new JButton("Download");
+			assignmentDownload.setForeground(Color.WHITE);
+			assignmentDownload.setBackground(new Color(135, 206, 235));
+			assignmentDownload.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			assignmentOptionsFields.add(assignmentDownload);
 		}
 	}
-	public void setupDownloadButton (ActionListener e)
-	{
-		btnDownload.addActionListener(e);
+
+	// Getters:
+
+	/**
+	 * Gets the assignments list.
+	 * @return the assignments list
+	 */
+	public JList<Assignment> getList() {
+		return assignmentsList;
 	}
-	public void setupUploadButton(ActionListener e)
-	{
-		uploadButton.addActionListener(e);
+
+	/**
+	 * Gets the assignment title.
+	 * @return the assignment title
+	 */
+	public String getAssignmentTitle() {
+		return titleField.getText();
 	}
-	public void setupDeleteButton(ActionListener e)
-	{
-		deleteButton.addActionListener(e);
+
+	/**
+	 * Gets the assignment due date.
+	 * @return the assignment due date
+	 */
+	public String getAssignmentDueDate() {
+		return dueDateField.getText();
 	}
-	public void setupChangeActionButton(ActionListener e)
-	{
-		changeStateButton.addActionListener(e);
-	}
-	public void setAssignmentList(ArrayList<Assignment> assignmentList)
-	{
+
+	// Setters:
+
+	/**
+	 * Sets the assignment list of the AssignmentPage.
+	 * @param assignmentList - the assignment list to which it will set
+	 */
+	public void setAssignmentList(ArrayList<Assignment> assignmentList) {
 		model.clear();
 		for (int i = 0; i < assignmentList.size(); i++) {
 			model.addElement(assignmentList.get(i));
 		}
 	}
-	public String getAssignmentTitle ()
-	{
-		return titleField.getText();
+
+	// Listeners:
+
+	/**
+	 * Sets up the upload button.
+	 * @param e - the action listener to be added
+	 */
+	public void setupUploadButton(ActionListener e) {
+		assignmentUpload.addActionListener(e);
 	}
-	public String getAssignmentDueDate()
-	{
-		return dueDateField.getText();
+
+	/**
+	 * Sets up the delete button.
+	 * @param e - the action listener to be added
+	 */
+	public void setupDeleteButton(ActionListener e) {
+		assignmentDelete.addActionListener(e);
 	}
-	public JList<Assignment> getList ()
-	{
-		return list;
+
+	/**
+	 * Sets up the change state button.
+	 * @param e - the action listener to be added
+	 */
+	public void setupChangeActionButton(ActionListener e) {
+		assignmentChangeState.addActionListener(e);
 	}
+
+	/**
+	 * Sets up the download button.
+	 * @param e - the action listener to be added
+	 */
+	public void setupDownloadButton(ActionListener e) {
+		assignmentDownload.addActionListener(e);
+	}
+
 }

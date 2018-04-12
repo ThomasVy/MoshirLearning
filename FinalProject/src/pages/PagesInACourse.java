@@ -2,73 +2,108 @@ package pages;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-import components.PageNavigator;
-import frontEnd.ProfessorGUI;
 import sharedElements.Course;
 
-public class PagesInACourse extends Page{
-	
+/**
+ * Provides the fields and methods required to create a PagesInACourse object.
+ * @author Rainer Lim & Thomas Vy
+ * @version 1.0
+ * @since April 12, 2018
+ */
+public class PagesInACourse extends Page {
+
+	/**
+	 * The serial version UID.
+	 */
 	private static final long serialVersionUID = -9189685996244057300L;
+
+	/**
+	 * The course of the page.
+	 */
 	protected Course courseOfThePage;
-	
+
+	/**
+	 * Constructs a PagesInACourse object.
+	 * @param courses - the courses of the user
+	 * @param isProfessor - true if user is a professor, false otherwise
+	 * @param courseOfThePage - the course of the page
+	 */
 	public PagesInACourse(ArrayList<Course> courses, boolean isProfessor, Course courseOfThePage) {
 		super(courses, isProfessor);
 		this.courseOfThePage = courseOfThePage;
-	
-		btnNewButton_2 = new JButton("Assignments");
-		btnNewButton_2.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_2.setForeground(Color.WHITE);
-		btnNewButton_2.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_2);
-	
+
+		assignmentsButton = new JButton("Assignments");
+		assignmentsButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		assignmentsButton.setForeground(Color.WHITE);
+		assignmentsButton.setBackground(new Color(135, 206, 235));
+		bottomPanel.add(assignmentsButton);
+
 		if (!isProfessor) {
-			btnNewButton_3 = new JButton("Grades");
-			btnNewButton_3.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			btnNewButton_3.setForeground(Color.WHITE);
-			btnNewButton_3.setBackground(new Color(135, 206, 235));
-			panel_1.add(btnNewButton_3);
+			gradesButton = new JButton("Grades");
+			gradesButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			gradesButton.setForeground(Color.WHITE);
+			gradesButton.setBackground(new Color(135, 206, 235));
+			bottomPanel.add(gradesButton);
 		}
-	
-		btnNewButton_4 = new JButton("Submissions");
-		btnNewButton_4.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_4.setForeground(Color.WHITE);
-		btnNewButton_4.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_4);
-	
-//		lbl = new JLabel(courseOfThePage.getName());
-//		lbl.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-//		panel_4.add(lbl);
-	
-		btnNewButton_5 = new JButton("Enrollment");
-		btnNewButton_5.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_5.setForeground(Color.WHITE);
-		btnNewButton_5.setBackground(new Color(135, 206, 235));
-		panel_1.add(btnNewButton_5);
-		
+
+		submissionsButton = new JButton("Submissions");
+		submissionsButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		submissionsButton.setForeground(Color.WHITE);
+		submissionsButton.setBackground(new Color(135, 206, 235));
+		bottomPanel.add(submissionsButton);
+
+		courseTitle = new JLabel(courseOfThePage.getName());
+		courseTitle.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
+		courseTitlePanel.add(courseTitle);
+
+		enrollmentButton = new JButton("Enrollment");
+		enrollmentButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		enrollmentButton.setForeground(Color.WHITE);
+		enrollmentButton.setBackground(new Color(135, 206, 235));
+		bottomPanel.add(enrollmentButton);
+
 	}
-	public void addAssignmentButtonListener(ActionListener e)
-	{
-		btnNewButton_2.addActionListener(e);
+
+	// Listeners:
+
+	/**
+	 * Adds action listener to the assignments button.
+	 * @param e - the action listener to be added
+	 */
+	public void addAssignmentsButtonListener(ActionListener e) {
+		assignmentsButton.addActionListener(e);
 	}
-	public void addGradesButtonListener(ActionListener e)
-	{
+
+	/**
+	 * Adds action listener to the grades button.
+	 * @param e - the action listener to be added
+	 */
+	public void addGradesButtonListener(ActionListener e) {
 		if (!isProfessor) {
-			btnNewButton_3.addActionListener(e);
+			gradesButton.addActionListener(e);
 		}
 	}
-	public void addSubmissionsButtonListener(ActionListener e)
-	{
-		btnNewButton_4.addActionListener(e);
+
+	/**
+	 * Adds action listener to the submissions button.
+	 * @param e - the action listener to be added
+	 */
+	public void addSubmissionsButtonListener(ActionListener e) {
+		submissionsButton.addActionListener(e);
 	}
-	public void addEnrollmentButtonListener(ActionListener e)
-	{
-		btnNewButton_5.addActionListener(e);
+
+	/**
+	 * Adds action listener to the enrollment button.
+	 * @param e - the action listener to be added
+	 */
+	public void addEnrollmentButtonListener(ActionListener e) {
+		enrollmentButton.addActionListener(e);
 	}
+
 }

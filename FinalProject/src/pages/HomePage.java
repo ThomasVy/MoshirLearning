@@ -10,55 +10,67 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import sharedElements.Course;
 
 /**
- * 
+ * Provides the fields and methods required to create a HomePage object.
  * @author Rainer Lim & Thomas Vy
- *
+ * @version 1.0
+ * @since April 12, 2018
  */
 public class HomePage extends Page {
 
+	/**
+	 * The serial version UID.
+	 */
+	private static final long serialVersionUID = -3545705796373525988L;
+
+	/**
+	 * Constructs a HomePage object.
+	 * @param courses - the courses of the user
+	 * @param isProfessor - true if user is a professor, false otherwise
+	 */
 	public HomePage(ArrayList<Course> courses, boolean isProfessor) {
 		super(courses, isProfessor);
-		if(isProfessor == true)
-		{
-			btnNewButton_6 = new JButton("Create New Course");
-			btnNewButton_6.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			btnNewButton_6.setForeground(Color.WHITE);
-			btnNewButton_6.setBackground(new Color(135, 206, 235));
-			panel_1.add(btnNewButton_6);
+		if (isProfessor == true) {
+			createNewCourseButton = new JButton("Create New Course");
+			createNewCourseButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			createNewCourseButton.setForeground(Color.WHITE);
+			createNewCourseButton.setBackground(new Color(135, 206, 235));
+			bottomPanel.add(createNewCourseButton);
 		}
 
-		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.CENTER);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		JPanel contentPanel = new JPanel();
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
-		JPanel panel_1 = new JPanel();
-		panel.add(panel_1);
+		JPanel homePageTitlePanel = new JPanel();
+		contentPanel.add(homePageTitlePanel);
 
-		JLabel lblNewLabel = new JLabel("Home Page");
-		lblNewLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-		panel_1.add(lblNewLabel);
+		JLabel homePageTitle = new JLabel("Home Page");
+		homePageTitle.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
+		homePageTitlePanel.add(homePageTitle);
 
-		JPanel panel_2 = new JPanel();
-		panel.add(panel_2);
-		
-		JLabel lblHello = new JLabel("Hello Everybody");
-		lblHello.setFont(new Font("Tw Cen MT", Font.BOLD, 26));
-		panel_2.add(lblHello);
+		JPanel helloEverybodyPanel = new JPanel();
+		contentPanel.add(helloEverybodyPanel);
 
-		JPanel panel_3 = new JPanel();
-		panel.add(panel_3);
+		JLabel helloEverybody = new JLabel("Hello Everybody");
+		helloEverybody.setFont(new Font("Tw Cen MT", Font.BOLD, 26));
+		helloEverybodyPanel.add(helloEverybody);
 
-		JLabel lblHomePage = new JLabel("Home Page");
-		lblHomePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-		lblHomePage.setHorizontalAlignment(SwingConstants.CENTER);
+		JPanel homePageBottomPanel = new JPanel();
+		contentPanel.add(homePageBottomPanel);
 	}
-	public void addCreateACourseListener(ActionListener e)
-	{
-		btnNewButton_6.addActionListener(e);
+
+	// Listeners:
+
+	/**
+	 * Adds a listener to the create new course button.
+	 * @param e - the action listener to be added
+	 */
+	public void addCreateACourseListener(ActionListener e) {
+		createNewCourseButton.addActionListener(e);
 	}
+
 }

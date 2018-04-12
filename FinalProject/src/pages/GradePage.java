@@ -13,69 +13,101 @@ import javax.swing.JScrollPane;
 
 import sharedElements.Course;
 import sharedElements.Grade;
+
 /**
- * 
+ * Provides the fields and methods required to create a GradePage object.
  * @author Rainer Lim & Thomas Vy
- *
+ * @version 1.0
+ * @since April 12, 2018
  */
 public class GradePage extends PagesInACourse {
 
-	private static final long serialVersionUID = 1L; // The serial version UID
-	private DefaultListModel<Grade> model;
-	private JList<Grade> list;
-	private JScrollPane scrollPane;
 	/**
-	 * Create the frame.
+	 * The serial version UID.
+	 */
+	private static final long serialVersionUID = -7461390897918978773L;
+	/**
+	 * The model of the GradePage.
+	 */
+	private DefaultListModel<Grade> model;
+	/**
+	 * The list of the GradePage.
+	 */
+	private JList<Grade> gradesList;
+	/**
+	 * The scroll pane of the GradePage.
+	 */
+	private JScrollPane gradesListScrollPane;
+
+	/**
+	 * Constructs a GradePage object.
 	 */
 	public GradePage(ArrayList<Course> courses, boolean isProfessor, Course selectedCourse) {
 		super(courses, isProfessor, selectedCourse);
 
-		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.CENTER);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		JPanel contentPanel = new JPanel();
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
-		JPanel panel_2 = new JPanel();
-		panel.add(panel_2);
+		JPanel gradesPageTitlePanel = new JPanel();
+		contentPanel.add(gradesPageTitlePanel);
 
-		JLabel lblNewLabel = new JLabel("Grades Page");
-		lblNewLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-		panel_2.add(lblNewLabel);
-		
-		JPanel panel_4 = new JPanel();
-		panel.add(panel_4);
-		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
-		
-		JLabel lblNewLabel_1 = new JLabel("Title           Student ID   Grade                                                                                             ");
-		lblNewLabel_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_4.add(lblNewLabel_1);
+		JLabel gradesPageTitle = new JLabel("Grades Page");
+		gradesPageTitle.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
+		gradesPageTitlePanel.add(gradesPageTitle);
 
-		JPanel panel_1 = new JPanel();
-		panel.add(panel_1);
+		JPanel listLabelsPanel = new JPanel();
+		contentPanel.add(listLabelsPanel);
+		listLabelsPanel.setLayout(new BoxLayout(listLabelsPanel, BoxLayout.X_AXIS));
+
+		JLabel listLabels = new JLabel(
+				"Title           Student ID   Grade                                                                                             ");
+		listLabels.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		listLabelsPanel.add(listLabels);
+
+		JPanel gradesListPanel = new JPanel();
+		contentPanel.add(gradesListPanel);
 		model = new DefaultListModel<Grade>();
-		list = new JList<Grade>(model);
-		scrollPane = new JScrollPane(list);
-		list.setFixedCellWidth(500);
-		list.setFixedCellHeight(25);
-		list.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		gradesList = new JList<Grade>(model);
+		gradesListScrollPane = new JScrollPane(gradesList);
+		gradesList.setFixedCellWidth(500);
+		gradesList.setFixedCellHeight(25);
+		gradesList.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 
-		panel_1.add(scrollPane);
-		JPanel panel_3 = new JPanel();
-		panel.add(panel_3);
+		gradesListPanel.add(gradesListScrollPane);
+		JPanel gradesPageBottomPanel = new JPanel();
+		contentPanel.add(gradesPageBottomPanel);
 	}
 
-	public void setGradeList(ArrayList<Grade> gradeList) {
-		model.clear();
-		for (int i = 0; i < gradeList.size(); i++) {
-			model.addElement(gradeList.get(i));
-		}
-	}
+	// Getters:
 
+	/**
+	 * Gets the model of the GradePage.
+	 * @return model - the model of the GradePage
+	 */
 	public DefaultListModel<Grade> getModel() {
 		return model;
 	}
 
+	/**
+	 * Gets the list of the GradePage.
+	 * @return gradesList - the list of the GradePage
+	 */
 	public JList<Grade> getList() {
-		return list;
+		return gradesList;
+	}
+
+	// Setters:
+
+	/**
+	 * Sets the list of the GradePage.
+	 * @param gradeList - the list to which it will set
+	 */
+	public void setGradesList(ArrayList<Grade> gradesList) {
+		model.clear();
+		for (int i = 0; i < gradesList.size(); i++) {
+			model.addElement(gradesList.get(i));
+		}
 	}
 
 }

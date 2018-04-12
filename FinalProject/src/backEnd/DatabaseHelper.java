@@ -437,7 +437,7 @@ public class DatabaseHelper implements ConnectionConstants {
 	public boolean changeEnrollment(StudentEnrollment enrollment) {
 		boolean enrollmentStatus = false;
 		boolean enroll = enrollment.getEnrolling();
-		if(getStudent(enrollment.getStudentID()) == null) //Student does not exist
+		if(getStudent(enrollment.getStudentId()) == null) //Student does not exist
 		{
 			return false;
 		}
@@ -447,10 +447,10 @@ public class DatabaseHelper implements ConnectionConstants {
 			while (true) {
 				try {
 					statement = connection.createStatement();
-					String sql = "SELECT * FROM " + "EnrollmentTable" + " WHERE student_id = " + +enrollment.getStudentID() + " and course_id = " + enrollment.getCourseID();
+					String sql = "SELECT * FROM " + "EnrollmentTable" + " WHERE student_id = " + +enrollment.getStudentId() + " and course_id = " + enrollment.getCourseId();
 					resultSet = statement.executeQuery(sql);
 					if (!resultSet.next()) {
-						sql = "INSERT INTO " + "EnrollmentTable" + " VALUES (" + id + ", " + enrollment.getStudentID() + ", " + enrollment.getCourseID() + ");";
+						sql = "INSERT INTO " + "EnrollmentTable" + " VALUES (" + id + ", " + enrollment.getStudentId() + ", " + enrollment.getCourseId() + ");";
 						statement.executeUpdate(sql);
 						enrollmentStatus = true;
 					}
@@ -464,11 +464,11 @@ public class DatabaseHelper implements ConnectionConstants {
 		} else { // Unenroll student
 			try {
 				statement = connection.createStatement();
-				String sql = "SELECT * FROM " + "EnrollmentTable" + " WHERE student_id = " + +enrollment.getStudentID() + " and course_id = " + enrollment.getCourseID();
+				String sql = "SELECT * FROM " + "EnrollmentTable" + " WHERE student_id = " + +enrollment.getStudentId() + " and course_id = " + enrollment.getCourseId();
 				resultSet = statement.executeQuery(sql);
 				if (resultSet.next()) {
 					statement = connection.createStatement();
-					sql = "DELETE FROM EnrollmentTable WHERE student_id = " + enrollment.getStudentID();
+					sql = "DELETE FROM EnrollmentTable WHERE student_id = " + enrollment.getStudentId();
 					statement.executeUpdate(sql);
 					enrollmentStatus = true;
 				}

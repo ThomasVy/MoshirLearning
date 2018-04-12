@@ -10,88 +10,114 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import sharedElements.Course;
+
+
 /**
- * 
+ * Provides the fields and methods required to create a CoursePage.
  * @author Rainer Lim & Thomas Vy
- *
+ * @version 1.0
+ * @since April 12, 2018
  */
 public class CoursePage extends PagesInACourse {
-	private JButton btnActivity;
-	private JButton btnEmail;
+
 	/**
-	 * 
+	 * The serial version UID.
 	 */
 	private static final long serialVersionUID = -5422193522154528362L;
 	/**
-	 * Create the frame.
+	 * The change course activity button of the CoursePage.
+	 */
+	private JButton changeCourseActivityButton;
+	/**
+	 * The send email button CoursePage.
+	 */
+	private JButton sendEmailButton;
+
+	/**
+	 * Constructs a CoursePage.
 	 */
 	public CoursePage(ArrayList<Course> courses, boolean isProfessor, Course courseOfThePage) {
-		super(courses, isProfessor,courseOfThePage);
+		super(courses, isProfessor, courseOfThePage);
 
-		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.CENTER);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		JPanel contentPanel = new JPanel();
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
-		JPanel panel_1 = new JPanel();
-		panel.add(panel_1);
+		JPanel coursePageTitlePanel = new JPanel();
+		contentPanel.add(coursePageTitlePanel);
 
-		JLabel lblNewLabel = new JLabel("Course Page");
-		lblNewLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-		panel_1.add(lblNewLabel);
-				
-		JPanel panel_4 = new JPanel();
-		panel.add(panel_4);
+		JLabel coursePageTitle = new JLabel("Course Page");
+		coursePageTitle.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
+		coursePageTitlePanel.add(coursePageTitle);
+
+		JPanel sendEmailPanel = new JPanel();
+		contentPanel.add(sendEmailPanel);
 		String emailLabel = "Send Email to Course Professor";
-		if(isProfessor == true)
-		{
+		if (isProfessor == true) {
 			emailLabel = "Send Email to All Students";
 		}
-		JLabel lblSendEmailTo = new JLabel(emailLabel);
-		lblSendEmailTo.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_4.add(lblSendEmailTo);
-		
-		btnEmail = new JButton("Email");
-		btnEmail.setForeground(Color.WHITE);
-		btnEmail.setBackground(new Color(135, 206, 235));
-		btnEmail.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_4.add(btnEmail);
-		JPanel panel_2 = new JPanel();
-		panel.add(panel_2);
-				
-		if(isProfessor == true)
-		{
-			
-			JLabel lblNewLabel_1 = new JLabel("Click to Change Course Activity");
-			lblNewLabel_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			btnActivity = new JButton();
-			panel_2.add(lblNewLabel_1);
+		JLabel sendEmailLabel = new JLabel(emailLabel);
+		sendEmailLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		sendEmailPanel.add(sendEmailLabel);
+
+		sendEmailButton = new JButton("Email");
+		sendEmailButton.setForeground(Color.WHITE);
+		sendEmailButton.setBackground(new Color(135, 206, 235));
+		sendEmailButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		sendEmailPanel.add(sendEmailButton);
+		JPanel changeCourseActivityPanel = new JPanel();
+		contentPanel.add(changeCourseActivityPanel);
+
+		if (isProfessor == true) {
+			JLabel changeCourseActivityLabel = new JLabel("Click to Change Course Activity");
+			changeCourseActivityLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			changeCourseActivityButton = new JButton();
+			changeCourseActivityPanel.add(changeCourseActivityLabel);
 			String active;
 			if (courseOfThePage.getActive() == true) {
-				btnActivity.setBackground(new Color(60, 179, 113));
+				changeCourseActivityButton.setBackground(new Color(60, 179, 113));
 				active = "Course Active";
 			} else {
-				btnActivity.setBackground(new Color(250, 128, 114));
+				changeCourseActivityButton.setBackground(new Color(250, 128, 114));
 				active = "Course Inactive";
 			}
-			btnActivity.setText(active);
-			btnActivity.setForeground(Color.WHITE);
-			btnActivity.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			panel_2.add(btnActivity);
+			changeCourseActivityButton.setText(active);
+			changeCourseActivityButton.setForeground(Color.WHITE);
+			changeCourseActivityButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+			changeCourseActivityPanel.add(changeCourseActivityButton);
 		}
 	}
-	public void setupSendEmail(ActionListener e)
-	{
-		btnEmail.addActionListener(e);
+
+	// Setters:
+
+	/**
+	 * Sets the colour and text of the change course activity button when clicked.
+	 * @param toSet - the text to which it will set
+	 * @param colour - the colour to which it will set
+	 */
+	public void setActiveButton(String toSet, Color colour) {
+		changeCourseActivityButton.setText(toSet);
+		changeCourseActivityButton.setBackground(colour);
 	}
-	public void setupCourseActiveButton(ActionListener e)
-	{
-		btnActivity.addActionListener(e);
+
+	// Listeners:
+
+	/**
+	 * Sets up the send email button.
+	 * @param e - the action listener to be added
+	 */
+	public void setupSendEmail(ActionListener e) {
+		sendEmailButton.addActionListener(e);
 	}
-	public void setActiveButton(String toSet, Color colour)
-	{
-		btnActivity.setText(toSet);
-		btnActivity.setBackground(colour);
+
+	/**
+	 * Sets up the change course activity button.
+	 * @param e - the action listener to be added
+	 */
+	public void setupCourseActiveButton(ActionListener e) {
+		changeCourseActivityButton.addActionListener(e);
 	}
 
 }

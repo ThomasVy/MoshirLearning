@@ -14,69 +14,102 @@ import javax.swing.JTextField;
 import sharedElements.Course;
 
 /**
- * 
+ * Provides the fields and methods required to create a CreateCoursePage.
  * @author Rainer Lim & Thomas Vy
- *
+ * @version 1.0
+ * @since April 12, 2018
  */
 public class CreateCoursePage extends Page {
 
-	private static final long serialVersionUID = 1L; // The serial version UID
-	private JTextField nameOfCourseField;
-	private JButton enter;
-	private JButton cancel;
 	/**
-	 * Launch the application.
+	 * The serial version UID.
 	 */
+	private static final long serialVersionUID = 5505662382195321247L;
+	/**
+	 * The name of the course field of the CreateCoursePage.
+	 */
+	private JTextField nameOfCourseField;
+	/**
+	 * The enter button of the CreateCoursePage.
+	 */
+	private JButton enter;
+	/**
+	 * The cancel button of the CreateCoursePage.
+	 */
+	private JButton cancel;
 
+	/**
+	 * Constructs a CreateCoursePage.
+	 * @param courses - the courses of the user
+	 * @param isProfessor - true if user is a professor, false otherwise
+	 */
 	public CreateCoursePage(ArrayList<Course> courses, boolean isProfessor) {
 		super(courses, isProfessor);
-		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.CENTER);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		JPanel contentPanel = new JPanel();
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
-		JPanel createCoursePagePanel_1 = new JPanel();
-		panel.add(createCoursePagePanel_1);
+		JPanel createCoursePageTitlePanel = new JPanel();
+		contentPanel.add(createCoursePageTitlePanel);
 
-		JLabel lblCreateCoursePage = new JLabel("Create Course Page");
-		lblCreateCoursePage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-		createCoursePagePanel_1.add(lblCreateCoursePage);
+		JLabel createCoursePageTitle = new JLabel("Create Course Page");
+		createCoursePageTitle.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
+		createCoursePageTitlePanel.add(createCoursePageTitle);
 
-		JPanel createCoursePagePanel_2 = new JPanel();
-		panel.add(createCoursePagePanel_2);
+		JPanel nameOfCoursePanel = new JPanel();
+		contentPanel.add(nameOfCoursePanel);
 
-		JLabel lblNewLabel = new JLabel("Name of Course");
-		lblNewLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		createCoursePagePanel_2.add(lblNewLabel);
+		JLabel nameOfCourseLabel = new JLabel("Name of Course");
+		nameOfCourseLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		nameOfCoursePanel.add(nameOfCourseLabel);
 
 		nameOfCourseField = new JTextField();
 		nameOfCourseField.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		createCoursePagePanel_2.add(nameOfCourseField);
+		nameOfCoursePanel.add(nameOfCourseField);
 		nameOfCourseField.setColumns(10);
-		
+
 		enter = new JButton("Enter");
 		enter.setForeground(Color.WHITE);
 		enter.setBackground(new Color(135, 206, 235));
 		enter.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		createCoursePagePanel_2.add(enter);
+		nameOfCoursePanel.add(enter);
 
-		JPanel createCoursePagePanel_3 = new JPanel();
-		panel.add(createCoursePagePanel_3);
+		JPanel createCoursePageBottomPanel = new JPanel();
+		contentPanel.add(createCoursePageBottomPanel);
 		cancel = new JButton("Cancel");
 		cancel.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 		cancel.setForeground(Color.WHITE);
 		cancel.setBackground(new Color(135, 206, 235));
-		panel_1.add(cancel);
+		bottomPanel.add(cancel);
 	}
-	public void setUpEnter(ActionListener e)
-	{
-		enter.addActionListener(e);
-	}
-	public void setUpCancel(ActionListener e)
-	{
-		cancel.addActionListener(e);
-	}
+
+	// Getters:
+
+
+	/**
+	 * Gets the name of the new course.
+	 * @return the name of the new course
+	 */
 	public String getCourseName() {
 		return nameOfCourseField.getText();
+	}
+
+	// Setters:
+
+	/**
+	 * Sets up the enter button.
+	 * @param e - the action listener to be added
+	 */
+	public void setUpEnter(ActionListener e) {
+		enter.addActionListener(e);
+	}
+
+	/**
+	 * Sets up the cancel button.
+	 * @param e - the action listener to be added
+	 */
+	public void setUpCancel(ActionListener e) {
+		cancel.addActionListener(e);
 	}
 
 }
