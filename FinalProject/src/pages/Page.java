@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -21,51 +20,126 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import frontEnd.Client;
-import frontEnd.LoginWindow;
-import frontEnd.LoginWindowController;
 import sharedElements.Course;
 
 /**
- * 
+ * Provides the fields and methods required to create a Page object.
  * @author Rainer Lim & Thomas Vy
- *
+ * @version 1.0
+ * @since April 12, 2018
  */
 public abstract class Page extends JFrame {
 
-	private static final long serialVersionUID = 1L; // The serial version UID
+	/**
+	 * The serial version UID.
+	 */
+	private static final long serialVersionUID = 1336062890486477283L;
+	/**
+	 * The courses of the user.
+	 */
 	protected ArrayList<Course> courses;
+	/**
+	 * True if user is a professor, false otherwise.
+	 */
 	protected boolean isProfessor;
-	
+	/**
+	 * The content pane of the Page.
+	 */
 	protected JPanel contentPane;
-	protected JPanel panel;
-	protected JPanel panel_1;
-	protected JPanel panel_2;
-	protected JPanel panel_3;
-	protected JPanel panel_4;
-	protected JPanel panel_5;
+	/**
+	 * The header panel of the Page.
+	 */
+	protected JPanel headerPanel;
+	/**
+	 * The bottom panel of the Page.
+	 */
+	protected JPanel bottomPanel;
+	/**
+	 * The middle panel of the Page.
+	 */
+	protected JPanel middlePanel;
+	/**
+	 * The top panel of the Page.
+	 */
+	protected JPanel topPanel;
+	/**
+	 * The course title panel of the Page.
+	 */
+	protected JPanel courseTitlePanel;
+	/**
+	 * The program title panel of the Page.
+	 */
+	protected JPanel moshirLearningPanel;
+	/**
+	 * The scroll pane of the Page.
+	 */
 	protected JScrollPane scrollPane;
+	/**
+	 * The array which contains all of the courses of a user.
+	 */
 	protected Course[] dropCourses;
-	protected JPanel panel_6;
-	protected JPanel panel_7;
-	protected JButton btnNewButton;
-	protected JComboBox<Course> comboBox;
-	protected JButton btnNewButton_1;
+	/**
+	 * The user options panel of the Page.
+	 */
+	protected JPanel userOptionsPanel;
+	/**
+	 * The logout panel of the Page.
+	 */
+	protected JPanel logoutPanel;
+	/**
+	 * The course list of the Page.
+	 */
+	protected JComboBox<Course> courseList;
+	/**
+	 * The home button of the Page.
+	 */
+	protected JButton home;
+	/**
+	 * The logout button of the Page.
+	 */
+	protected JButton logout;
+	/**
+	 * The assignments button of the Page.
+	 */
+	protected JButton assignmentsButton;
+	/**
+	 * The grades button of the Page.
+	 */
+	protected JButton gradesButton;
+	/**
+	 * The submissions button of the Page.
+	 */
+	protected JButton submissionsButton;
+	/**
+	 * The enrollment button of the Page.
+	 */
+	protected JButton enrollmentButton;
+	/**
+	 * The create new course button of the Page.
+	 */
+	protected JButton createNewCourseButton;
+	/**
+	 * The course title of the Page.
+	 */
+	protected JLabel courseTitle;
+	/**
+	 * The add student panel of the Page.
+	 */
+	protected JPanel addStudentPanel;
+	/**
+	 * The add student title panel of the Page.
+	 */
+	protected JPanel addStudentTitlePanel;
 
-	protected JButton btnNewButton_2;
-	protected JButton btnNewButton_3;
-	protected JButton btnNewButton_4;
-	protected JButton btnNewButton_5;
-	protected JButton btnNewButton_6;
-	protected JLabel lbl;
-
-	protected JPanel panel_8;
-	protected JPanel panel_10;
-
-	public Page (ArrayList<Course> courses, boolean isProfessor) {
+	/**
+	 * Constructs a Page object.
+	 * @param courses - the courses of the user
+	 * @param isProfessor - true if user is a professor, false otherwise
+	 */
+	public Page(ArrayList<Course> courses, boolean isProfessor) {
 		this.courses = courses;
 		this.isProfessor = isProfessor;
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
@@ -73,106 +147,144 @@ public abstract class Page extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 
-		panel = new JPanel();
-		contentPane.add(panel, BorderLayout.NORTH);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		headerPanel = new JPanel();
+		contentPane.add(headerPanel, BorderLayout.NORTH);
+		headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
 
-		panel_3 = new JPanel();
-		panel_3.setBackground(Color.DARK_GRAY);
-		panel.add(panel_3);
-		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.X_AXIS));
+		topPanel = new JPanel();
+		topPanel.setBackground(Color.DARK_GRAY);
+		headerPanel.add(topPanel);
+		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
 
-		panel_6 = new JPanel();
-		FlowLayout flowLayout_3 = (FlowLayout) panel_6.getLayout();
-		flowLayout_3.setAlignment(FlowLayout.LEFT);
-		panel_6.setBackground(Color.DARK_GRAY);
-		panel_3.add(panel_6);
+		userOptionsPanel = new JPanel();
+		FlowLayout fl_userOptionsPanel = (FlowLayout) userOptionsPanel.getLayout();
+		fl_userOptionsPanel.setAlignment(FlowLayout.LEFT);
+		userOptionsPanel.setBackground(Color.DARK_GRAY);
+		topPanel.add(userOptionsPanel);
 
-		btnNewButton = new JButton("Home");
-		btnNewButton.setForeground(Color.WHITE);
-		btnNewButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton.setBackground(Color.DARK_GRAY);
-		panel_6.add(btnNewButton);
+		home = new JButton("Home");
+		home.setForeground(Color.WHITE);
+		home.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		home.setBackground(Color.DARK_GRAY);
+		userOptionsPanel.add(home);
 
-		comboBox = new JComboBox<Course>();
-		comboBox.setForeground(Color.WHITE);
-		comboBox.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		comboBox.setBackground(Color.DARK_GRAY);
-		panel_6.add(comboBox);
+		courseList = new JComboBox<Course>();
+		courseList.setForeground(Color.WHITE);
+		courseList.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		courseList.setBackground(Color.DARK_GRAY);
+		userOptionsPanel.add(courseList);
 
-		panel_7 = new JPanel();
-		panel_7.setBackground(Color.DARK_GRAY);
-		FlowLayout flowLayout_1 = (FlowLayout) panel_7.getLayout();
-		flowLayout_1.setAlignment(FlowLayout.RIGHT);
-		panel_3.add(panel_7);
+		logoutPanel = new JPanel();
+		logoutPanel.setBackground(Color.DARK_GRAY);
+		FlowLayout fl_logoutPanel = (FlowLayout) logoutPanel.getLayout();
+		fl_logoutPanel.setAlignment(FlowLayout.RIGHT);
+		topPanel.add(logoutPanel);
 
-		btnNewButton_1 = new JButton("Logout");
-		btnNewButton_1.setForeground(Color.WHITE);
-		btnNewButton_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		btnNewButton_1.setBackground(Color.DARK_GRAY);
-		panel_7.add(btnNewButton_1);
+		logout = new JButton("Logout");
+		logout.setForeground(Color.WHITE);
+		logout.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		logout.setBackground(Color.DARK_GRAY);
+		logoutPanel.add(logout);
 
-		panel_2 = new JPanel();
-		panel.add(panel_2);
-		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.X_AXIS));
+		middlePanel = new JPanel();
+		headerPanel.add(middlePanel);
+		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.X_AXIS));
 
-		panel_4 = new JPanel();
-		FlowLayout flowLayout_2 = (FlowLayout) panel_4.getLayout();
-		flowLayout_2.setAlignment(FlowLayout.LEFT);
-		panel_2.add(panel_4);
+		courseTitlePanel = new JPanel();
+		FlowLayout fl_courseTitlePanel = (FlowLayout) courseTitlePanel.getLayout();
+		fl_courseTitlePanel.setAlignment(FlowLayout.LEFT);
+		middlePanel.add(courseTitlePanel);
 
-		panel_5 = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel_5.getLayout();
-		flowLayout.setAlignment(FlowLayout.RIGHT);
-		panel_2.add(panel_5);
+		moshirLearningPanel = new JPanel();
+		FlowLayout fl_moshirLearningPanel = (FlowLayout) moshirLearningPanel.getLayout();
+		fl_moshirLearningPanel.setAlignment(FlowLayout.RIGHT);
+		middlePanel.add(moshirLearningPanel);
 
-		JLabel lblMoshirlearning = new JLabel("MoshirLearning");
-		lblMoshirlearning.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-		panel_5.add(lblMoshirlearning);
+		JLabel moshirLearning = new JLabel("MoshirLearning");
+		moshirLearning.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
+		moshirLearningPanel.add(moshirLearning);
 
-		panel_1 = new JPanel();
-		panel_1.setBackground(new Color(135, 206, 235));
-		panel.add(panel_1);
+		bottomPanel = new JPanel();
+		bottomPanel.setBackground(new Color(135, 206, 235));
+		headerPanel.add(bottomPanel);
 
 		setLocationRelativeTo(null);
 
 		setUpComboBox();
 	}
-	public JComboBox<Course> getComboBox()
-	{
-		return comboBox;
+
+	// Getters:
+
+	/**
+	 * Gets the course list of the Page.
+	 * @return courseList - the course list of the Page
+	 */
+	public JComboBox<Course> getComboBox() {
+		return courseList;
 	}
-	public void setUpHomeButtonListener(ActionListener e) {
-		btnNewButton.addActionListener(e);
-	}
+
+	// Setters:
+
+	/**
+	 * Sets up the combo box of the Page.
+	 */
 	public void setUpComboBox() {
 		try {
 			Iterator<Course> it = courses.iterator();
-			dropCourses = new Course [courses.size() + 1];
+			dropCourses = new Course[courses.size() + 1];
 			dropCourses[0] = new Course(-1, "Select a course...", false);
 			int i = 1;
-			while(it.hasNext()) {
+			while (it.hasNext()) {
 				dropCourses[i++] = it.next();
 			}
-			comboBox.setModel(new DefaultComboBoxModel<Course>(dropCourses));
+			courseList.setModel(new DefaultComboBoxModel<Course>(dropCourses));
 		} catch (NullPointerException e) {
 			System.out.println("Testing individual pages.");
 		}
 	}
-	public void logoutButton (ActionListener e)
-	{
-		btnNewButton_1.addActionListener(e);
-	}
-	public void showSuccess (String succ)
-	{
-		JOptionPane.showMessageDialog(null, succ , "Successful", JOptionPane.INFORMATION_MESSAGE);
-	}
-	public void showError (String error)
-	{
-		JOptionPane.showMessageDialog(null, error , "Failed", JOptionPane.ERROR_MESSAGE);
-	}
+
+	// Listeners:
+
+	/**
+	 * Sets up combo box listener.
+	 * @param e - the item listener to be added
+	 */
 	public void setUpComboBoxListeners(ItemListener e) {
-		comboBox.addItemListener(e);
+		courseList.addItemListener(e);
+	}
+
+	/**
+	 * Sets up the home button.
+	 * @param e - the action listener to be added
+	 */
+	public void setUpHomeButtonListener(ActionListener e) {
+		home.addActionListener(e);
+	}
+
+	/**
+	 * Sets up the logout button.
+	 * @param e - the action listener to be added
+	 */
+	public void logoutButton(ActionListener e) {
+		logout.addActionListener(e);
+	}
+
+	// Messages:
+
+	/**
+	 * Shows success message to user.
+	 * @param succ - success message
+	 */
+	public void showSuccess(String succ) {
+		JOptionPane.showMessageDialog(null, succ, "Successful", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	/**
+	 * Shows error message to user.
+	 * @param error - error message
+	 */
+	public void showError(String error) {
+		JOptionPane.showMessageDialog(null, error, "Failed", JOptionPane.ERROR_MESSAGE);
 	}
 
 }

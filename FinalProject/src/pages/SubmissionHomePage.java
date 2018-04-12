@@ -1,89 +1,123 @@
 package pages;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javax.swing.event.ListSelectionListener;
 
 import sharedElements.Assignment;
 import sharedElements.Course;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
 
+/**
+ * Provides the fields and methods required to create a SubmissionHomePage object.
+ * @author Rainer Lim & Thomas Vy
+ * @version 1.0
+ * @since April 12, 2018
+ */
 public class SubmissionHomePage extends PagesInACourse {
 
-	private static final long serialVersionUID = 1L; // The serial version UID
+	
+	/**
+	 * The serial version UID.
+	 */
+	private static final long serialVersionUID = 8989212118136792803L;
+	/**
+	 * The model of the SubmissionHomePage.
+	 */
 	private DefaultListModel<Assignment> model;
-	private JList<Assignment> list;
-	private JScrollPane scrollPane;
-	private JTextField titleField;
-	private JTextField assignmentIdField;
-	private JButton createButton;
-	private JButton deleteButton;
+	/**
+	 * The list of the SubmissionHomePage.
+	 */
+	private JList<Assignment> dropboxList;
+	/**
+	 * The scroll pane of the SubmissionHomePage.
+	 */
+	private JScrollPane dropboxListScrollPane;
 
+	/**
+	 * Constructs a SubmisisonHomePage object.
+	 * @param courses - the courses of the user
+	 * @param isProfessor - true if user is a professor, false otherwise
+	 * @param selectedCourse - the current course
+	 */
 	public SubmissionHomePage(ArrayList<Course> courses, boolean isProfessor, Course selectedCourse) {
 		super(courses, isProfessor, selectedCourse);
 
-		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.CENTER);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		JPanel contentPanel = new JPanel();
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
 		JPanel panel_1 = new JPanel();
-		panel.add(panel_1);
+		contentPanel.add(panel_1);
 
-		JLabel lblSubmissionsPage = new JLabel("Submissions Page");
-		lblSubmissionsPage.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
-		panel_1.add(lblSubmissionsPage);
-		
-		JPanel panel_5 = new JPanel();
-		panel.add(panel_5);
-		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.X_AXIS));
-		
-		JLabel lblNewLabel = new JLabel("Title              Due Date         State                                                                                       ");
-		lblNewLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-		panel_5.add(lblNewLabel);
+		JLabel submissionHomePageTitle = new JLabel("Submissions Page");
+		submissionHomePageTitle.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
+		panel_1.add(submissionHomePageTitle);
 
-		JPanel panel_2 = new JPanel();
-		panel.add(panel_2);
+		JPanel listLabelsPanel = new JPanel();
+		contentPanel.add(listLabelsPanel);
+		listLabelsPanel.setLayout(new BoxLayout(listLabelsPanel, BoxLayout.X_AXIS));
+
+		JLabel listLabels = new JLabel("Title              Due Date         State                                                                                       ");
+		listLabels.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		listLabelsPanel.add(listLabels);
+
+		JPanel listPanel = new JPanel();
+		contentPanel.add(listPanel);
 		model = new DefaultListModel<Assignment>();
-		list = new JList<Assignment>(model);
-		scrollPane = new JScrollPane(list);
-		list.setFixedCellWidth(500);
-		list.setFixedCellHeight(25);
-		list.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
+		dropboxList = new JList<Assignment>(model);
+		dropboxListScrollPane = new JScrollPane(dropboxList);
+		dropboxList.setFixedCellWidth(500);
+		dropboxList.setFixedCellHeight(25);
+		dropboxList.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
 
-		panel_2.add(scrollPane);
-		JPanel panel_3 = new JPanel();
-		panel.add(panel_3);
-		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.Y_AXIS));
+		listPanel.add(dropboxListScrollPane);
+		JPanel bottomPanel = new JPanel();
+		contentPanel.add(bottomPanel);
+		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 
-		JPanel panel_4 = new JPanel();
-		panel_3.add(panel_4);
+		JPanel bottomBottomPanel = new JPanel();
+		bottomPanel.add(bottomBottomPanel);
 	}
 
-	public void setupListListener(ListSelectionListener e) {
-		list.addListSelectionListener(e);
+	// Getters:
+
+	/**
+	 * Gets the list of the SubmissionHomePage.
+	 * @return dropboxList - the list of the SubmissionHomePage
+	 */
+	public JList<Assignment> getList() {
+		return dropboxList;
 	}
 
-	public void setAssignmentList(ArrayList<Assignment> assignmentList)
-	{
+	// Setters:
+
+	/**
+	 * Sets the list of the SubmissionHomePage.
+	 * @param assignmentList - the list to which it will set
+	 */
+	public void setAssignmentList(ArrayList<Assignment> assignmentList) {
 		model.clear();
 		for (int i = 0; i < assignmentList.size(); i++) {
 			model.addElement(assignmentList.get(i));
 		}
 	}
-	public JList<Assignment> getList ()
-	{
-		return list;
+
+	// Listeners:
+
+	/**
+	 * Sets up the dropbox list.
+	 * @param e - the list selection listener to be added
+	 */
+	public void setupListListener(ListSelectionListener e) {
+		dropboxList.addListSelectionListener(e);
 	}
+
 }
