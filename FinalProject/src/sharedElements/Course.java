@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @since April 3, 2018
  *
  */
-public class Course implements Serializable {
+public class Course implements Serializable, Comparable {
 
 	private static final long serialVersionUID = 2392870314013198178L;
 	private int id; // The course id
@@ -73,6 +73,11 @@ public class Course implements Serializable {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public int compareTo(Object otherCourse) {
+		return this.name.compareTo(((Course) otherCourse).name);
 	}
 
 }

@@ -116,12 +116,13 @@ public class AssignmentPage extends PagesInACourse {
 		}
 		else 
 		{
+			JPanel panel_5 = new JPanel();
+			panel_3.add(panel_5);
 			btnDownload = new JButton("Download");
 			btnDownload.setForeground(Color.WHITE);
 			btnDownload.setBackground(new Color(135, 206, 235));
 			btnDownload.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
-			panel_4.add(btnDownload);
-			panel_3.add(panel_6);
+			panel_6.add(btnDownload);
 		}
 	}
 	public void setupDownloadButton (ActionListener e)

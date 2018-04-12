@@ -107,7 +107,7 @@ public class Submission implements Serializable {
 
 	@Override
 	public String toString() {
-		return title +  "    " + student_id + "    " + timestamp + "    " + grade + "    " + comments;
+		return title +  "    " + student_id + "    " + timestamp + "    " + grade + "%    " + comments;
 	}
 
 }

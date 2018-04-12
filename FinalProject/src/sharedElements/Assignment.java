@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author Rainer Lim & Thomas Vy
  *
  */
-public class Assignment implements Serializable {
+public class Assignment implements Serializable, Comparable {
 
 	private static final long serialVersionUID = -7463971612832731497L;
 	private int id;
@@ -68,6 +68,11 @@ public class Assignment implements Serializable {
 		if (active == false)
 			state = "Inactive";
 		return title + "    " + due_date + "    " + state;
+	}
+
+	@Override
+	public int compareTo(Object otherAssignment) {
+		return this.title.compareTo(((Assignment) otherAssignment).title);
 	}
 
 }
