@@ -273,6 +273,7 @@ public class DatabaseHelper implements ConnectionConstants {
 		else if(typeOfUser.equals("Professor")){
 			courses = selectProfCoursesFromDB(id);
 		}
+		Collections.sort(courses);
 		return courses;
 	}
 
@@ -390,18 +391,19 @@ public class DatabaseHelper implements ConnectionConstants {
 	 * @return - the array list of students
 	 */
 	public ArrayList<Student> getEnrollmentList(Course courseFromClient) {
-		ArrayList<Student> listOfStudent = new ArrayList<Student>();
+		ArrayList<Student> listOfStudents = new ArrayList<Student>();
 		try {
 			statement = connection.createStatement();
 			String sql = "SELECT * FROM EnrollmentTable WHERE course_id = " + courseFromClient.getId();
 			resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
-				listOfStudent.add(getStudent(resultSet.getInt("student_id")));
+				listOfStudents.add(getStudent(resultSet.getInt("student_id")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return listOfStudent;
+		Collections.sort(listOfStudents);
+		return listOfStudents;
 	}
 
 	/**
@@ -497,6 +499,7 @@ public class DatabaseHelper implements ConnectionConstants {
 		if (user.getClass().getSimpleName().equalsIgnoreCase("Student")) {
 			assignments = removeInactiveAssignments(assignments);
 		}
+		Collections.sort(assignments);
 		return assignments;
 	}
 

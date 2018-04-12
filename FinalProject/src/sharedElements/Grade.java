@@ -64,7 +64,7 @@ public class Grade implements Serializable, Comparable {
 
 	@Override
 	public String toString() {
-		return assign_title + "    " + student_id + "    " + assignment_grade;
+		return assign_title + "    " + student_id + "    " + assignment_grade + "%";
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @since April 3, 2018
  *
  */
-public class User implements Serializable {
+public class User implements Serializable, Comparable {
 
 	protected static final long serialVersionUID = 1L; // The serial version UID
 	protected int id; // The user's id
@@ -59,8 +59,14 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 
+	@Override
 	public String toString() {
 		return id + "    " + firstName + "    " + lastName;
+	}
+
+	@Override
+	public int compareTo(Object otherUser) {
+		return this.lastName.compareTo(((User) otherUser).lastName);
 	}
 
 }
