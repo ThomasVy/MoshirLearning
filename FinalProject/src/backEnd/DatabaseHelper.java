@@ -1,6 +1,5 @@
 package backEnd;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,32 +10,33 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Scanner;
 
-import sharedElements.Assignment;
-import sharedElements.Course;
-import sharedElements.Grade;
-import sharedElements.Professor;
-import sharedElements.Student;
-import sharedElements.StudentEnrollment;
-import sharedElements.Submission;
-import sharedElements.User;
+import sharedElements.*;
 
 /**
  * Provides the fields and methods required to create a DatabaseHelper object.
  * 
  * @author Rainer Lim & Thomas Vy
  * @version 1.0
- * @since April 5, 2018
+ * @since April 12, 2018
  *
  */
 public class DatabaseHelper implements ConnectionConstants {
 
-	private Connection connection; // The connection
-	private Statement statement; // The statement
-	private ResultSet resultSet; // The result set
+	/**
+	 * The connection for the data base
+	 */
+	private Connection connection;
+	/**
+	 * The statement 
+	 */
+	private Statement statement;
+	/**
+	 * The result set
+	 */
+	private ResultSet resultSet;
 
 	/**
 	 * Constructs a DatabaseHelper.
@@ -507,7 +507,11 @@ public class DatabaseHelper implements ConnectionConstants {
 		Collections.sort(assignments);
 		return assignments;
 	}
-
+	/**
+	 * Removes inactive assignments from the student's list
+	 * @param a - all the assignments in the course
+	 * @return - the assignments that are active
+	 */
 	private ArrayList<Assignment> removeInactiveAssignments(ArrayList<Assignment> a) {
 		ArrayList<Assignment> assignments = new ArrayList<Assignment>();
 		for (int i = 0; i < a.size(); i++) {
@@ -596,6 +600,11 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 		return result;
 	}
+	/**
+	 * Gets the user's email
+	 * @param id - the user's id
+	 * @return - the email address of the user
+	 */
 	public String getUserEmail(int id)
 	{
 		String email = null;
@@ -610,6 +619,11 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 		return email;
 	}
+	/**
+	 * Gets the course professor's email
+	 * @param course - the course of the professor 
+	 * @return - the email address of the professor
+	 */
 	public ArrayList<String> getProfEmail(Course course) {
 		ArrayList<String> email = new ArrayList<String>();
 		try {
@@ -624,6 +638,11 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 		return email;
 	}
+	/**
+	 * Gets the email address of all students
+	 * @param course - the course of the students
+	 * @return - the email addresses of the students
+	 */
 	public ArrayList<String> getAllEmail (Course course)
 	{
 		ArrayList<String> emails = new ArrayList<String>();
@@ -640,7 +659,12 @@ public class DatabaseHelper implements ConnectionConstants {
 		return emails;
 	}
 
-	// SUBMISSION METHODS
+	/**
+	 * Gets the submission list for that assignment
+	 * @param selectedAssignment - the assignment that the submission are for.
+	 * @param user - the user that is currently requesting the list
+	 * @return - the submission list for that assignment
+	 */
 	public ArrayList<Submission> getSubmissionList(Assignment selectedAssignment, User user) {
 		ArrayList<Submission> submissions = new ArrayList<Submission>();
 		try {
@@ -666,7 +690,12 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 		return submissions;
 	}
-
+	/**
+	 * Adds a submission into the dropbox
+	 * @param currentSubmission - the submission to be added
+	 * @param a - the assignment that the submission belongs to
+	 * @return - true if the submission was added successfully, false otherwise
+	 */
 	public boolean addSubmission(Submission currentSubmission, Assignment a) {
 		boolean result = false;
 		int id = 0;
@@ -690,7 +719,12 @@ public class DatabaseHelper implements ConnectionConstants {
 		}
 		return result;
 	}
-
+	/**
+	 * Updates the grade and comments in a submission and grade table
+	 * @param currentSubmission - the submission to be updated
+	 * @param a - the assignment for that submission
+	 * @return - true if the submission and grade table was updated successfully, false otherwise
+	 */
 	public boolean updateSubmission(Submission currentSubmission, Assignment a) {
 		boolean result = false;
 		int id = 0;
@@ -713,7 +747,12 @@ public class DatabaseHelper implements ConnectionConstants {
 	}
 
 
-	// GRADE METHODS
+	/**
+	 * Gets the grade list that are marked
+	 * @param selectedCourse - the course that request the grade list
+	 * @param user - the user that requested the grade list
+	 * @return - the arraylist of grades that are marked
+	 */
 	public ArrayList<Grade> getGradeList(Course selectedCourse, User user) {
 		ArrayList<Grade> grades = new ArrayList<Grade>();
 		try {
@@ -757,24 +796,11 @@ public class DatabaseHelper implements ConnectionConstants {
 		Collections.sort(newGrades);
 		return newGrades;
 	}
-
-	public boolean deleteGrade(int id, int assignId) {
-		boolean result = false;
-		try {
-			statement = connection.createStatement();
-			String delete = "DELETE FROM GradeTable WHERE assign_id = " + assignId + " and id = " + id;
-			statement.executeUpdate(delete);
-			result = true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
 	
-//	/**
-//	 * Sets up the database.
-//	 * @param args - command-line arguments
-//	 */
+	/**
+	 * Sets up the database.
+	 * @param args - command-line arguments
+	 */
 //	public static void main(String[] args) {
 //		DatabaseHelper dbh = new DatabaseHelper();
 //		dbh.createDB();

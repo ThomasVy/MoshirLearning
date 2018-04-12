@@ -8,22 +8,45 @@ import sharedElements.*;
 
 
 /**
- * 
+ * The thread for each client for communication.
  * @author Rainer Lim & Thomas Vy
+ * @since April 12, 2018
+ * @version 1.0
  *
  */
 public class Worker implements Runnable {
-
-	private Socket socketClient;
+	/**
+	 * The object output stream to write to client
+	 */
 	private ObjectOutputStream out;
+	/**
+	 * The object input stream to read from client
+	 */
 	private ObjectInputStream in;
+	/**
+	 * The database helper
+	 */
 	private DatabaseHelper dbHelper;
+	/**
+	 * The email helper of the server
+	 */
 	private EmailHelper emailService;
+	/**
+	 * The file helper of the server
+	 */
 	private FileHelper fileHelper;
+	/**
+	 * The user that is currently using the thread
+	 */
 	private User userLoggedIn;
-
+	/**
+	 * The constructor of the worker
+	 * @param socketClient - the socket that is communicating with the client
+	 * @param dbHelper - the database helper of the server
+	 * @param emailService - the email helper of the server
+	 * @param fileHelper - the file helper of the server
+	 */
 	public Worker(Socket socketClient, DatabaseHelper dbHelper, EmailHelper emailService, FileHelper fileHelper) {
-		this.socketClient = socketClient;
 		this.dbHelper = dbHelper;
 		this.emailService = emailService;
 		this.fileHelper = fileHelper;
@@ -34,7 +57,9 @@ public class Worker implements Runnable {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * Runs the worker thread
+	 */
 	@Override
 	public void run() {
 		try {
@@ -45,11 +70,21 @@ public class Worker implements Runnable {
 			System.out.println("User disconnected");
 		}
 	}
-
+	/**
+	 * Reads the object from the client
+	 * @return - the object that was recieved from client
+	 * @throws ClassNotFoundException - Could not find class to convert
+	 * @throws IOException - interruption occurred when reading the object
+	 */
 	private Object readRequest() throws ClassNotFoundException, IOException {
 		return in.readObject();
 	}
-
+	/**
+	 * Process the request from the client
+	 * @param fromClient - the object send from client
+	 * @throws ClassNotFoundException - Could not find class to convert
+	 * @throws IOException - interruption occurred when reading the object
+	 */
 	private void processRequest(Object fromClient) throws ClassNotFoundException, IOException {
 		String classFromClient = fromClient.getClass().getSimpleName();
 		Object objectToSend = null;
@@ -69,11 +104,11 @@ public class Worker implements Runnable {
 			StudentEnrollment enrollment = (StudentEnrollment) fromClient;
 			objectToSend = dbHelper.changeEnrollment(enrollment);
 		} 
-		else if (classFromClient.equals("Assignment")) {
+		else if (classFromClient.equals("Assignment")) { //Assignment request
 			Assignment assignment = (Assignment) fromClient;
 			objectToSend = processAssignmentRequest(assignment);
 		}
-		else if (classFromClient.equals("Submission")) {
+		else if (classFromClient.equals("Submission")) { //Submission request
 			Submission submission = (Submission) fromClient;
 			objectToSend = processSubmissionRequest(submission);
 		}
@@ -83,7 +118,13 @@ public class Worker implements Runnable {
 		}
 		sendObject(objectToSend);
 	}
-
+	/**
+	 * Processes the assignment request of the user.
+	 * @param selectedAssignment - the assignment that was send to the server
+	 * @return - the object to be send back to the client
+	 * @throws ClassNotFoundException - Could not find class to convert
+	 * @throws IOException - interruption occurred when reading the object
+	 */
 	private Object processAssignmentRequest(Assignment selectedAssignment) throws ClassNotFoundException, IOException {
 		String typeOfRequest = (String) readRequest();
 		Object toSend = null;
@@ -106,24 +147,30 @@ public class Worker implements Runnable {
 		}
 		return toSend;
 	}
-
+	
 	private Object processSubmissionRequest(Submission selectedSubmission) throws ClassNotFoundException, IOException {
 		String typeOfRequest = (String) readRequest();
 		Object toSend = null;
-		if (typeOfRequest.equalsIgnoreCase("AddSubmission")) {
+		if (typeOfRequest.equalsIgnoreCase("AddSubmission")) { //Adds submission
 			byte[] file = (byte[]) readRequest();
 			Assignment a = (Assignment) readRequest();
 			fileHelper.writeFileContent(selectedSubmission, file);
 			toSend = dbHelper.addSubmission(selectedSubmission, a);
-		} else if (typeOfRequest.equalsIgnoreCase("UpdateSubmission")) {
+		} else if (typeOfRequest.equalsIgnoreCase("UpdateSubmission")) { //Updates submission
 			Assignment a = (Assignment) readRequest();
 			toSend = dbHelper.updateSubmission(selectedSubmission, a);
-		} else if (typeOfRequest.equalsIgnoreCase("DownloadSubmission")) {
+		} else if (typeOfRequest.equalsIgnoreCase("DownloadSubmission")) { //Download submission
 			toSend = fileHelper.getFileContent(selectedSubmission.getPath());
 		}
 		return toSend;
 	}
-
+	/**
+	 * Processes the course request from the client
+	 * @param courseFromClient - the course sent from client
+	 * @return - the object to send back to client 
+	 * @throws ClassNotFoundException - Could not find class to convert
+	 * @throws IOException - interruption occurred when reading the object
+	 */
 	private Object processCourseRequest(Course courseFromClient) throws ClassNotFoundException, IOException {
 		String typeOfRequest = (String) readRequest(); // Waits for client to be more specific.
 		Object toSend = null;
@@ -148,12 +195,15 @@ public class Worker implements Runnable {
 				email.setReceiver(dbHelper.getProfEmail(courseFromClient));
 			}
 			email.setSender(dbHelper.getUserEmail(userLoggedIn.getId()));
-			toSend = emailService.sendEmail(email, email.getPassword());
+			toSend = emailService.sendEmail(email);
 
 		} 
 		return toSend;
 	}
-
+	/**
+	 * Sends objects to client
+	 * @param toSend - the object to be sent to the client
+	 */
 	private void sendObject(Object toSend) {
 		try {
 			out.reset();

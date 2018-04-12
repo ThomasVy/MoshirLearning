@@ -17,30 +17,72 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import frontEnd.ProfessorGUI;
-import pages.*;
-import sharedElements.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import pages.*;
+import sharedElements.*;
+/**
+ * Handles the pages that are related to a course
+ * @author Rainer Lim & Thomas Vy
+ * @since April 12, 2018
+ * @version 1.0
+ */
 public class CourseHandler {
+	/**
+	 * the course of the pages
+	 */
 	private Course currentCourse;
+	/**
+	 * The page navigator of the pages
+	 */
 	private PageNavigator pageNavigator;
-	
+	/**
+	 * The enrollment page of the course
+	 */
 	private EnrollmentPage enrollmentPage;
+	/**
+	 * The course home page of the course
+	 */
 	private CoursePage courseHomePage;
+	/**
+	 * grade page of the course
+	 */
 	private GradePage gradePage;
+	/**
+	 * The submission home page of the course
+	 */
 	private SubmissionHomePage submissionHomePage;
+	/**
+	 * The submission page of a assignment of the course
+	 */
 	private SubmissionPage submissionPage;
+	/**
+	 * The assignment page of the course
+	 */
 	private AssignmentPage assignmentPage;
+	/**
+	 * the email page of the course page
+	 */
 	private EmailPage emailPage;
+	/**
+	 * the courses of the user
+	 */
 	private ArrayList<Course> courses;
+	/**
+	 * The constructor of the course handler.
+	 * @param pageNavigator - the page navigator for the course handler
+	 * @param course - the course of the course handler
+	 */
 	public CourseHandler (PageNavigator pageNavigator, Course course)
 	{
 		this.pageNavigator = pageNavigator;
 		this.currentCourse = course;
 		createCourseHomePage();
 	}
+	/**
+	 * creates the course home page of the course
+	 */
 	private void createCourseHomePage ()
 	{
 		courses = pageNavigator.getCourses();
@@ -52,6 +94,9 @@ public class CourseHandler {
 		addCourseHomePageListener();
 		courseHomePage.setVisible(true);
 	}
+	/**
+	 * creates the assignment page of the course
+	 */
 	private void createAssignmentPage ()
 	{
 		courses = pageNavigator.getCourses();
@@ -64,7 +109,9 @@ public class CourseHandler {
 		addAssignmentButtonListeners();
 		assignmentPage.setVisible(true);
 	}
-
+	/**
+	 * create the submission home page of the course
+	 */
 	private void createSubmissionHomePage() {
 		courses = pageNavigator.getCourses();
 		submissionHomePage = new SubmissionHomePage(courses, pageNavigator.getIsProfessor(), currentCourse);
@@ -76,7 +123,10 @@ public class CourseHandler {
 		addSubmissionHomeListListener();
 		submissionHomePage.setVisible(true);
 	}
-
+	/**
+	 * creates the submission page of a assignment
+	 * @param a - the assignment that the submission is linked to
+	 */
 	private void createSubmissionPage(Assignment a) {
 		courses = pageNavigator.getCourses();
 		submissionPage = new SubmissionPage(courses, pageNavigator.getIsProfessor(), currentCourse, a);
@@ -88,7 +138,9 @@ public class CourseHandler {
 		addSubmissionButtonListeners();
 		submissionPage.setVisible(true);
 	}
-
+	/**
+	 * creates the enrollment page of the course
+	 */
 	private void createEnrollmentPage ()
 	{
 		courses = pageNavigator.getCourses();
@@ -101,6 +153,9 @@ public class CourseHandler {
 		addEnrollmentButtonListeners();
 		enrollmentPage.setVisible(true);
 	}
+	/**
+	 * create the grades page of the course
+	 */
 	public void createGradesPage()
 	{
 		courses = pageNavigator.getCourses();
@@ -112,6 +167,9 @@ public class CourseHandler {
 		addPageListeners(gradePage);
 		gradePage.setVisible(true);
 	}
+	/**
+	 * creates the email page of the course
+	 */
 	public void createEmailPage()
 	{
 		courses = pageNavigator.getCourses();
@@ -123,6 +181,10 @@ public class CourseHandler {
 		addEmailPageButtonListeners();
 		emailPage.setVisible(true);
 	}
+	/**
+	 * creates the page button listeners 
+	 * @param page - the page to assign the button listeners
+	 */
 	private void addPageListeners(PagesInACourse page)
 	{
 		page.addAssignmentButtonListener(new ActionListener() {
@@ -150,6 +212,9 @@ public class CourseHandler {
 			}
 		});
 	}
+	/**
+	 * adds button listeners for the course home page 
+	 */
 	private void addCourseHomePageListener()
 	{
 		if(pageNavigator.getIsProfessor()==true)
@@ -173,7 +238,6 @@ public class CourseHandler {
 				}
 			});
 		}
-		
 		courseHomePage.setupSendEmail(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				courseHomePage.dispose();
@@ -182,7 +246,9 @@ public class CourseHandler {
 
 		});
 	}
-		
+	/**
+	 * adds button listeners for the email page	
+	 */
 	private void addEmailPageButtonListeners()
 	{
 		emailPage.setupSendButtonListener(new ActionListener() {
@@ -218,6 +284,9 @@ public class CourseHandler {
 			}
 		});
 	}
+	/**
+	 * adds button listeners for assignment page
+	 */
 	private void addAssignmentButtonListeners()
 	{
 		if(pageNavigator.getIsProfessor()==true)
@@ -230,6 +299,9 @@ public class CourseHandler {
 			initDownloadAssignmentButton();
 		}
 	}
+	/**
+	 * adds button listeners for enrollment page 
+	 */
 	private void addEnrollmentButtonListeners()
 	{
 		initSearchEnrollmentButton();
@@ -239,15 +311,20 @@ public class CourseHandler {
 			initUnenrollButton();
 		}
 	}
-
+	/**
+	 * Adds button listeners for submission page
+	 */
 	private void addSubmissionButtonListeners() {
 		if (pageNavigator.getIsProfessor() == false) {
 			initUploadSubmissionButton();
 		} else {
 			initAssessSubmissionButton();
-			initDownlodSubmissionButton();
+			initDownloadSubmissionButton();
 		}
 	}
+	/**
+	 * initializes the download assignment button on the assignment page
+	 */
 	private void initDownloadAssignmentButton()
 	{
 		assignmentPage.setupDownloadButton(new ActionListener () {
@@ -270,6 +347,9 @@ public class CourseHandler {
 			
 		});
 	}
+	/**
+	 * initializes the search enrollment button on the enrollment page
+	 */
 	private void initSearchEnrollmentButton()
 	{
 		enrollmentPage.setupSearch(new ActionListener() {
@@ -300,6 +380,9 @@ public class CourseHandler {
 			}
 		});
 	}
+	/**
+	 * initializes the enrollment buttons for the enrollment page
+	 */
 	private void initEnrollButton()
 	{
 		enrollmentPage.setupEnrollButton(new ActionListener() {
@@ -330,6 +413,9 @@ public class CourseHandler {
 			}
 		});
 	}
+	/**
+	 * initializes the unenroll button on the enrollment page
+	 */
 	private void initUnenrollButton()
 	{
 		enrollmentPage.setupUnenrollButton(new ActionListener() {
@@ -351,6 +437,9 @@ public class CourseHandler {
 			}
 		});
 	}
+	/**
+	 * initializes the upload assignment button on the assignment page
+	 */
 	private void initUploadAssignmentButton()
 	{
 		assignmentPage.setupUploadButton(new ActionListener() {
@@ -361,6 +450,9 @@ public class CourseHandler {
 		});
 		
 	}
+	/**
+	 * initializes the delete assignment button on the assignment page
+	 */
 	private void initDeleteAssignmentButton()
 	{
 		assignmentPage.setupDeleteButton(new ActionListener () {
@@ -376,6 +468,9 @@ public class CourseHandler {
 			}
 		});
 	}
+	/**
+	 * initializes the change active state button on the assignment page
+	 */
 	private void initChangeStateButton()
 	{
 		assignmentPage.setupChangeActionButton(new ActionListener() {
@@ -392,7 +487,9 @@ public class CourseHandler {
 			}
 		});
 	}
-
+	/**
+	 * adds submission home page list listener
+	 */
 	private void addSubmissionHomeListListener() {
 		submissionHomePage.setupListListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
@@ -407,7 +504,10 @@ public class CourseHandler {
 			}
 		});
 	}
-	private void initDownlodSubmissionButton() {
+	/**
+	 * initializes the download submission button on the submission page
+	 */
+	private void initDownloadSubmissionButton() {
 		submissionPage.setupDownloadButton(new ActionListener () {
 
 			@Override
@@ -428,6 +528,9 @@ public class CourseHandler {
 			
 		});
 	}
+	/**
+	 * initializes the upload submission button on the submission page
+	 */
 	private void initUploadSubmissionButton() {
 		submissionPage.setupUploadButton(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -437,6 +540,9 @@ public class CourseHandler {
 			}
 		});
 	}
+	/**
+	 * initializes the assess submission button for an assignment on submission page
+	 */
 	private void initAssessSubmissionButton() {
 		submissionPage.setupAssessButton(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -473,7 +579,10 @@ public class CourseHandler {
 			}
 		});
 	}
-
+	/**
+	 * opens the file browser to select a file to upload
+	 * @param specifier - the type of file to upload 
+	 */
 	private void openFileBrowser(String specifier) {
 		JFileChooser fileBrowser = new JFileChooser();
 		if (fileBrowser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
@@ -502,6 +611,11 @@ public class CourseHandler {
 			}
 		}
 	}
+	/**
+	 * turns a file into bytes
+	 * @param selectedFile the file to be turned into bytes
+	 * @return - the file in bytes
+	 */
 	private byte [] turnFileIntoBytes (File selectedFile)
 	{
 		long length = selectedFile.length();
@@ -517,6 +631,11 @@ public class CourseHandler {
 		}
 		return content;
 	}
+	/**
+	 * writes a assignment file into the system
+	 * @param a - the assignment to be written to the client's computer
+	 * @param fileInBytes - the file to be writte in bytes
+	 */
 	private void writeToSystem (Assignment a, byte [] fileInBytes)
 	{
 		try {
@@ -545,6 +664,11 @@ public class CourseHandler {
 			assignmentPage.showError("Could not download item");
 		}
 	}
+	/**
+	 * writes submission file onto client computer
+	 * @param s - submission to be written to the client's computer
+	 * @param fileInBytes - the file to be written in bytes
+	 */
 	private void writeToSystem (Submission s, byte [] fileInBytes)
 	{
 		try {

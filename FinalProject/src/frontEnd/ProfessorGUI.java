@@ -2,23 +2,34 @@ package frontEnd;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
 
-import components.*;
-import pages.*;
-import sharedElements.*;
+import components.PageNavigator;
+import pages.CreateCoursePage;
+import pages.HomePage;
+import sharedElements.Course;
+import sharedElements.Professor;
 
 /**
- * 
+ * The professor controller of the pages
  * @author Rainer Lim & Thomas Vy
  *
  */
 public class ProfessorGUI extends PageNavigator {
+	/**
+	 * the course home page
+	 */
 	private CreateCoursePage createCoursePage;
-	
+	/**
+	 * constructor for the professor gui
+	 * @param client - the client
+	 * @param professor - the professor user
+	 */
 	public ProfessorGUI(Client client, Professor professor) {
 		super(client, true,professor);
 	}
+	/**
+	 * creates the homepage page with professor only buttons
+	 */
 	@Override
 	public void createHomePage ()
 	{
@@ -30,7 +41,10 @@ public class ProfessorGUI extends PageNavigator {
 		addLogoutButtonListener(homePage);
 		homePage.setVisible(true);
 	}
-	public void addCreateACourseListener()
+	/**
+	 * adds create a course button listener
+	 */
+	private void addCreateACourseListener()
 	{
 		homePage.addCreateACourseListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -39,12 +53,18 @@ public class ProfessorGUI extends PageNavigator {
 			}
 		});
 	}
+	/**
+	 * brings up create a course page
+	 */
 	private void bringUpCreateACoursePage ()
 	{
 		createCoursePage = new CreateCoursePage(courses, isProfessor);
 		setupCreateCourseListeners();
 		createCoursePage.setVisible(true);
 	}
+	/**
+	 * setups up create course page listeners
+	 */
 	private void setupCreateCourseListeners()
 	{
 		setupEnterListener();
@@ -53,7 +73,9 @@ public class ProfessorGUI extends PageNavigator {
 		addLogoutButtonListener(createCoursePage);
 		addHomeButtonListener(createCoursePage);
 	}
-
+	/**
+	 * initializes cancel button listener
+	 */
 	public void setupCancelListener()
 	{
 		createCoursePage.setUpCancel(new ActionListener() {
@@ -63,6 +85,9 @@ public class ProfessorGUI extends PageNavigator {
 			}
 		});
 	}
+	/**
+	 * initializes enter button listener
+	 */
 	public void setupEnterListener()
 	{
 		createCoursePage.setUpEnter(new ActionListener() {

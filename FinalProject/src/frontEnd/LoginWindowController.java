@@ -2,27 +2,40 @@ package frontEnd;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 import sharedElements.*;
 
 /**
- * 
+ * The Login Window controller.
  * @author Rainer Lim & Thomas Vy
+ * @since April 12, 2018
+ * @version 1.0
  *
  */
 public class LoginWindowController {
-
+	/**
+	 * The gui of the loginwindow
+	 */
 	private LoginWindow view;
+	/**
+	 * the client
+	 */
 	private Client client;
-
+	/**
+	 * Login Window Controller constructor
+	 * @param view - the login window gui
+	 * @param cl - the client
+	 */
 	public LoginWindowController(LoginWindow view, Client cl) {
 		client = cl;
 		this.view = view;
 		addButtonListeners();
 	}
-
+	/**
+	 * Adds the button listeners for the buttons on the login window gui
+	 */
 	public void addButtonListeners() {
 		view.addClearListener(new ActionListener() {
 			@Override
@@ -44,7 +57,9 @@ public class LoginWindowController {
 			}
 		});
 	}
-
+	/**
+	 * verifies the login and if valid sends control to page navigator
+	 */
 	public void login() {
 		String username = view.getUsername();
 		String password = view.getPassword();

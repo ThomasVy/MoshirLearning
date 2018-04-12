@@ -4,9 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -14,26 +12,40 @@ import sharedElements.Assignment;
 import sharedElements.Submission;
 
 /**
- * 
+ * The file manager of the server.
  * @author Rainer Lim & Thomas Vy
+ * @since April 12, 2018
+ * @version 1.0
  *
  */
 public class FileHelper {
-
-	private String absPath; // The current directory
-
+	/**
+	 * The path of the current directory
+	 */
+	private String absPath;
+	/**
+	 * The constructor of the file manager
+	 * @param absPath - the path for the current directory
+	 */
 	public FileHelper(String absPath) {
 		this.absPath = absPath;
 	}
-
+	/**
+	 * sets the path for the current directory
+	 * @param path - the path of the current directory to be set
+	 */
 	public void setPath(String path) {
 		absPath = path;
 	}
-
-	public byte[] getFileContent(String path) { // Remember to put the file extension
+	/**
+	 * Gets the file content from the path
+	 * @param path - the path of the file to be converted
+	 * @return - the file converted into bytes
+	 */
+	public byte[] getFileContent(String path) { 
 		File selectedFile = new File(path);
 		long length = selectedFile.length();
-		byte[] content = new byte[(int) length]; // Converting long to int
+		byte[] content = new byte[(int) length];
 		try {
 			FileInputStream fis = new FileInputStream(selectedFile);
 			BufferedInputStream bos = new BufferedInputStream(fis);
@@ -45,10 +57,13 @@ public class FileHelper {
 			
 		}
 		return content;
-		// for writing to socket
 	}
 
 	// Assignments will be stored in "absPath"/Assignment/"File name with extension"
+	/**
+	 * Finds a unique name for the assignment
+	 * @param a - the assignment to be added into the server data base
+	 */
 	synchronized public void findUnqiuePath (Assignment a) {
 			int j = 0;
 			while (true) {
@@ -68,6 +83,11 @@ public class FileHelper {
 			}
 			
 	}
+	/**
+	 * Writes the file content of the assignment to the server hard drive.
+	 * @param a - the assignment to be placed on hard drive
+	 * @param content - the file of the assignment in bytes
+	 */
 	public void writeFileContent(Assignment a, byte[] content) {
 		try {
 				File newFile = new File(a.getPath());
@@ -82,7 +102,11 @@ public class FileHelper {
 		}
 	}
 
-	// SUBMISSION
+	/**
+	 * Finds a unique name for the submission and writes it to the server hard drive 
+	 * @param s - the submission to be added to the server harddrive
+	 * @param content - the submission file to be save in the server's hard drive in bytes
+	 */
 	synchronized public void writeFileContent(Submission s, byte[] content) {
 		try {
 			int j = 0;

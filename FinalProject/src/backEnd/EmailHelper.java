@@ -7,12 +7,18 @@ import javax.mail.internet.MimeMessage;
 
 import sharedElements.Email;
 /**
- * 
+ * The email helper for the server
  * @author Rainer Lim & Thomas Vy
- *
+ * @since April 12, 2018
+ * @version 1.0
  */
 public class EmailHelper {
-	public boolean sendEmail(Email email, String password)
+	/**
+	 * Sends the email to the recipients
+	 * @param email - the email to be sent
+	 * @return - true if the email was successfully sent, false otherwise
+	 */
+	public boolean sendEmail(Email email)
 	{
 		boolean state = false;
 		Properties properties = new Properties();
@@ -23,7 +29,7 @@ public class EmailHelper {
 		Session session = Session.getInstance(properties,
 				new Authenticator(){
 				 protected PasswordAuthentication getPasswordAuthentication() {
-				 return new PasswordAuthentication(email.getSender(), password);
+				 return new PasswordAuthentication(email.getSender(), email.getPassword());
 				 }
 		});
 

@@ -18,20 +18,42 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 /**
- * 
+ * The login gui 
  * @author Rainer Lim & Thomas Vy
- *
+ * @since April 12, 2018
+ * @version 1.0
  */
 public class LoginWindow extends JFrame {
-
-	private static final long serialVersionUID = 1L; // The serial version UID
+	/**
+	 * The serial version UID
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * submit button for login window
+	 */
 	private JButton submitButton;
+	/**
+	 * clear button for login window
+	 */
 	private JButton clearButton;
+	/**
+	 * exit button for login window
+	 */
 	private JButton exitButton;
 
+	/**
+	 * username text field
+	 */
 	private JTextField usernameText;
+	/**
+	 * password text field
+	 */
 	private JPasswordField passwordText;
 
+	/**
+	 * login window constructor
+	 * @param s - the name of the frame
+	 */
 	public LoginWindow(String s) {
 		super(s);
 		this.setSize(600, 300);
@@ -56,7 +78,10 @@ public class LoginWindow extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-
+	/**
+	 * creates south panel for login window
+	 * @return - the panel that was created
+	 */
 	public JPanel createSouthPanel() {
 		JPanel southPanel = new JPanel();
 		southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS));
@@ -65,7 +90,10 @@ public class LoginWindow extends JFrame {
 		southPanel.add(createButtonPanel());
 		return southPanel;
 	}
-
+	/**
+	 * Creates the button panel 
+	 * @return - the button panel
+	 */
 	public JPanel createButtonPanel() {
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		submitButton = new JButton("Submit");
@@ -86,7 +114,10 @@ public class LoginWindow extends JFrame {
 		buttonPanel.setBorder(new EmptyBorder(0, 10, 20, 0));
 		return buttonPanel;
 	}
-
+	/**
+	 * creates username panel
+	 * @return - the username panel
+	 */
 	public JPanel usernameLayout() {
 		JPanel usernamePanel = new JPanel(new FlowLayout());
 		JLabel usernameLabel = new JLabel("Username");
@@ -97,7 +128,11 @@ public class LoginWindow extends JFrame {
 		usernamePanel.add(usernameText);
 		return usernamePanel;
 	}
-
+	
+	/**
+	 * Creates password panel
+	 * @return - password panel
+	 */
 	public JPanel passwordLayout() {
 		JPanel passwordPanel = new JPanel(new FlowLayout());
 		JLabel passwordLabel = new JLabel("Password");
@@ -108,35 +143,48 @@ public class LoginWindow extends JFrame {
 		passwordPanel.add(passwordText);
 		return passwordPanel;
 	}
-
+	/**
+	 * clears the text fields
+	 */
 	public void clearTextFields() {
 		usernameText.setText("");
 		passwordText.setText("");
 	}
-
+	/**
+	 * add submit button listener
+	 * @param submitListener - the action listener for submit
+	 */
 	public void addSubmitListener(ActionListener submitListener) {
 		submitButton.addActionListener(submitListener);
 	}
-
+	/**
+	 * Adds the clear button listener
+	 * @param clearListener - the clear button action listener
+	 */
 	public void addClearListener(ActionListener clearListener) {
 		clearButton.addActionListener(clearListener);
 	}
 
+	/**
+	 * adds the exits button listener
+	 * @param exitListener - the action listener for the exit button
+	 */
 	public void addExitListener(ActionListener exitListener) {
 		exitButton.addActionListener(exitListener);
 	}
-
+	/**
+	 * gets the username in the username field
+	 * @return - the username inputted
+	 */
 	public String getUsername() {
 		return usernameText.getText();
 	}
-
+	/**
+	 * gets the password in the password field
+	 * @return - the password field
+	 */
 	public String getPassword() {
 		return new String(passwordText.getPassword());
 	}
-
-	// public static void main(String [] args) {
-	// LoginWindow l = new LoginWindow("Login Window");
-	// LoginWindowController c = new LoginWindowController(l);
-	// }
 
 }
