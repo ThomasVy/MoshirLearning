@@ -378,7 +378,6 @@ public class CourseHandler {
 					temp.setComments(comments);
 					temp.setGrade(grade);
 					pageNavigator.getClient().communicateWithServer(temp, "UpdateSubmission", a);
-					System.out.println("HELLO");
 				} catch (Exception ex) {
 					return;
 				}

@@ -105,9 +105,6 @@ public class Worker implements Runnable {
 		} else if (typeOfRequest.equalsIgnoreCase("GetSubmissionList")) {
 			User user = (User) readRequest();
 			toSend = dbHelper.getSubmissionList(selectedAssignment, user);
-		} else if (typeOfRequest.equalsIgnoreCase("GetGradeList")) {
-			User user = (User) readRequest();
-			toSend = dbHelper.getGradeList(selectedAssignment, user);
 		}
 		return toSend;
 	}
@@ -144,6 +141,9 @@ public class Worker implements Runnable {
 		} else if (typeOfRequest.equalsIgnoreCase("GetAssignmentList")) {
 			User user = (User) readRequest();
 			toSend = dbHelper.getAssignmentList(courseFromClient, user);
+		} else if (typeOfRequest.equalsIgnoreCase("GetGradeList")) {
+			User user = (User) readRequest();
+			toSend = dbHelper.getGradeList(courseFromClient, user);
 		}
 		return toSend;
 	}
