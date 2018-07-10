@@ -43,10 +43,10 @@ public class CreateCoursePage extends Page {
 	 * @param courses - the courses of the user
 	 * @param isProfessor - true if user is a professor, false otherwise
 	 */
-	public CreateCoursePage(ArrayList<Course> courses, boolean isProfessor) {
-		super(courses, isProfessor);
+	public CreateCoursePage(boolean isProfessor) {
+		super(isProfessor);
 		JPanel contentPanel = new JPanel();
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
 		JPanel createCoursePageTitlePanel = new JPanel();

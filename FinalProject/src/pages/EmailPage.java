@@ -41,10 +41,10 @@ public class EmailPage extends PagesInACourse {
 	 * @param course - the current course
 	 */
 	public EmailPage(ArrayList<Course> courses, boolean isProfessor, Course course) {
-		super(courses, isProfessor, course);
+		super(isProfessor, course);
 
 		JPanel contentPanel = new JPanel();
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
 		JPanel emailpageTitlePanel = new JPanel();

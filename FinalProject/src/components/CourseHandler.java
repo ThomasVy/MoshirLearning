@@ -66,10 +66,6 @@ public class CourseHandler {
 	 */
 	private EmailPage emailPage;
 	/**
-	 * the courses of the user
-	 */
-	private ArrayList<Course> courses;
-	/**
 	 * The constructor of the course handler.
 	 * @param pageNavigator - the page navigator for the course handler
 	 * @param course - the course of the course handler
@@ -79,107 +75,95 @@ public class CourseHandler {
 		this.pageNavigator = pageNavigator;
 		this.currentCourse = course;
 		createCourseHomePage();
+		createAssignmentPage();
+		createSubmissionHomePage();
+		createGradesPage();
+		createEnrollmentPage();
+		createEmailPage();
+		pageNavigator.showCard(currentCourse.getName() + " Homepage", courseHomePage);
 	}
 	/**
 	 * creates the course home page of the course
 	 */
 	private void createCourseHomePage ()
 	{
-		courses = pageNavigator.getCourses();
-		courseHomePage = new CoursePage(courses, pageNavigator.getIsProfessor(), currentCourse); //start off with home page at first
-		pageNavigator.addComboBoxListener(courseHomePage);
+		courseHomePage = new CoursePage(pageNavigator.getCourses(), pageNavigator.getIsProfessor(), currentCourse); //start off with home page at first
+		pageNavigator.addCard(currentCourse.getName() + " Homepage", courseHomePage);
 		pageNavigator.addHomeButtonListener(courseHomePage);
-		pageNavigator.addLogoutButtonListener(courseHomePage);
+		pageNavigator.addLogoutButtonListener(courseHomePage, pageNavigator);
 		addPageListeners(courseHomePage);
 		addCourseHomePageListener();
-		courseHomePage.setVisible(true);
 	}
 	/**
 	 * creates the assignment page of the course
 	 */
 	private void createAssignmentPage ()
 	{
-		courses = pageNavigator.getCourses();
-		assignmentPage = new AssignmentPage(courses, pageNavigator.getIsProfessor(), currentCourse);
-		assignmentPage.setAssignmentList((ArrayList<Assignment>)pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList"));
-		pageNavigator.addComboBoxListener(assignmentPage);
+		assignmentPage = new AssignmentPage(pageNavigator.getCourses(), pageNavigator.getIsProfessor(), currentCourse);
+		pageNavigator.addCard(currentCourse.getName() + " Assignment Page", assignmentPage);
 		pageNavigator.addHomeButtonListener(assignmentPage);
-		pageNavigator.addLogoutButtonListener(assignmentPage);
+		pageNavigator.addLogoutButtonListener(assignmentPage, pageNavigator);
 		addPageListeners(assignmentPage);
 		addAssignmentButtonListeners();
-		assignmentPage.setVisible(true);
 	}
 	/**
 	 * create the submission home page of the course
 	 */
 	private void createSubmissionHomePage() {
-		courses = pageNavigator.getCourses();
-		submissionHomePage = new SubmissionHomePage(courses, pageNavigator.getIsProfessor(), currentCourse);
-		submissionHomePage.setAssignmentList((ArrayList<Assignment>)pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList"));
-		pageNavigator.addComboBoxListener(submissionHomePage);
+		submissionHomePage = new SubmissionHomePage(pageNavigator.getCourses(), pageNavigator.getIsProfessor(), currentCourse);
+		pageNavigator.addCard(currentCourse.getName() + " Submission Home Page", submissionHomePage);
 		pageNavigator.addHomeButtonListener(submissionHomePage);
-		pageNavigator.addLogoutButtonListener(submissionHomePage);
+		pageNavigator.addLogoutButtonListener(submissionHomePage, pageNavigator);
 		addPageListeners(submissionHomePage);
 		addSubmissionHomeListListener();
-		submissionHomePage.setVisible(true);
 	}
 	/**
 	 * creates the submission page of a assignment
 	 * @param a - the assignment that the submission is linked to
 	 */
 	private void createSubmissionPage(Assignment a) {
-		courses = pageNavigator.getCourses();
-		submissionPage = new SubmissionPage(courses, pageNavigator.getIsProfessor(), currentCourse, a);
+		submissionPage = new SubmissionPage(pageNavigator.getCourses(), pageNavigator.getIsProfessor(), currentCourse, a);
 		submissionPage.setSubmissionList((ArrayList<Submission>) pageNavigator.getClient().communicateWithServer(a, "GetSubmissionList"));
-		pageNavigator.addComboBoxListener(submissionPage);
+		pageNavigator.addCard(a.getID() + " Submission Page", submissionPage);
 		pageNavigator.addHomeButtonListener(submissionPage);
-		pageNavigator.addLogoutButtonListener(submissionPage);
+		pageNavigator.addLogoutButtonListener(submissionPage, pageNavigator);
 		addPageListeners(submissionPage);
 		addSubmissionButtonListeners();
-		submissionPage.setVisible(true);
 	}
 	/**
 	 * creates the enrollment page of the course
 	 */
 	private void createEnrollmentPage ()
 	{
-		courses = pageNavigator.getCourses();
-		enrollmentPage = new EnrollmentPage(courses, pageNavigator.getIsProfessor(), currentCourse);
-		enrollmentPage.setEnrollList((ArrayList<Student>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetEnrollmentList"));
-		pageNavigator.addComboBoxListener(enrollmentPage);
+		enrollmentPage = new EnrollmentPage(pageNavigator.getCourses(), pageNavigator.getIsProfessor(), currentCourse);
+		pageNavigator.addCard(currentCourse.getName() + " Enrollment Page", enrollmentPage);
 		pageNavigator.addHomeButtonListener(enrollmentPage);
-		pageNavigator.addLogoutButtonListener(enrollmentPage);
+		pageNavigator.addLogoutButtonListener(enrollmentPage, pageNavigator);
 		addPageListeners(enrollmentPage);
 		addEnrollmentButtonListeners();
-		enrollmentPage.setVisible(true);
 	}
 	/**
 	 * create the grades page of the course
 	 */
 	public void createGradesPage()
 	{
-		courses = pageNavigator.getCourses();
-		gradePage = new GradePage(courses, pageNavigator.getIsProfessor(), currentCourse);
-		gradePage.setGradesList((ArrayList<Grade>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetGradeList"));
-		pageNavigator.addComboBoxListener(gradePage);
+		gradePage = new GradePage(pageNavigator.getCourses(), pageNavigator.getIsProfessor(), currentCourse);
+		pageNavigator.addCard(currentCourse.getName() + " Grade Page", gradePage);
 		pageNavigator.addHomeButtonListener(gradePage);
-		pageNavigator.addLogoutButtonListener(gradePage);
+		pageNavigator.addLogoutButtonListener(gradePage, pageNavigator);
 		addPageListeners(gradePage);
-		gradePage.setVisible(true);
 	}
 	/**
 	 * creates the email page of the course
 	 */
 	public void createEmailPage()
 	{
-		courses = pageNavigator.getCourses();
-		emailPage = new EmailPage(courses, pageNavigator.getIsProfessor(), currentCourse);
-		pageNavigator.addComboBoxListener(emailPage);
+		emailPage = new EmailPage(pageNavigator.getCourses(), pageNavigator.getIsProfessor(), currentCourse);
+		pageNavigator.addCard(currentCourse.getName() + " Email Page", emailPage);
 		pageNavigator.addHomeButtonListener(emailPage);
-		pageNavigator.addLogoutButtonListener(emailPage);
+		pageNavigator.addLogoutButtonListener(emailPage, pageNavigator);
 		addPageListeners(emailPage);
 		addEmailPageButtonListeners();
-		emailPage.setVisible(true);
 	}
 	/**
 	 * creates the page button listeners 
@@ -189,26 +173,26 @@ public class CourseHandler {
 	{
 		page.addAssignmentsButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				page.dispose();
-				createAssignmentPage();
+				assignmentPage.setAssignmentList((ArrayList<Assignment>)pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList"));
+				pageNavigator.showCard(currentCourse.getName() + " Assignment Page", assignmentPage);
 			}
 		});
 		page.addGradesButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				page.dispose();
-				createGradesPage();
+				gradePage.setGradesList((ArrayList<Grade>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetGradeList"));
+				pageNavigator.showCard(currentCourse.getName() + " Grade Page", gradePage);
 			}
 		});
 		page.addSubmissionsButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				page.dispose();
-				createSubmissionHomePage();
+				submissionHomePage.setAssignmentList((ArrayList<Assignment>)pageNavigator.getClient().communicateWithServer(currentCourse, "GetAssignmentList"));
+				pageNavigator.showCard(currentCourse.getName() + " Submission Home Page", submissionHomePage);
 			}
 		});
 		page.addEnrollmentButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				page.dispose();
-				createEnrollmentPage();
+				enrollmentPage.setEnrollList((ArrayList<Student>) pageNavigator.getClient().communicateWithServer(currentCourse, "GetEnrollmentList"));
+				pageNavigator.showCard(currentCourse.getName() + " Enrollment Page", enrollmentPage);
 			}
 		});
 	}
@@ -240,8 +224,7 @@ public class CourseHandler {
 		}
 		courseHomePage.setupSendEmail(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				courseHomePage.dispose();
-				createEmailPage();
+				pageNavigator.showCard(currentCourse.getName() + " Email Page", emailPage);
 			}
 
 		});
@@ -266,7 +249,9 @@ public class CourseHandler {
 						emailPage.showSuccess("Successfully sent email");
 					}
 					else
+					{
 						emailPage.showError("Could not send email.");
+					}
 				}
 			}
 			
@@ -278,8 +263,7 @@ public class CourseHandler {
 						"Are you sure you want to go back to the course home page?", "Go Back to Course Home Page", JOptionPane.YES_NO_OPTION);
 				if(result == JOptionPane.YES_OPTION)
 				{
-					emailPage.dispose();
-					createCourseHomePage();
+					pageNavigator.showCard(currentCourse.getName() + " Homepage", courseHomePage);
 				}
 			}
 		});
@@ -293,9 +277,10 @@ public class CourseHandler {
 		{
 			initUploadAssignmentButton();
 			initDeleteAssignmentButton();
-			initChangeStateButton();
+			initChangeAssignmentStateButton();
 		}
-		else {
+		else
+		{
 			initDownloadAssignmentButton();
 		}
 	}
@@ -398,7 +383,7 @@ public class CourseHandler {
 							enrollmentPage.showSuccess("Enrollment successful.");
 						}
 						else {
-							enrollmentPage.showError("Student does not exist or ID already taken.");
+							enrollmentPage.showError("Student does not exist or Student is already enrolled.");
 						}
 					}
 					else 
@@ -471,7 +456,7 @@ public class CourseHandler {
 	/**
 	 * initializes the change active state button on the assignment page
 	 */
-	private void initChangeStateButton()
+	private void initChangeAssignmentStateButton()
 	{
 		assignmentPage.setupChangeActionButton(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
@@ -498,8 +483,8 @@ public class CourseHandler {
 						return;
 					}
 					Assignment assignment = submissionHomePage.getList().getSelectedValue();
-					submissionHomePage.dispose();
 					createSubmissionPage(assignment);
+					pageNavigator.showCard(assignment.getID()+" Submission Page",  submissionPage);
 				}
 			}
 		});

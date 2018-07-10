@@ -1,10 +1,15 @@
 package components;
 
+import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import frontEnd.*;
 import pages.*;
 import sharedElements.*;
@@ -16,7 +21,7 @@ import sharedElements.*;
  *
  */
 
-public class PageNavigator {
+public class PageNavigator extends JFrame{
 	/**
 	 * The client
 	 */
@@ -24,6 +29,8 @@ public class PageNavigator {
 	/**
 	 * The variable to check if the user is a professor
 	 */
+	protected JPanel cards;
+	protected CardLayout cardLayout;
 	protected boolean isProfessor;
 	/**
 	 * the home page of the gui
@@ -34,20 +41,25 @@ public class PageNavigator {
 	 */
 	protected User user;
 	/**
-	 * The courses of the user
-	 */
-	protected ArrayList<Course> courses;
-	/**
 	 * The constructor of the page navigator
 	 * @param client - the client of the page navigator
 	 * @param isProfessor - variable to see if it is professor or not
 	 * @param user - the user that is logged in
 	 */
 	public PageNavigator(Client client, boolean isProfessor, User user) {
+		super("MoshirLearning: "+ user.getFirstName()+ " " + user.getLastName());
+		this.setSize(1000, 700);
+		this.setLocationRelativeTo(null);
 		this.isProfessor =isProfessor;
 		this.client = client;
 		this.user = user;
+		cards = new JPanel(new CardLayout());
+		this.add(cards);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);
+		
 		createHomePage();
+		showCard("Homepage", homePage);
 	}
 	/**
 	 * gets the courses of the user
@@ -62,12 +74,10 @@ public class PageNavigator {
 	 */
 	public void createHomePage ()
 	{
-		courses = getCourses();
-		homePage = new HomePage(courses, isProfessor);
-		addComboBoxListener(homePage);
+		homePage = new HomePage(isProfessor);
 		addHomeButtonListener(homePage);
-		addLogoutButtonListener(homePage);
-		homePage.setVisible(true);
+		addLogoutButtonListener(homePage, this);
+		addCard("Homepage", homePage);
 	}
 	/**
 	 * sets the combo listener on the page indicated
@@ -79,7 +89,6 @@ public class PageNavigator {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 						if (page.getComboBox().getSelectedIndex()!= 0) {
-							page.dispose();
 							showCourse((Course)page.getComboBox().getSelectedItem());
 						}
 				}
@@ -91,13 +100,13 @@ public class PageNavigator {
 	 * Adds the logout button listener for a page
 	 * @param page - the page to set the logout button listener for
 	 */
-	public void addLogoutButtonListener(Page page)
+	public void addLogoutButtonListener(Page page, JFrame main)
 	{
 		page.logoutButton(new ActionListener () {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				page.dispose();
+				main.dispose();
 				Client client = new Client("localhost", 9890);
 				LoginWindow login = new LoginWindow("Login Window");
 				LoginWindowController loginWindowController = new LoginWindowController(login, client);
@@ -113,10 +122,22 @@ public class PageNavigator {
 	{
 		page.setUpHomeButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				page.dispose();
-				createHomePage();
+				homePage.setUpComboBox(getCourses());
+				addComboBoxListener(homePage);
+				showCard("Homepage", page);
 			}
 		});
+	}
+	public void showCard (String name, Page page)
+	{
+		page.setUpComboBox(getCourses());
+		addComboBoxListener(page);
+		cardLayout = (CardLayout)cards.getLayout();
+		cardLayout.show(cards, name);
+	}
+	public void addCard (String name, Page page)
+	{
+		cards.add(page, name);
 	}
 	/**
 	 * shows the course page for course selected

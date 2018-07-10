@@ -34,8 +34,8 @@ public class PagesInACourse extends Page {
 	 * @param isProfessor - true if user is a professor, false otherwise
 	 * @param courseOfThePage - the course of the page
 	 */
-	public PagesInACourse(ArrayList<Course> courses, boolean isProfessor, Course courseOfThePage) {
-		super(courses, isProfessor);
+	public PagesInACourse(boolean isProfessor, Course courseOfThePage) {
+		super(isProfessor);
 		this.courseOfThePage = courseOfThePage;
 
 		assignmentsButton = new JButton("Assignments");

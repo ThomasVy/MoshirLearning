@@ -43,10 +43,10 @@ public class GradePage extends PagesInACourse {
 	 * Constructs a GradePage object.
 	 */
 	public GradePage(ArrayList<Course> courses, boolean isProfessor, Course selectedCourse) {
-		super(courses, isProfessor, selectedCourse);
+		super(isProfessor, selectedCourse);
 
 		JPanel contentPanel = new JPanel();
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
 		JPanel gradesPageTitlePanel = new JPanel();

@@ -39,10 +39,10 @@ public class CoursePage extends PagesInACourse {
 	 * Constructs a CoursePage.
 	 */
 	public CoursePage(ArrayList<Course> courses, boolean isProfessor, Course courseOfThePage) {
-		super(courses, isProfessor, courseOfThePage);
+		super(isProfessor, courseOfThePage);
 
 		JPanel contentPanel = new JPanel();
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
 		JPanel coursePageTitlePanel = new JPanel();

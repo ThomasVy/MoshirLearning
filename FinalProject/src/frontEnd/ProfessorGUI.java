@@ -26,6 +26,7 @@ public class ProfessorGUI extends PageNavigator {
 	 */
 	public ProfessorGUI(Client client, Professor professor) {
 		super(client, true,professor);
+		createACourse();
 	}
 	/**
 	 * creates the homepage page with professor only buttons
@@ -33,13 +34,11 @@ public class ProfessorGUI extends PageNavigator {
 	@Override
 	public void createHomePage ()
 	{
-		courses = getCourses();
-		homePage = new HomePage(courses, isProfessor);
-		addComboBoxListener(homePage);
+		homePage = new HomePage(isProfessor);
 		addCreateACourseListener();
 		addHomeButtonListener(homePage);
-		addLogoutButtonListener(homePage);
-		homePage.setVisible(true);
+		addLogoutButtonListener(homePage, this);
+		addCard("Homepage", homePage);
 	}
 	/**
 	 * adds create a course button listener
@@ -48,19 +47,18 @@ public class ProfessorGUI extends PageNavigator {
 	{
 		homePage.addCreateACourseListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				homePage.dispose();
-				bringUpCreateACoursePage();
+				showCard("Create Course Page", createCoursePage);
 			}
 		});
 	}
 	/**
 	 * brings up create a course page
 	 */
-	private void bringUpCreateACoursePage ()
+	private void createACourse ()
 	{
-		createCoursePage = new CreateCoursePage(courses, isProfessor);
+		createCoursePage = new CreateCoursePage(isProfessor);
 		setupCreateCourseListeners();
-		createCoursePage.setVisible(true);
+		addCard("Create Course Page", createCoursePage);
 	}
 	/**
 	 * setups up create course page listeners
@@ -69,8 +67,7 @@ public class ProfessorGUI extends PageNavigator {
 	{
 		setupEnterListener();
 		setupCancelListener();
-		addComboBoxListener(createCoursePage);
-		addLogoutButtonListener(createCoursePage);
+		addLogoutButtonListener(createCoursePage, this);
 		addHomeButtonListener(createCoursePage);
 	}
 	/**
@@ -80,8 +77,7 @@ public class ProfessorGUI extends PageNavigator {
 	{
 		createCoursePage.setUpCancel(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				createCoursePage.dispose();
-				createHomePage();
+				showCard("Homepage", homePage);
 			}
 		});
 	}
@@ -99,8 +95,7 @@ public class ProfessorGUI extends PageNavigator {
 					if (approved == false) {
 						createCoursePage.showError("Invalid input for new course.");
 					} else {
-						createCoursePage.dispose();
-						createHomePage();
+						showCard("Homepage", homePage);
 					}
 				} else {
 					createCoursePage.showError("Please fill in the name of the course.");

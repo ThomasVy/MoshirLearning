@@ -28,24 +28,16 @@ import sharedElements.Course;
  * @version 1.0
  * @since April 12, 2018
  */
-public abstract class Page extends JFrame {
+public abstract class Page extends JPanel{
 
 	/**
 	 * The serial version UID.
 	 */
 	private static final long serialVersionUID = 1336062890486477283L;
 	/**
-	 * The courses of the user.
-	 */
-	protected ArrayList<Course> courses;
-	/**
 	 * True if user is a professor, false otherwise.
 	 */
 	protected boolean isProfessor;
-	/**
-	 * The content pane of the Page.
-	 */
-	protected JPanel contentPane;
 	/**
 	 * The header panel of the Page.
 	 */
@@ -136,19 +128,14 @@ public abstract class Page extends JFrame {
 	 * @param courses - the courses of the user
 	 * @param isProfessor - true if user is a professor, false otherwise
 	 */
-	public Page(ArrayList<Course> courses, boolean isProfessor) {
-		this.courses = courses;
+	public Page(boolean isProfessor) {
 		this.isProfessor = isProfessor;
-
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLayout(new BorderLayout(0, 0));
 
 		headerPanel = new JPanel();
-		contentPane.add(headerPanel, BorderLayout.NORTH);
+		add(headerPanel, BorderLayout.NORTH);
 		headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
 
 		topPanel = new JPanel();
@@ -208,9 +195,8 @@ public abstract class Page extends JFrame {
 		bottomPanel.setBackground(new Color(135, 206, 235));
 		headerPanel.add(bottomPanel);
 
-		setLocationRelativeTo(null);
-
-		setUpComboBox();
+		//setLocationRelativeTo(null);
+		setLocation(0,500);
 	}
 
 	// Getters:
@@ -228,7 +214,7 @@ public abstract class Page extends JFrame {
 	/**
 	 * Sets up the combo box of the Page.
 	 */
-	public void setUpComboBox() {
+	public void setUpComboBox(ArrayList<Course> courses) {
 		try {
 			Iterator<Course> it = courses.iterator();
 			dropCourses = new Course[courses.size() + 1];

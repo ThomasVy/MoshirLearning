@@ -73,11 +73,11 @@ public class SubmissionPage extends PagesInACourse {
 	 * @param a - the assignment of the SubmissionPage
 	 */
 	public SubmissionPage(ArrayList<Course> courses, boolean isProfessor, Course selectedCourse, Assignment a) {
-		super(courses, isProfessor, selectedCourse);
+		super(isProfessor, selectedCourse);
 		this.assignment = a;
 
 		JPanel contentPanel = new JPanel();
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
 		JPanel titlePanel = new JPanel();

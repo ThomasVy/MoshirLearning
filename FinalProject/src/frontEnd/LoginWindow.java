@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -74,6 +76,7 @@ public class LoginWindow extends JFrame {
 		JLabel lblNewLabel = new JLabel("");
 		panel.add(lblNewLabel);
 		lblNewLabel.setIcon(new ImageIcon(img));
+		this.getRootPane().setDefaultButton(submitButton);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -164,7 +167,6 @@ public class LoginWindow extends JFrame {
 	public void addClearListener(ActionListener clearListener) {
 		clearButton.addActionListener(clearListener);
 	}
-
 	/**
 	 * adds the exits button listener
 	 * @param exitListener - the action listener for the exit button

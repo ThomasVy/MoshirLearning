@@ -48,10 +48,10 @@ public class SubmissionHomePage extends PagesInACourse {
 	 * @param selectedCourse - the current course
 	 */
 	public SubmissionHomePage(ArrayList<Course> courses, boolean isProfessor, Course selectedCourse) {
-		super(courses, isProfessor, selectedCourse);
+		super(isProfessor, selectedCourse);
 
 		JPanel contentPanel = new JPanel();
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
 		JPanel panel_1 = new JPanel();

@@ -31,8 +31,8 @@ public class HomePage extends Page {
 	 * @param courses - the courses of the user
 	 * @param isProfessor - true if user is a professor, false otherwise
 	 */
-	public HomePage(ArrayList<Course> courses, boolean isProfessor) {
-		super(courses, isProfessor);
+	public HomePage(boolean isProfessor) {
+		super(isProfessor);
 		if (isProfessor == true) {
 			createNewCourseButton = new JButton("Create New Course");
 			createNewCourseButton.setFont(new Font("Tw Cen MT", Font.PLAIN, 12));
@@ -42,7 +42,7 @@ public class HomePage extends Page {
 		}
 
 		JPanel contentPanel = new JPanel();
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
 		JPanel homePageTitlePanel = new JPanel();

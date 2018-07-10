@@ -45,10 +45,10 @@ public class AssignmentPage extends PagesInACourse {
 	 * Constructs an AssignmentPage object.
 	 */
 	public AssignmentPage(ArrayList<Course> courses, boolean isProfessor, Course courseOfThisPage) {
-		super(courses, isProfessor, courseOfThisPage);
+		super(isProfessor, courseOfThisPage);
 
 		JPanel contentPanel = new JPanel();
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
 		JPanel assignmentsPageTitlePanel = new JPanel();

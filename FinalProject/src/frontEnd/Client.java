@@ -41,6 +41,7 @@ public class Client {
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Could not connect to server.", "Server Error",
 					JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
 		}
 	}
 	/**

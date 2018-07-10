@@ -78,10 +78,10 @@ public class EnrollmentPage extends PagesInACourse {
 	 * Constructs an EnrollmentPage object.
 	 */
 	public EnrollmentPage(ArrayList<Course> courses, boolean isProfessor, Course courseOfThisPage) {
-		super(courses, isProfessor, courseOfThisPage);
+		super(isProfessor, courseOfThisPage);
 
 		JPanel contentPanel = new JPanel();
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
 		JPanel titlePanel = new JPanel();
